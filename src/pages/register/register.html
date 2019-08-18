@@ -1,0 +1,41 @@
+<ion-content class="login-content" text-center>
+  <ion-icon name="md-arrow-back" color="light" class="back-btn" (click)="backButtonClick()"></ion-icon>
+  <div class="select-user-img">
+    <img src="assets/img/default-img.png" />
+    <ion-icon name="camera" color="dark" class="circle-icon"></ion-icon>
+  </div>
+  <div class="login-form">
+      <ion-fab top center>
+        <button color="secondary" [navPush]="'Information'" ion-fab><ion-icon name="ios-arrow-forward" color="light"></ion-icon></button>
+      </ion-fab>
+
+      <h4 text-left>register</h4>
+      <ion-list>
+        <div class="user-name">
+          <ion-item no-lines>
+            <ion-icon name="md-person" color="dark" class="circle-icon" item-start></ion-icon>
+            <ion-input type="text" placeholder="First name"></ion-input>
+          </ion-item>
+          <ion-item no-padding no-lines>
+            <ion-input type="text" placeholder="last name"></ion-input>
+          </ion-item>
+        </div>
+
+        <ion-item no-lines>
+          <ion-icon name="md-lock" color="dark" class="circle-icon" item-start></ion-icon>   
+          <ion-input type="password" placeholder="Password"></ion-input>
+        </ion-item>
+
+        <ion-item no-lines>
+          <ion-icon name="md-mail" color="dark" class="circle-icon" item-start></ion-icon> 
+          <ion-input type="text" placeholder="Email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="md-call" color="black" class="circle-icon" item-start></ion-icon> 
+          <ion-input type="tel" placeholder="+1" id="phone"></ion-input>
+          <ion-input type="tel" placeholder="mobile" class="phoneInput"></ion-input>
+        </ion-item>
+      </ion-list>
+  </div>
+</ion-content>

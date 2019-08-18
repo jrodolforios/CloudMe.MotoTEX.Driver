@@ -1,0 +1,21 @@
+<ion-content class="login-content">
+  <div class="login-form">
+      <ion-fab top center>
+        <button color="secondary" [navPush]="'Home'" ion-fab><ion-icon name="md-checkmark" color="light"></ion-icon></button>
+      </ion-fab>
+
+      <h4>Login</h4>
+      <ion-list>
+        <ion-item no-lines>
+          <ion-icon name="md-mail" color="dark" class="circle-icon" item-start></ion-icon> 
+          <ion-input type="text" placeholder="Email"></ion-input>
+        </ion-item>
+
+        <ion-item no-lines>
+          <ion-icon name="md-lock" color="dark" class="circle-icon" item-start></ion-icon>   
+          <ion-input type="password" placeholder="Password"></ion-input>
+        </ion-item>
+      </ion-list>
+      <p class="forgetBtn" [navPush]="'Register'" text-center> No account yet ? Create One </p>
+  </div>
+</ion-content>

@@ -1,0 +1,57 @@
+<ion-content class="login-content">
+  <ion-icon name="md-arrow-back" color="light" class="back-btn" (click)="backButtonClick()"></ion-icon>
+  <div class="login-form">
+      <ion-fab top center>
+        <button color="secondary" [navPush]="'Home'" ion-fab><ion-icon name="md-checkmark" color="light"></ion-icon></button>
+      </ion-fab>
+
+      <h4>Add Vehicle type</h4>
+      <ion-list radio-group class="vehicle-types">
+        <ion-item mode="ios" no-lines no-padding>
+          <img src="assets/img/micro-car.png" item-start />
+          <ion-label>citycab micro</ion-label>
+          <ion-radio value="micro" mode="ios" item-end></ion-radio>
+        </ion-item>
+        <ion-item mode="ios" no-lines no-padding>
+          <img src="assets/img/mini-car.png" item-start />
+          <ion-label>citycab mini</ion-label>
+          <ion-radio  checked="true" value="mini" mode="ios" item-end></ion-radio>
+        </ion-item>
+        <ion-item mode="ios" no-lines no-padding>
+          <img src="assets/img/sedan-car.png" item-start />
+          <ion-label>citycab sedan</ion-label>
+          <ion-radio  value="sedan" mode="ios" item-end></ion-radio>
+        </ion-item>
+        <ion-item mode="ios" no-lines no-padding>
+          <img src="assets/img/mini-car.png" item-start />
+          <ion-label>citycab mini</ion-label>
+          <ion-radio  value="mini2" mode="ios" item-end></ion-radio>
+        </ion-item>
+        <ion-item mode="ios" no-lines no-padding>
+          <img src="assets/img/mini-car.png" item-start />
+          <ion-label>citycab mini</ion-label>
+          <ion-radio  value="mini3" mode="ios" item-end></ion-radio>
+        </ion-item>
+      </ion-list>
+
+      <h4>Driving License</h4>
+      <ion-list class="license" no-margin>
+        <ion-item no-lines no-padding> 
+          <ion-input type="text" placeholder="Licence number"></ion-input>
+        </ion-item>
+
+        <ion-item no-lines no-padding> 
+          <ion-input type="text" placeholder="Valid vechile type "></ion-input>
+        </ion-item>
+
+        <div class="user-name">
+          <ion-item no-lines no-padding>
+            <ion-input type="text" placeholder="Issued on"></ion-input>
+          </ion-item>
+          <ion-item no-padding no-lines>
+            <ion-datetime displayFormat="MM/DD/YYYY" placeholder="Expiry date"></ion-datetime>
+          </ion-item>
+        </div>
+      </ion-list>
+  </div>
+</ion-content>

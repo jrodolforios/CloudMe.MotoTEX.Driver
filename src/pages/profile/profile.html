@@ -1,0 +1,113 @@
+<ion-header class="app-header">
+  <ion-navbar>
+    <ion-title></ion-title>
+    <ion-buttons end>
+      <button (click)="changeData()" ion-button icon-only>
+        <ion-icon name="md-create" color="secondary"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content fullscreen  (ionScroll)="scrollingFun($event)">
+
+  <div class="profile-head">
+    <img src="assets/img/user-img.png" />
+  </div>
+
+  <div class="profile-detail">
+    <ion-item no-lines>
+      <ion-label text-uppercase stacked>name</ion-label>
+      <ion-input type="text" placeholder="john smith" disabled="{{isDisabled}}"></ion-input>
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label text-uppercase stacked>Email</ion-label>
+      <ion-input type="email" placeholder="john smith@yahoo.com" disabled="{{isDisabled}}"></ion-input>
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-label text-uppercase stacked>Mobile</ion-label>
+      <ion-input type="tel" placeholder="91234 56789" id="phone" disabled="{{isDisabled}}"></ion-input>
+    </ion-item>
+
+    <ion-segment color="primary" [(ngModel)]="tabs">
+      <ion-segment-button color="primary" value="history">
+        History
+      </ion-segment-button>
+      <ion-segment-button color="primary" value="Notifications">
+        Notifications
+      </ion-segment-button>
+    </ion-segment>
+
+    <div [ngSwitch]="tabs">
+
+      <div *ngSwitchCase="'history'">
+        <div *ngFor="let item of history">
+          <img src="assets/img/map.png" />
+          <div class="trip-distention">
+            <ion-row>
+              <ion-col col-7>
+                <ion-item no-padding no-lines>
+                  <ion-icon name="md-disc" color="dark" item-start></ion-icon>
+                  {{item.from}}
+                </ion-item>
+                <ion-item no-padding no-lines>
+                  <ion-icon name="md-pin" color="dark" item-start></ion-icon>
+                  {{item.to}}
+                </ion-item>
+                <div class="line"></div>
+              </ion-col>
+              <ion-col col-5>
+                <div class="status" text-right item-end>
+                  <h4>Success</h4>
+                  <p no-margin>{{item.date}}</p>
+                </div>
+              </ion-col>
+            </ion-row>
+          </div>
+          <ion-item class="cash" no-lines>
+            <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
+            <h2>{{item.cash}}</h2>
+            <p>Cash</p>
+          </ion-item>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="'Notifications'">
+        <div *ngFor="let item of notify">
+          <div class="trip-distention notify">
+            <ion-row>
+              <ion-col col-7>
+                <ion-item no-padding no-lines>
+                  <ion-icon name="md-disc" color="dark" item-start></ion-icon>
+                  {{item.from}}
+                </ion-item>
+                <ion-item no-padding no-lines>
+                  <ion-icon name="md-pin" color="dark" item-start></ion-icon>
+                  {{item.to}}
+                </ion-item>
+                <div class="line"></div>
+              </ion-col>
+              <ion-col col-5>
+                <div class="status" text-right item-end>
+                  <p>{{item.date}}</p>
+                </div>
+              </ion-col>
+            </ion-row>
+          </div>
+          <ion-item class="cash" no-lines>
+            <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
+            <h2>$ 50.13</h2>
+            <p>Cash</p>
+            <button color="secondary" (click)="removeItem(item)" ion-button item-end>cancel</button>
+          </ion-item>
+        </div>
+        <p *ngIf="notify.length==0" style="padding: 20px" text-center text-capitalize no-margin>no notify</p>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>

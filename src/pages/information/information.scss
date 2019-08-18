@@ -1,0 +1,116 @@
+page-information {
+    .login-form{
+        max-height: 520px;
+        padding: 115px 20px 10px 20px;
+        .list-md{
+            margin-bottom: 25px;
+        }
+    }
+    h4{
+        padding-left: 0 !important;
+    }
+    .datetime-md{
+        padding: 0 0 3px 0 !important;
+        margin: 13px 0 13px 0;
+        width: 100%;
+        .datetime-placeholder{
+            font-size: 1.5rem;
+            color: rgba(color($colors,light),.61) !important;
+            text-transform: capitalize;
+        }
+    }
+    .user-name{
+        .item-md{
+            &:nth-of-type(1){
+                .text-input-md{
+                    width: calc(100% - 20px);
+                    margin: 13px 20px 13px 0;
+                }
+            }
+        }
+    }
+}
+
+.vehicle-types{
+    height: 130px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+    .list-md{
+        padding: 0 16px;
+    }
+    .item-ios{
+        background: transparent;
+        border-bottom: 1px solid #535353 !important;
+        [item-start]{
+            margin: 9px 20px 9px 0;
+            width: 32px;
+            height: 17px;
+            object-fit: contain;
+        }
+        img{
+            opacity: .5;
+        }
+        .item-inner{
+            padding-right: 0;
+        }
+        .radio-ios{
+            margin: 0 2px 0 0 !important;
+        }
+    }
+    .item-radio-checked{
+        img{
+            opacity: 1;
+        }
+    }
+    .label-md{
+        text-transform: capitalize;
+        font-size: 1.5rem;
+        color: rgba(255,255,255,.61);
+    }
+    .radioScroll{
+        height: 130px;
+        overflow: scroll;
+        margin-bottom: 20px;
+        .item-md{
+            border-bottom: 1px solid #535353 !important;
+            &:last-child{
+                border: none !important;
+            }
+        }
+    }
+    .item-radio.item-ios ion-label{
+        color: color($colors,light);
+        opacity: 0.5;
+    }
+    .item-radio-checked.item-ios ion-label{
+        color: color($colors,light);
+        opacity: 1;
+    }
+    .radio .radio-icon{
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+    }
+    .radio-checked{
+        background: color($colors,secondary);
+        border-radius: 50%;
+    }
+    .radio .radio-checked .radio-inner{
+        top: 3px;
+        left: 8px;
+    }
+    input::-webkit-input-placeholder {
+        color: color($colors,light) !important;
+        opacity: 0.6 !important;
+    }
+    .item-radio-checked.item-md ion-label{
+        color: color($colors,light);
+    }
+}
+
+.license{
+    .text-input-md{
+        width: 100%;
+        margin: 13px 0px 13px 0px;
+    }
+}

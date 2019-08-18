@@ -1,0 +1,122 @@
+// http://ionicframework.com/docs/v2/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+ion-app{
+    [no-margin]{
+        margin: 0 !important;
+    }
+}
+
+.picker-md{
+    .picker-wrapper{
+        height: 200px;
+    }
+}
+
+.app-header{
+    &::after{
+        display: none;
+    }
+    .toolbar-md{
+        clip-path: ellipse(65% 100% at 50% 0%);
+        align-items: flex-start;
+        padding-top: 13px;
+        ion-title{
+            padding-top: 4px;
+        }
+        .toolbar-title-md{
+            padding: 0 15px;
+            font-weight: normal;
+        }
+    }
+}
+.shadow{
+    position: absolute;
+    z-index: -1;
+    content: "";
+    background: rgba(0, 0, 0, 0.1);
+    background-blend-mode: multiply;
+    width: 100%;
+    height: $toolbar-md-height;
+    left: 0;
+    top: 2px;
+    clip-path: ellipse(65% 100% at 50% 0%);
+}
+
+.app-content{
+    .scroll-content{
+        margin-top: 52px !important;
+        margin-bottom: 40px !important;
+    }
+}
+
+.app-footer{
+    &::before{
+        display: none;
+    }
+    .toolbar-md{
+        min-height: 65px;
+        clip-path: ellipse(62% 100% at 50% 100%);
+        align-items: flex-start;
+        padding-top: 13px;
+        padding-bottom: 0;
+    }
+}
+
+.border{
+    position: absolute;
+    z-index: -1;
+    content: "";
+    background-color: color($colors,secondary);
+    width: 100%;
+    height: 65px;
+    left: 0;
+    bottom: 5px;
+    clip-path: ellipse(62% 100% at 50% 100%);
+}
+
+ion-backdrop{
+    visibility: visible !important;
+    z-index: -1;
+    opacity: .1;
+}
+
+.bold{
+    font-weight: 600 !important;
+}
+
+.back-button{
+    margin-left: 0 !important;
+    min-width: 25px;
+    padding: 0;
+}
+
+.alert-md{
+    .alert-wrapper{
+        border-radius: 10px;
+    }
+}
+
+// App IOS platform Sass
+// --------------------------------------------------
+.md .modal-wrapper > page-destination-modal > ion-header > .toolbar-md.statusbar-padding:first-child{
+    padding-top: 10px !important;
+    min-height: 65px !important;
+}
+.statusbar-padding{
+    &.app-content{
+        .scroll-content{
+            margin-top: 65px !important;
+        }
+    }
+    .back-btn{
+        top: 25px;
+    }
+    .profile-head{
+        img{
+            height: 250px;
+        }
+    }
+}

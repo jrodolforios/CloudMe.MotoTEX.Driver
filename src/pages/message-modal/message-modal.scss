@@ -1,0 +1,24 @@
+
+$list-height: 200px;
+
+page-message-modal {
+    .content-md{
+        background-color: rgba(0,0,0,.3);
+    }
+    .list-md{
+        padding: 0 30px;
+        position: absolute;
+        width: 100%;
+        height: $list-height;
+        overflow-y: scroll;
+        top: calc((100% - #{$list-height})/2);
+    }
+    .item-md{
+        padding-left: 26px;
+        padding-right: 10px;
+        border-bottom: 1px solid color($colors,grayColor) !important;
+        &:last-child{
+            border-bottom: none !important;
+        }
+    }
+}

@@ -14,21 +14,21 @@ export class Setting {
 
   presentEmergency() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Emergency Contacts',
+      title: 'Contatos de emergência',
       buttons: [
         {
-          text: 'Driver',
+          text: 'Motorista',
           role: 'Driver',
           handler: () => {
             console.log('Driver clicked');
           }
         },{
-          text: 'Technical support',
+          text: 'Suporte técnico',
           handler: () => {
             console.log('Technical clicked');
           }
         },{
-          text: 'Cancel',
+          text: 'Cancelar',
           role: 'cancel',
           handler: () => {
             console.log('Cancel clicked');

@@ -18,8 +18,8 @@
 
   <div class="profile-detail">
     <ion-item no-lines>
-      <ion-label text-uppercase stacked>name</ion-label>
-      <ion-input type="text" placeholder="john smith" disabled="{{isDisabled}}"></ion-input>
+      <ion-label text-uppercase stacked>nome</ion-label>
+      <ion-input type="text" placeholder="Rodolfo Rios" disabled="{{isDisabled}}"></ion-input>
     </ion-item>
 
     <ion-item no-lines>
@@ -28,16 +28,16 @@
     </ion-item>
 
     <ion-item no-lines>
-      <ion-label text-uppercase stacked>Mobile</ion-label>
-      <ion-input type="tel" placeholder="91234 56789" id="phone" disabled="{{isDisabled}}"></ion-input>
+      <ion-label text-uppercase stacked>Celular</ion-label>
+      <ion-input type="tel" placeholder="33 9 8785-6548" id="phone" disabled="{{isDisabled}}"></ion-input>
     </ion-item>
 
     <ion-segment color="primary" [(ngModel)]="tabs">
       <ion-segment-button color="primary" value="history">
-        History
+        Histórico
       </ion-segment-button>
       <ion-segment-button color="primary" value="Notifications">
-        Notifications
+        Notificações
       </ion-segment-button>
     </ion-segment>
 
@@ -61,7 +61,7 @@
               </ion-col>
               <ion-col col-5>
                 <div class="status" text-right item-end>
-                  <h4>Success</h4>
+                  <h4>Sucesso</h4>
                   <p no-margin>{{item.date}}</p>
                 </div>
               </ion-col>
@@ -70,7 +70,7 @@
           <ion-item class="cash" no-lines>
             <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
             <h2>{{item.cash}}</h2>
-            <p>Cash</p>
+            <p>Dinheiro</p>
           </ion-item>
         </div>
       </div>
@@ -99,12 +99,12 @@
           </div>
           <ion-item class="cash" no-lines>
             <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
-            <h2>$ 50.13</h2>
-            <p>Cash</p>
+            <h2>R$ 15,00</h2>
+            <p>Dinheiro</p>
             <button color="secondary" (click)="removeItem(item)" ion-button item-end>cancel</button>
           </ion-item>
         </div>
-        <p *ngIf="notify.length==0" style="padding: 20px" text-center text-capitalize no-margin>no notify</p>
+        <p *ngIf="notify.length==0" style="padding: 20px" text-center text-capitalize no-margin>não notificar</p>
       </div>
 
     </div>

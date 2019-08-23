@@ -12,7 +12,7 @@ export class MessageModal {
   messages: Array<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
-    this.messages = [{text: 'I”m waiting.'}, {text: 'I”m on my way.'}, {text: 'I wait 5 minutes.'}, {text: 'Thanks.'}]
+    this.messages = [{text: 'Estou te esperando'}, {text: 'Estou à caminho'}, {text: 'Esperarei 5 minutos'}, {text: 'Obrigado!'}]
   }
 
 // close Modal

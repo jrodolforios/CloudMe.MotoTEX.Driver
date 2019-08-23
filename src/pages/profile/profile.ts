@@ -9,7 +9,7 @@ import 'intl-tel-input';
 })
 export class Profile {
 
-  tabs = "history";
+  tabs = "Histórico";
   history: Array<any>;
   notification: Array<any>;
   notify: Array<any>;
@@ -19,9 +19,9 @@ export class Profile {
 
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, public renderer: Renderer) {
-    this.history =[{from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Today at 3:26 pm', cash: '$ 50.13'}, {from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Today at 3:26 pm', cash: '$ 50.13'}]
+    this.history =[{from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15:30hrs', cash: 'R$ 50,13'}, {from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15h30', cash: 'R$ 50,13'}]
 
-    this.notify =[{from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Today at 3:26 pm'}]
+    this.notify =[{from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15:00hrs'}]
   }
 
 
@@ -73,9 +73,9 @@ export class Profile {
     telInput.on("keyup change", function() {
       var intlNumber = telInput.intlTelInput("getNumber");
       if (intlNumber) {
-        output.text("International: " + intlNumber);
+        output.text("Internacional: " + intlNumber);
       } else {
-        output.text("Please enter a number below");
+        output.text("Entre com uma mensagem abaixo");
       }
     });
   }

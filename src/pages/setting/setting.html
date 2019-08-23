@@ -1,6 +1,6 @@
 <ion-header class="app-header">
   <ion-navbar color="primary">
-    <ion-title text-capitalize>setting</ion-title>
+    <ion-title text-capitalize>Configurações</ion-title>
   </ion-navbar>
   <div class="shadow"></div>
 </ion-header>
@@ -10,7 +10,7 @@
 
   <ion-item-group class="setting-list" margin-bottom>
     <ion-item class="change-setting" no-padding>
-      <ion-label stacked>Change password</ion-label>
+      <ion-label stacked>Alterar senha</ion-label>
       <ion-input type="password" placeholder="*************"></ion-input>
     </ion-item>
 
@@ -21,9 +21,9 @@
       <ion-checkbox mode="md" (ionChange)="animateApp($event)"  checked="{{action}}" item-right></ion-checkbox>
     </ion-item>-->
 
-    <ion-item (click)="presentEmergency()" no-padding>Emergency Contacts</ion-item>
-    <ion-item [navPush]="'Profile'" no-padding>Edit Profile</ion-item>
-    <ion-item [navPush]="'Login'" no-padding>Log out</ion-item>
+    <ion-item (click)="presentEmergency()" no-padding>Contatos de emergência</ion-item>
+    <ion-item [navPush]="'Profile'" no-padding>Editar perfil</ion-item>
+    <ion-item [navPush]="'Login'" no-padding>Sair</ion-item>
   </ion-item-group>
 
 </ion-content>

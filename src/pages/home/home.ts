@@ -12,8 +12,8 @@ declare var google;
 export class Home {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-  start = 'chicago, il';
-  end = 'chicago, il';
+  start = 'Hospital Philadelfia - Avenida Doutor Júlio Rodrigues - Marajoara, Teófilo Otoni - MG';
+  end = 'Sebrae Minas - Avenida Francisco Sá - Centro, Teófilo Otoni - MG';
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
   showDetails;
@@ -42,7 +42,7 @@ export class Home {
       if (status === 'OK') {
         this.directionsDisplay.setDirections(response);
       } else {
-        window.alert('Directions request failed due to ' + status);
+        window.alert('Requisição de rota falhou: ' + status);
       }
     });
   }

@@ -1,21 +1,13 @@
 <ion-content class="login-content">
   <div class="login-form">
       <ion-fab top center>
-        <button color="secondary" [navPush]="'Home'" ion-fab><ion-icon name="md-checkmark" color="light"></ion-icon></button>
+        <button color="secondary" [navPush]="'Home'" class="EnterButton" ion-fab>Entrar</button>
       </ion-fab>
-
-      <h4>Login</h4>
-      <ion-list>
-        <ion-item no-lines>
-          <ion-icon name="md-mail" color="dark" class="circle-icon" item-start></ion-icon> 
-          <ion-input type="text" placeholder="Email"></ion-input>
-        </ion-item>
-
-        <ion-item no-lines>
-          <ion-icon name="md-lock" color="dark" class="circle-icon" item-start></ion-icon>   
-          <ion-input type="password" placeholder="Senha"></ion-input>
-        </ion-item>
-      </ion-list>
+      <h4>Bem-vindo!</h4>
+      <div class="logo">
+        <img src="assets/img/user.png" />
+      </div>
+    
       <p class="forgetBtn" [navPush]="'Register'" text-center> Quero ser motorista do TÔdeTAXI</p>
   </div>
 </ion-content>

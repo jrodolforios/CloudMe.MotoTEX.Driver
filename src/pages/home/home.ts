@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController,  ViewController, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController,  ViewController, ModalController, AlertController, NavParams } from 'ionic-angular';
 import { global } from '../../providers/global';
+import { AuthGuard } from '../../auth/auth.guard';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 declare var google;
 
@@ -17,7 +19,7 @@ export class Home {
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
   showDetails;
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public modalCtrl: ModalController, public alertCtrl: AlertController, public global: global) {
+  constructor(public navCtrl: NavController, private oauthService: OAuthService, public viewCtrl: ViewController, public modalCtrl: ModalController, public alertCtrl: AlertController, public global: global) {
     
   }
 
@@ -26,11 +28,17 @@ export class Home {
   }
   initMap() {
     this.map = new google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 7,
-      center: {lat: 41.85, lng: -87.65}
+      zoom: 15,
+      center: {lat: -17.8663175, lng: -41.5115479}
     });
 
     this.directionsDisplay.setMap(this.map);
+  }
+
+  ionViewCanEnter(){
+    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService)
+
+    authGuard.canActivate();
   }
 
   calculateAndDisplayRoute() {

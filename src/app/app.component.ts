@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { authConfig } from '../auth/auth.config';
 
 
 
@@ -15,15 +17,27 @@ export class MyApp {
 
   pages: Array<any>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
+    private oauthService: OAuthService) {
     this.initializeApp();
-
+    this.configureWithNewConfigApi();
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: 'Home' },
       { title: 'List', component: 'Home' }
     ];
 
+  }
+
+  private async configureWithNewConfigApi() {
+    this.oauthService.configure(authConfig);
+    this.oauthService.setStorage(localStorage);
+    this.oauthService.tokenValidationHandler = new JwksValidationHandler();
+
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    if (this.oauthService.hasValidIdToken() || this.oauthService.hasValidAccessToken()) {
+      this.nav.push("Home");
+    }
   }
 
   initializeApp() {

@@ -2,6 +2,8 @@ import { Component, Renderer } from '@angular/core';
 import { IonicPage, NavController, ViewController } from 'ionic-angular';
 import $ from "jquery";
 import 'intl-tel-input';
+import { AuthGuard } from '../../auth/auth.guard';
+import { OAuthService } from 'angular-oauth2-oidc';
 @IonicPage()
 @Component({
   selector: 'page-profile',
@@ -18,7 +20,7 @@ export class Profile {
   public isDisabled:boolean = true;
 
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public renderer: Renderer) {
+  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public renderer: Renderer, private oauthService: OAuthService) {
     this.history =[{from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15:30hrs', cash: 'R$ 50,13'}, {from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15h30', cash: 'R$ 50,13'}]
 
     this.notify =[{from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15:00hrs'}]
@@ -33,7 +35,14 @@ export class Profile {
       }
  
     }
-  } 
+  }
+  
+  ionViewCanEnter(){
+    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService)
+
+    authGuard.canActivate();
+  }
+
 
   //scroll header function
   ngAfterViewInit() {

@@ -1,7 +1,7 @@
 <ion-content class="login-content">
   <div class="login-form">
       <ion-fab top center>
-        <button color="secondary" [navPush]="'Home'" class="EnterButton" ion-fab>Entrar</button>
+        <button color="secondary" (click)="loginAuth()" class="EnterButton" ion-fab>Entrar</button>
       </ion-fab>
       <h4>Bem-vindo!</h4>
       <div class="logo">

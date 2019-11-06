@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController,  ViewController, ModalController, AlertController, NavParams } from 'ionic-angular';
 import { global } from '../../providers/global';
 import { AuthGuard } from '../../auth/auth.guard';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 
 declare var google;
 
@@ -12,7 +12,7 @@ declare var google;
   templateUrl: 'home.html',
 })
 export class Home {
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map', {static: false}) mapElement: ElementRef;
   map: any;
   start = 'Hospital Philadelfia - Avenida Doutor Júlio Rodrigues - Marajoara, Teófilo Otoni - MG';
   end = 'Sebrae Minas - Avenida Francisco Sá - Centro, Teófilo Otoni - MG';

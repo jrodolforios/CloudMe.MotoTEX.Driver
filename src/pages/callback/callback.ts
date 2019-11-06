@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { IonicPage, NavController, NavParams, Alert } from 'ionic-angular';
+import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 
 /**
  * Generated class for the CallbackPage page.
@@ -20,9 +20,11 @@ export class CallbackPage implements OnInit {
   }
 
   ngOnInit() {
+    alert(location.href);
+
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then(loggedIn => {
       if (!this.oauthService.hasValidIdToken() && !this.oauthService.hasValidAccessToken())  {
-          this.oauthService.initImplicitFlow('login');
+        this.navCtrl.push("Login");
       } else {
         this.navCtrl.push("Home");
       }

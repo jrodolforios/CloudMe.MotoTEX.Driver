@@ -1,4 +1,4 @@
-import { AuthConfig } from 'angular-oauth2-oidc';
+import { AuthConfig } from '../../auth-oidc/src/auth.config';
 
 // export const authConfig: AuthConfig = {
 
@@ -6,8 +6,9 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 //     clientId: 'ToDeTaxiAPI_mobile',
 //     postLogoutRedirectUri: 'https://passenger.todetaxi.com.br/',
 //     redirectUri: "https://passenger.todetaxi.com.br/auth/callback",
-//     scope:"todetaxiapi",
-//     oidc: false,
+//      responseType: 'code',
+//      scope: 'openid profile email todetaxiapi offline_access',
+//      dummyClientSecret: '9740e17e-9867-4477-8285-bb78485bdf2d'
 // }
 
 //DEV
@@ -17,6 +18,8 @@ export const authConfig: AuthConfig = {
     clientId: 'ToDeTaxiAPI_mobile',
     postLogoutRedirectUri: 'http://localhost:8100/',
     redirectUri: "http://localhost:8100/#/callback/?",
-    scope:"todetaxiapi",
-    oidc: false,
+    responseType: 'code',
+    scope: 'openid profile email todetaxiapi offline_access',
+    dummyClientSecret: '9740e17e-9867-4477-8285-bb78485bdf2d',
+
 }

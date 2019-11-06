@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 
 /**
  * Generated class for the LogoutPage page.

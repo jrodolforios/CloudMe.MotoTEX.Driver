@@ -3,7 +3,7 @@ import { IonicPage, NavController, ViewController } from 'ionic-angular';
 import $ from "jquery";
 import 'intl-tel-input';
 import { AuthGuard } from '../../auth/auth.guard';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 @IonicPage()
 @Component({
   selector: 'page-profile',

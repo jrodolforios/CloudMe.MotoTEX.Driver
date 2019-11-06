@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, NavController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { OAuthService } from '../../auth-oidc/src/oauth-service';
+import {JwksValidationHandler } from '../../auth-oidc/src/token-validation/jwks-validation-handler'
 import { authConfig } from '../auth/auth.config';
 
 
@@ -11,15 +12,18 @@ import { authConfig } from '../auth/auth.config';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
+  @ViewChild(Nav, { static: false }) nav: Nav;
 
   rootPage: any = 'Login';
 
   pages: Array<any>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
+  constructor(public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
     private oauthService: OAuthService) {
     this.initializeApp();
+
     this.configureWithNewConfigApi();
     // used for an example of ngFor and navigation
     this.pages = [

@@ -1,5 +1,7 @@
 {
   "name": "CloudMe.ToDeTaxi.Front.Driver",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import $ from "jquery";
-import 'intl-tel-input';
 
 
 @IonicPage()
@@ -21,13 +20,7 @@ export class Register {
 
 // intlTelInput for select country id
   ngOnInit(): any {
-    let telInput = $("#phone");
 
-    telInput.intlTelInput();
-    // listen to "keyup", but also "change" to update when the user selects a country
-    telInput.on("keyup change", function() {
-      // var intlNumber = telInput.intlTelInput("getNumber");
-    });
   }
 
 }

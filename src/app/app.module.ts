@@ -4,19 +4,21 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Keyboard } from '@ionic-native/keyboard';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { global } from '../providers/global';
-import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from '../../auth-oidc/src/oauth-service';
+import { OAuthModule } from '../../auth-oidc/src/angular-oauth-oidic.module';
 import { HttpClientModule } from '@angular/common/http';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 var config = {
   backButtonText: '',
   backButtonIcon: 'md-arrow-back',
   pageTransition: 'md',
   mode:'md',
+  //locationStrategy: 'path'
 };
 
 @NgModule({
@@ -38,6 +40,7 @@ var config = {
     StatusBar,
     SplashScreen,
     Keyboard,
+    InAppBrowser,
     OAuthService,
     global,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

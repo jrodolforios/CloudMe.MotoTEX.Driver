@@ -28,7 +28,19 @@
 
 
 <ion-content class="app-content">
-  <div #map id="map" data-tap-disabled="true"></div>
+    <agm-map #map id="map" data-tap-disabled="true" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="true" [zoomControl]="false"
+    [fullscreenControl]="false" [streetViewControl]="false">
+    <agm-marker [latitude]="lat" iconUrl="/assets/img/grabpin.png" [longitude]="lng" [markerDraggable]="false" 
+      [animation]="'DROP'" >
+      <agm-info-window>
+        <strong>Você está aqui </strong>
+      </agm-info-window>
+    </agm-marker>
+    <agm-direction *ngIf="origin && destination && origin.lat && destination.lat" [origin]="origin"
+      [destination]="destination" [markerOptions]="markerOptions" [renderOptions]="renderOptions">
+    </agm-direction>
+  </agm-map>
+  <!-- <div #map id="map" data-tap-disabled="true"></div> -->
 </ion-content>
 
 
@@ -36,8 +48,8 @@
   <ion-toolbar color="primary">
 
     <div class="Trip-det" *ngIf="!global.accept">
-        <ion-fab top center *ngIf="!showDetails">
-          <button (click)="activeTrip()" ion-fab color="secondary">
+        <ion-fab top center class="animated infinite shake" *ngIf="!showDetails">
+          <button (click)="activeTrip()" ion-fab color="danger">
             <ion-icon name="md-disc" color="light"></ion-icon>
           </button>
         </ion-fab>

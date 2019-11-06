@@ -1,11 +1,11 @@
 <ion-header class="app-header">
   <ion-navbar>
     <ion-title></ion-title>
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button (click)="changeData()" ion-button icon-only>
         <ion-icon name="md-create" color="secondary"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 
@@ -13,23 +13,23 @@
 <ion-content fullscreen  (ionScroll)="scrollingFun($event)">
 
   <div class="profile-head">
-    <img src="assets/img/user-img.png" />
+    <img src="{{fotoPerfil}}" />
   </div>
 
   <div class="profile-detail">
     <ion-item no-lines>
       <ion-label text-uppercase stacked>nome</ion-label>
-      <ion-input type="text" placeholder="Rodolfo Rios" disabled="{{isDisabled}}"></ion-input>
+      <ion-input type="text" placeholder="Nome" disabled="{{isDisabled}}" [value]="nome"></ion-input>
     </ion-item>
 
     <ion-item no-lines>
       <ion-label text-uppercase stacked>Email</ion-label>
-      <ion-input type="email" placeholder="john smith@yahoo.com" disabled="{{isDisabled}}"></ion-input>
+      <ion-input type="email" placeholder="email" disabled="{{isDisabled}}" [value]="email"></ion-input>
     </ion-item>
 
     <ion-item no-lines>
       <ion-label text-uppercase stacked>Celular</ion-label>
-      <ion-input type="tel" placeholder="33 9 8785-6548" id="phone" disabled="{{isDisabled}}"></ion-input>
+      <ion-input type="tel" placeholder="telefone" id="phone" disabled="{{isDisabled}}" [value]="telefone"></ion-input>
     </ion-item>
 
     <ion-segment color="primary" [(ngModel)]="tabs">

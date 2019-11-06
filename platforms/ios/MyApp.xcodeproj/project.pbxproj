@@ -29,6 +29,8 @@
 		17B2999A2E0D451E919C5442 /* CDVWKProcessPoolFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = AF05B1C9AF8B42808D15CCBD /* CDVWKProcessPoolFactory.m */; };
 		E4E99A8F301D44A4A84E5937 /* IONAssetHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6AC4A1F51B4678A7E2329F /* IONAssetHandler.m */; };
 		637FA0599F1944548796BE40 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA08FC9CD5B449D8963E80A /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		421992EA43E64B9D8A96BB4F /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CA57C290C8487B81F969F7 /* CDVLocation.m */; };
+		8023DF4495C944EDB7BEC0FC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3762CCFC5A4F89BFEECF87 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +109,9 @@
 		F423EFC1CEC545708DDF2E0B /* CDVWKProcessPoolFactory.h */ = {isa = PBXFileReference; name = "CDVWKProcessPoolFactory.h"; path = "cordova-plugin-ionic-webview/CDVWKProcessPoolFactory.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		F5F95E08AD574E2AA64DBB85 /* IONAssetHandler.h */ = {isa = PBXFileReference; name = "IONAssetHandler.h"; path = "cordova-plugin-ionic-webview/IONAssetHandler.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		9AA08FC9CD5B449D8963E80A /* WebKit.framework */ = {isa = PBXFileReference; name = "WebKit.framework"; path = "System/Library/Frameworks/WebKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		B0CA57C290C8487B81F969F7 /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		FED93F3152D7408B8BB25E71 /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		1B3762CCFC5A4F89BFEECF87 /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +121,7 @@
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				637FA0599F1944548796BE40 /* WebKit.framework in Frameworks */,
+				8023DF4495C944EDB7BEC0FC /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				9AA08FC9CD5B449D8963E80A /* WebKit.framework */,
+				1B3762CCFC5A4F89BFEECF87 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -243,6 +250,8 @@
 				2666D5CBE2E440C295364993 /* CDVWKWebViewUIDelegate.h */,
 				F423EFC1CEC545708DDF2E0B /* CDVWKProcessPoolFactory.h */,
 				F5F95E08AD574E2AA64DBB85 /* IONAssetHandler.h */,
+				B0CA57C290C8487B81F969F7 /* CDVLocation.m */,
+				FED93F3152D7408B8BB25E71 /* CDVLocation.h */,
 			);
 			name = Plugins;
 			path = "MyApp/Plugins";
@@ -382,6 +391,7 @@
 				6028A5028FB24AE3B2BF1C3F /* CDVWKWebViewUIDelegate.m in Sources */,
 				17B2999A2E0D451E919C5442 /* CDVWKProcessPoolFactory.m in Sources */,
 				E4E99A8F301D44A4A84E5937 /* IONAssetHandler.m in Sources */,
+				421992EA43E64B9D8A96BB4F /* CDVLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

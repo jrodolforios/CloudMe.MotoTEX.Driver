@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
 import {JwksValidationHandler } from '../../auth-oidc/src/token-validation/jwks-validation-handler'
 import { authConfig } from '../auth/auth.config';
+import { TaxistaService } from '../core/api/to_de_taxi/services';
+import { AppServiceProvider } from '../providers/app-service/app-service';
 
 
 
@@ -21,7 +23,9 @@ export class MyApp {
   constructor(public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    private oauthService: OAuthService) {
+    private oauthService: OAuthService,
+    private taxistaService: TaxistaService,
+    private serviceProvider: AppServiceProvider,) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -40,7 +44,20 @@ export class MyApp {
 
     await this.oauthService.loadDiscoveryDocumentAndTryLogin();
     if (this.oauthService.hasValidIdToken() || this.oauthService.hasValidAccessToken()) {
-      this.nav.push("Home");
+
+      this.oauthService.loadUserProfile().then(async x => {
+        if (x["sub"]) {
+          await this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
+            if (taxista.success)
+              this.serviceProvider.taxistaLogado = taxista.data;
+          });
+          this.nav.push("Home");
+        } else {
+          this.nav.push("Login");
+        }
+      });
+    } else{
+      this.nav.push('Login')
     }
   }
 
@@ -51,6 +68,7 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    
   }
 
   openPage(page) {

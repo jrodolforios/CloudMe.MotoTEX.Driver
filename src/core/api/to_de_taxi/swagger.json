@@ -1,0 +1,7083 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1",
+    "title": "CloudMe ToDeTaxi API"
+  },
+  "paths": {
+    "/api/v1/Corrida": {
+      "get": {
+        "tags": [
+          "Corrida"
+        ],
+        "summary": "Gets all corridas.",
+        "operationId": "ApiV1CorridaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[CorridaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Corrida"
+        ],
+        "summary": "Modifies an existing Corrida.",
+        "operationId": "ApiV1CorridaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "corridaSummary",
+            "in": "body",
+            "description": "Modified Corrida list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CorridaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Corrida"
+        ],
+        "summary": "Creates a new Corrida.",
+        "operationId": "ApiV1CorridaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "corridaSummary",
+            "in": "body",
+            "description": "Corrida's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CorridaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Corrida/consulta_id_passageiro/{id}": {
+      "get": {
+        "tags": [
+          "Corrida"
+        ],
+        "summary": "Gets all corridas by passageiro.",
+        "operationId": "ApiV1CorridaConsulta_id_passageiroByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[CorridaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Corrida/{id}": {
+      "get": {
+        "tags": [
+          "Corrida"
+        ],
+        "summary": "Gets a Corrida.\r\n<param name=\"id\">Corrida's ID</param>",
+        "operationId": "ApiV1CorridaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[CorridaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Corrida"
+        ],
+        "summary": "Removes an existing Corrida.",
+        "operationId": "ApiV1CorridaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/CorVeiculo": {
+      "get": {
+        "tags": [
+          "CorVeiculo"
+        ],
+        "summary": "Gets all CorVeiculos.",
+        "operationId": "ApiV1CorVeiculoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[CorVeiculoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "CorVeiculo"
+        ],
+        "summary": "Modifies an existing CorVeiculo.",
+        "operationId": "ApiV1CorVeiculoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "CorVeiculoSummary",
+            "in": "body",
+            "description": "Modified CorVeiculo list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CorVeiculoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "CorVeiculo"
+        ],
+        "summary": "Creates a new CorVeiculo.",
+        "operationId": "ApiV1CorVeiculoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "CorVeiculoSummary",
+            "in": "body",
+            "description": "CorVeiculo's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CorVeiculoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/CorVeiculo/{id}": {
+      "get": {
+        "tags": [
+          "CorVeiculo"
+        ],
+        "summary": "Gets a CorVeiculo.\r\n<param name=\"id\">CorVeiculo's ID</param>",
+        "operationId": "ApiV1CorVeiculoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[CorVeiculoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "CorVeiculo"
+        ],
+        "summary": "Removes an existing CorVeiculo.",
+        "operationId": "ApiV1CorVeiculoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Endereco": {
+      "get": {
+        "tags": [
+          "Endereco"
+        ],
+        "summary": "Gets all Enderecos.",
+        "operationId": "ApiV1EnderecoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[EnderecoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Endereco"
+        ],
+        "summary": "Modifies an existing Endereco.",
+        "operationId": "ApiV1EnderecoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "EnderecoSummary",
+            "in": "body",
+            "description": "Modified Endereco list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/EnderecoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Endereco"
+        ],
+        "summary": "Creates a new Endereco.",
+        "operationId": "ApiV1EnderecoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "EnderecoSummary",
+            "in": "body",
+            "description": "Endereco's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/EnderecoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Endereco/{id}": {
+      "get": {
+        "tags": [
+          "Endereco"
+        ],
+        "summary": "Gets a Endereco.\r\n<param name=\"id\">Endereco's ID</param>",
+        "operationId": "ApiV1EnderecoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[EnderecoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Endereco"
+        ],
+        "summary": "Removes an existing Endereco.",
+        "operationId": "ApiV1EnderecoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Endereco/consulta_cep/{cep}": {
+      "get": {
+        "tags": [
+          "Endereco"
+        ],
+        "summary": "Obtém um endereço por CEP.\r\n<param name=\"cep\">CEP do endereco a ser consultado</param>",
+        "operationId": "ApiV1EnderecoConsulta_cepByCepGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "cep",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[EnderecoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FaixaDesconto": {
+      "get": {
+        "tags": [
+          "FaixaDesconto"
+        ],
+        "summary": "Gets all FaixaDescontos.",
+        "operationId": "ApiV1FaixaDescontoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[FaixaDescontoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "FaixaDesconto"
+        ],
+        "summary": "Modifies an existing FaixaDesconto.",
+        "operationId": "ApiV1FaixaDescontoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FaixaDescontoSummary",
+            "in": "body",
+            "description": "Modified FaixaDesconto list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FaixaDescontoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "FaixaDesconto"
+        ],
+        "summary": "Creates a new FaixaDesconto.",
+        "operationId": "ApiV1FaixaDescontoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FaixaDescontoSummary",
+            "in": "body",
+            "description": "FaixaDesconto's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FaixaDescontoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FaixaDesconto/{id}": {
+      "get": {
+        "tags": [
+          "FaixaDesconto"
+        ],
+        "summary": "Gets a FaixaDesconto.\r\n<param name=\"id\">FaixaDesconto's ID</param>",
+        "operationId": "ApiV1FaixaDescontoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[FaixaDescontoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "FaixaDesconto"
+        ],
+        "summary": "Removes an existing FaixaDesconto.",
+        "operationId": "ApiV1FaixaDescontoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FaixaDescontoTaxista": {
+      "get": {
+        "tags": [
+          "FaixaDescontoTaxista"
+        ],
+        "summary": "Gets all FaixaDescontoTaxistas.",
+        "operationId": "ApiV1FaixaDescontoTaxistaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[FaixaDescontoTaxistaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "FaixaDescontoTaxista"
+        ],
+        "summary": "Modifies an existing FaixaDescontoTaxista.",
+        "operationId": "ApiV1FaixaDescontoTaxistaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FaixaDescontoTaxistaSummary",
+            "in": "body",
+            "description": "Modified FaixaDescontoTaxista list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FaixaDescontoTaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "FaixaDescontoTaxista"
+        ],
+        "summary": "Creates a new FaixaDescontoTaxista.",
+        "operationId": "ApiV1FaixaDescontoTaxistaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FaixaDescontoTaxistaSummary",
+            "in": "body",
+            "description": "FaixaDescontoTaxista's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FaixaDescontoTaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FaixaDescontoTaxista/{id}": {
+      "get": {
+        "tags": [
+          "FaixaDescontoTaxista"
+        ],
+        "summary": "Gets a FaixaDescontoTaxista.\r\n<param name=\"id\">FaixaDescontoTaxista's ID</param>",
+        "operationId": "ApiV1FaixaDescontoTaxistaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[FaixaDescontoTaxistaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "FaixaDescontoTaxista"
+        ],
+        "summary": "Removes an existing FaixaDescontoTaxista.",
+        "operationId": "ApiV1FaixaDescontoTaxistaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Favorito": {
+      "get": {
+        "tags": [
+          "Favorito"
+        ],
+        "summary": "Gets all Favoritos.",
+        "operationId": "ApiV1FavoritoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[FavoritoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Favorito"
+        ],
+        "summary": "Modifies an existing Favorito.",
+        "operationId": "ApiV1FavoritoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FavoritoSummary",
+            "in": "body",
+            "description": "Modified Favorito list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FavoritoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Favorito"
+        ],
+        "summary": "Creates a new Favorito.",
+        "operationId": "ApiV1FavoritoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FavoritoSummary",
+            "in": "body",
+            "description": "Favorito's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FavoritoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Favorito/{id}": {
+      "get": {
+        "tags": [
+          "Favorito"
+        ],
+        "summary": "Gets a Favorito.\r\n<param name=\"id\">Favorito's ID</param>",
+        "operationId": "ApiV1FavoritoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[FavoritoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Favorito"
+        ],
+        "summary": "Removes an existing Favorito.",
+        "operationId": "ApiV1FavoritoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FormaPagamento": {
+      "get": {
+        "tags": [
+          "FormaPagamento"
+        ],
+        "summary": "Gets all FormaPagamentos.",
+        "operationId": "ApiV1FormaPagamentoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[FormaPagamentoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "FormaPagamento"
+        ],
+        "summary": "Modifies an existing FormaPagamento.",
+        "operationId": "ApiV1FormaPagamentoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FormaPagamentoSummary",
+            "in": "body",
+            "description": "Modified FormaPagamento list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FormaPagamentoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "FormaPagamento"
+        ],
+        "summary": "Creates a new FormaPagamento.",
+        "operationId": "ApiV1FormaPagamentoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FormaPagamentoSummary",
+            "in": "body",
+            "description": "FormaPagamento's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FormaPagamentoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FormaPagamento/{id}": {
+      "get": {
+        "tags": [
+          "FormaPagamento"
+        ],
+        "summary": "Gets a FormaPagamento.\r\n<param name=\"id\">FormaPagamento's ID</param>",
+        "operationId": "ApiV1FormaPagamentoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[FormaPagamentoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "FormaPagamento"
+        ],
+        "summary": "Removes an existing FormaPagamento.",
+        "operationId": "ApiV1FormaPagamentoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FormaPagamentoTaxista": {
+      "get": {
+        "tags": [
+          "FormaPagamentoTaxista"
+        ],
+        "summary": "Gets all FormaPagamentoTaxistas.",
+        "operationId": "ApiV1FormaPagamentoTaxistaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[FormaPagamentoTaxistaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "FormaPagamentoTaxista"
+        ],
+        "summary": "Modifies an existing FormaPagamentoTaxista.",
+        "operationId": "ApiV1FormaPagamentoTaxistaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FormaPagamentoTaxistaSummary",
+            "in": "body",
+            "description": "Modified FormaPagamentoTaxista list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FormaPagamentoTaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "FormaPagamentoTaxista"
+        ],
+        "summary": "Creates a new FormaPagamentoTaxista.",
+        "operationId": "ApiV1FormaPagamentoTaxistaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FormaPagamentoTaxistaSummary",
+            "in": "body",
+            "description": "FormaPagamentoTaxista's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FormaPagamentoTaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/FormaPagamentoTaxista/{id}": {
+      "get": {
+        "tags": [
+          "FormaPagamentoTaxista"
+        ],
+        "summary": "Gets a FormaPagamentoTaxista.\r\n<param name=\"id\">FormaPagamentoTaxista's ID</param>",
+        "operationId": "ApiV1FormaPagamentoTaxistaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[FormaPagamentoTaxistaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "FormaPagamentoTaxista"
+        ],
+        "summary": "Removes an existing FormaPagamentoTaxista.",
+        "operationId": "ApiV1FormaPagamentoTaxistaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Foto": {
+      "get": {
+        "tags": [
+          "Foto"
+        ],
+        "summary": "Gets all Fotos.",
+        "operationId": "ApiV1FotoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[FotoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Foto"
+        ],
+        "summary": "Modifies an existing Foto.",
+        "operationId": "ApiV1FotoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FotoSummary",
+            "in": "body",
+            "description": "Modified Foto list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FotoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Foto"
+        ],
+        "summary": "Creates a new Foto.",
+        "operationId": "ApiV1FotoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FotoSummary",
+            "in": "body",
+            "description": "Foto's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/FotoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Foto/{id}": {
+      "get": {
+        "tags": [
+          "Foto"
+        ],
+        "summary": "Gets a Foto.\r\n<param name=\"id\">Foto's ID</param>",
+        "operationId": "ApiV1FotoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[FotoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Foto"
+        ],
+        "summary": "Removes an existing Foto.",
+        "operationId": "ApiV1FotoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Foto/upload": {
+      "post": {
+        "tags": [
+          "Foto"
+        ],
+        "summary": "Creates a new Foto.",
+        "operationId": "ApiV1FotoUploadPost",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "arquivo",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/GrupoUsuario": {
+      "get": {
+        "tags": [
+          "GrupoUsuario"
+        ],
+        "summary": "Gets all GrupoUsuarios.",
+        "operationId": "ApiV1GrupoUsuarioGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[GrupoUsuarioSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "GrupoUsuario"
+        ],
+        "summary": "Modifies an existing GrupoUsuario.",
+        "operationId": "ApiV1GrupoUsuarioPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "GrupoUsuarioSummary",
+            "in": "body",
+            "description": "Modified GrupoUsuario list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/GrupoUsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "GrupoUsuario"
+        ],
+        "summary": "Creates a new GrupoUsuario.",
+        "operationId": "ApiV1GrupoUsuarioPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "GrupoUsuarioSummary",
+            "in": "body",
+            "description": "GrupoUsuario's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/GrupoUsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/GrupoUsuario/{id}": {
+      "get": {
+        "tags": [
+          "GrupoUsuario"
+        ],
+        "summary": "Gets a GrupoUsuario.\r\n<param name=\"id\">GrupoUsuario's ID</param>",
+        "operationId": "ApiV1GrupoUsuarioByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[GrupoUsuarioSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "GrupoUsuario"
+        ],
+        "summary": "Removes an existing GrupoUsuario.",
+        "operationId": "ApiV1GrupoUsuarioByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Identity/error": {
+      "get": {
+        "tags": [
+          "Identity"
+        ],
+        "operationId": "ApiV1IdentityErrorGet",
+        "consumes": [],
+        "produces": [],
+        "parameters": [
+          {
+            "name": "errorId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Localizacao": {
+      "get": {
+        "tags": [
+          "Localizacao"
+        ],
+        "summary": "Gets all Localizacaos.",
+        "operationId": "ApiV1LocalizacaoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[LocalizacaoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Localizacao"
+        ],
+        "summary": "Modifies an existing Localizacao.",
+        "operationId": "ApiV1LocalizacaoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "LocalizacaoSummary",
+            "in": "body",
+            "description": "Modified Localizacao list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/LocalizacaoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Localizacao"
+        ],
+        "summary": "Creates a new Localizacao.",
+        "operationId": "ApiV1LocalizacaoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "LocalizacaoSummary",
+            "in": "body",
+            "description": "Localizacao's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/LocalizacaoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Localizacao/{id}": {
+      "get": {
+        "tags": [
+          "Localizacao"
+        ],
+        "summary": "Gets a Localizacao.\r\n<param name=\"id\">Localizacao's ID</param>",
+        "operationId": "ApiV1LocalizacaoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[LocalizacaoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Localizacao"
+        ],
+        "summary": "Removes an existing Localizacao.",
+        "operationId": "ApiV1LocalizacaoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Passageiro": {
+      "get": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Gets all Passageiros.",
+        "operationId": "ApiV1PassageiroGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[PassageiroSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Modifies an existing Passageiro.",
+        "operationId": "ApiV1PassageiroPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "passageiroSummary",
+            "in": "body",
+            "description": "Modified Passageiro list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PassageiroSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Creates a new Passageiro.",
+        "operationId": "ApiV1PassageiroPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "passageiroSummary",
+            "in": "body",
+            "description": "Passageiro's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PassageiroSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Passageiro/{id}": {
+      "get": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Gets a Passageiro.\r\n<param name=\"id\">Passageiro's ID</param>",
+        "operationId": "ApiV1PassageiroByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[PassageiroSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Removes an existing Passageiro.",
+        "operationId": "ApiV1PassageiroByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Passageiro/consulta_id_passageiro/{id}": {
+      "get": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Get by IdUser",
+        "operationId": "ApiV1PassageiroConsulta_id_passageiroByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id from passenger",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[PassageiroSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/PontoTaxi": {
+      "get": {
+        "tags": [
+          "PontoTaxi"
+        ],
+        "summary": "Gets all PontoTaxis.",
+        "operationId": "ApiV1PontoTaxiGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[PontoTaxiSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "PontoTaxi"
+        ],
+        "summary": "Modifies an existing PontoTaxi.",
+        "operationId": "ApiV1PontoTaxiPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "pontoTaxiSummary",
+            "in": "body",
+            "description": "Modified PontoTaxi list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PontoTaxiSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "PontoTaxi"
+        ],
+        "summary": "Creates a new PontoTaxi.",
+        "operationId": "ApiV1PontoTaxiPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "pontoTaxiSummary",
+            "in": "body",
+            "description": "PontoTaxi's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/PontoTaxiSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/PontoTaxi/{id}": {
+      "get": {
+        "tags": [
+          "PontoTaxi"
+        ],
+        "summary": "Gets a PontoTaxi.\r\n<param name=\"id\">PontoTaxi's ID</param>",
+        "operationId": "ApiV1PontoTaxiByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[PontoTaxiSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "PontoTaxi"
+        ],
+        "summary": "Removes an existing PontoTaxi.",
+        "operationId": "ApiV1PontoTaxiByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/PontoTaxi/{id}/taxistas": {
+      "get": {
+        "tags": [
+          "PontoTaxi"
+        ],
+        "summary": "Obtém os taxistas do ponto de taxi.\r\n<param name=\"id\">ID do ponto de taxi</param>",
+        "operationId": "ApiV1PontoTaxiByIdTaxistasGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[TaxistaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Rota": {
+      "get": {
+        "tags": [
+          "Rota"
+        ],
+        "summary": "Gets all Rotas.",
+        "operationId": "ApiV1RotaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[RotaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Rota"
+        ],
+        "summary": "Modifies an existing Rota.",
+        "operationId": "ApiV1RotaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "RotaSummary",
+            "in": "body",
+            "description": "Modified Rota list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/RotaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Rota"
+        ],
+        "summary": "Creates a new Rota.",
+        "operationId": "ApiV1RotaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "RotaSummary",
+            "in": "body",
+            "description": "Rota's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/RotaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Rota/{id}": {
+      "get": {
+        "tags": [
+          "Rota"
+        ],
+        "summary": "Gets a Rota.\r\n<param name=\"id\">Rota's ID</param>",
+        "operationId": "ApiV1RotaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[RotaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Rota"
+        ],
+        "summary": "Removes an existing Rota.",
+        "operationId": "ApiV1RotaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/SolicitacaoCorrida": {
+      "get": {
+        "tags": [
+          "SolicitacaoCorrida"
+        ],
+        "summary": "Gets all SolicitacaoCorridas.",
+        "operationId": "ApiV1SolicitacaoCorridaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[SolicitacaoCorridaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "SolicitacaoCorrida"
+        ],
+        "summary": "Modifies an existing SolicitacaoCorrida.",
+        "operationId": "ApiV1SolicitacaoCorridaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "SolicitacaoCorridaSummary",
+            "in": "body",
+            "description": "Modified SolicitacaoCorrida list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/SolicitacaoCorridaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "SolicitacaoCorrida"
+        ],
+        "summary": "Creates a new SolicitacaoCorrida.",
+        "operationId": "ApiV1SolicitacaoCorridaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "SolicitacaoCorridaSummary",
+            "in": "body",
+            "description": "SolicitacaoCorrida's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/SolicitacaoCorridaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/SolicitacaoCorrida/{id}": {
+      "get": {
+        "tags": [
+          "SolicitacaoCorrida"
+        ],
+        "summary": "Gets a SolicitacaoCorrida.\r\n<param name=\"id\">SolicitacaoCorrida's ID</param>",
+        "operationId": "ApiV1SolicitacaoCorridaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[SolicitacaoCorridaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "SolicitacaoCorrida"
+        ],
+        "summary": "Removes an existing SolicitacaoCorrida.",
+        "operationId": "ApiV1SolicitacaoCorridaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Tarifa": {
+      "get": {
+        "tags": [
+          "Tarifa"
+        ],
+        "summary": "Gets all Tarifas.",
+        "operationId": "ApiV1TarifaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[TarifaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Tarifa"
+        ],
+        "summary": "Modifies an existing Tarifa.",
+        "operationId": "ApiV1TarifaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "TarifaSummary",
+            "in": "body",
+            "description": "Modified Tarifa list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TarifaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Tarifa"
+        ],
+        "summary": "Creates a new Tarifa.",
+        "operationId": "ApiV1TarifaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "TarifaSummary",
+            "in": "body",
+            "description": "Tarifa's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TarifaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Tarifa/GetValorKmRodadoAtual": {
+      "get": {
+        "tags": [
+          "Tarifa"
+        ],
+        "summary": "Return de tax of the ride to current Time",
+        "operationId": "ApiV1TarifaGetValorKmRodadoAtualGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "kilometers",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Decimal]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Tarifa/{id}": {
+      "get": {
+        "tags": [
+          "Tarifa"
+        ],
+        "summary": "Gets a Tarifa.\r\n<param name=\"id\">Tarifa's ID</param>",
+        "operationId": "ApiV1TarifaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[TarifaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Tarifa"
+        ],
+        "summary": "Removes an existing Tarifa.",
+        "operationId": "ApiV1TarifaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Taxista": {
+      "get": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Gets all Taxistas.",
+        "operationId": "ApiV1TaxistaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[TaxistaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Modifies an existing Taxista.",
+        "operationId": "ApiV1TaxistaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "taxistaSummary",
+            "in": "body",
+            "description": "Modified Taxista list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Creates a new Taxista.",
+        "operationId": "ApiV1TaxistaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "taxistaSummary",
+            "in": "body",
+            "description": "Taxista's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/TaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Taxista/{id}": {
+      "get": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Gets a Taxista.\r\n<param name=\"id\">Taxista's ID</param>",
+        "operationId": "ApiV1TaxistaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[TaxistaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Removes an existing Taxista.",
+        "operationId": "ApiV1TaxistaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Taxista/consulta_id_taxista/{id}": {
+      "get": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Get by IdUser",
+        "operationId": "ApiV1TaxistaConsulta_id_taxistaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id from taxist",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[TaxistaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Taxista/{id}/veiculos": {
+      "get": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Obtém os veículos associados a um taxista.",
+        "operationId": "ApiV1TaxistaByIdVeiculosGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do taxista",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[VeiculoTaxistaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Gets all Usuarios.",
+        "operationId": "ApiV1UsuarioGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[UsuarioSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Modifies an existing Usuario.",
+        "operationId": "ApiV1UsuarioPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "UsuarioSummary",
+            "in": "body",
+            "description": "Modified Usuario list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Creates a new Usuario.",
+        "operationId": "ApiV1UsuarioPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "UsuarioSummary",
+            "in": "body",
+            "description": "Usuario's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario/{id}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Gets a Usuario.\r\n<param name=\"id\">Usuario's ID</param>",
+        "operationId": "ApiV1UsuarioByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[UsuarioSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Removes an existing Usuario.",
+        "operationId": "ApiV1UsuarioByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario/altera_credenciais/{id}": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Altera credenciais do usuario.",
+        "operationId": "ApiV1UsuarioAltera_credenciaisByIdPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "credenciais",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/CredenciaisUsuario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario/bloquear/{id}": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Bloqueia/desbloqueia um usuario.",
+        "operationId": "ApiV1UsuarioBloquearByIdPost",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "bloquear",
+            "in": "query",
+            "description": "Indica se o usuário será ou não bloqueado",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/UsuarioGrupoUsuario": {
+      "get": {
+        "tags": [
+          "UsuarioGrupoUsuario"
+        ],
+        "summary": "Gets all UsuarioGrupoUsuarios.",
+        "operationId": "ApiV1UsuarioGrupoUsuarioGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[UsuarioGrupoUsuarioSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "UsuarioGrupoUsuario"
+        ],
+        "summary": "Modifies an existing UsuarioGrupoUsuario.",
+        "operationId": "ApiV1UsuarioGrupoUsuarioPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "UsuarioGrupoUsuarioSummary",
+            "in": "body",
+            "description": "Modified UsuarioGrupoUsuario list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UsuarioGrupoUsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "UsuarioGrupoUsuario"
+        ],
+        "summary": "Creates a new UsuarioGrupoUsuario.",
+        "operationId": "ApiV1UsuarioGrupoUsuarioPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "UsuarioGrupoUsuarioSummary",
+            "in": "body",
+            "description": "UsuarioGrupoUsuario's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UsuarioGrupoUsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/UsuarioGrupoUsuario/{id}": {
+      "get": {
+        "tags": [
+          "UsuarioGrupoUsuario"
+        ],
+        "summary": "Gets a UsuarioGrupoUsuario.\r\n<param name=\"id\">UsuarioGrupoUsuario's ID</param>",
+        "operationId": "ApiV1UsuarioGrupoUsuarioByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[UsuarioGrupoUsuarioSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "UsuarioGrupoUsuario"
+        ],
+        "summary": "Removes an existing UsuarioGrupoUsuario.",
+        "operationId": "ApiV1UsuarioGrupoUsuarioByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Veiculo": {
+      "get": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Gets all Veiculos.",
+        "operationId": "ApiV1VeiculoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[VeiculoSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Modifies an existing Veiculo.",
+        "operationId": "ApiV1VeiculoPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "VeiculoSummary",
+            "in": "body",
+            "description": "Modified Veiculo list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/VeiculoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Creates a new Veiculo.",
+        "operationId": "ApiV1VeiculoPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "VeiculoSummary",
+            "in": "body",
+            "description": "Veiculo's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/VeiculoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Veiculo/{id}": {
+      "get": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Gets a Veiculo.\r\n<param name=\"id\">Veiculo's ID</param>",
+        "operationId": "ApiV1VeiculoByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[VeiculoSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Removes an existing Veiculo.",
+        "operationId": "ApiV1VeiculoByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Veiculo/marcas": {
+      "get": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Obtém marcas de veículos.",
+        "operationId": "ApiV1VeiculoMarcasGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[MarcaVeiculo]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Veiculo/modelos/{codigo_marca}": {
+      "get": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Obtém os modelos de uma marca de veículo.",
+        "operationId": "ApiV1VeiculoModelosByCodigo_marcaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "codigo_marca",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[ModeloVeiculo]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Veiculo/anos_versoes/{codigo_modelo}": {
+      "get": {
+        "tags": [
+          "Veiculo"
+        ],
+        "summary": "Obtém os anos de fabricação e versões (combustível) de um modelo de veículo.",
+        "operationId": "ApiV1VeiculoAnos_versoesByCodigo_modeloGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "codigo_marca",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "codigo_modelo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[AnoVersao]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/VeiculoTaxista": {
+      "get": {
+        "tags": [
+          "VeiculoTaxista"
+        ],
+        "summary": "Gets all VeiculoTaxistas.",
+        "operationId": "ApiV1VeiculoTaxistaGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[VeiculoTaxistaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "VeiculoTaxista"
+        ],
+        "summary": "Modifies an existing VeiculoTaxista.",
+        "operationId": "ApiV1VeiculoTaxistaPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "VeiculoTaxistaSummary",
+            "in": "body",
+            "description": "Modified VeiculoTaxista list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/VeiculoTaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "VeiculoTaxista"
+        ],
+        "summary": "Creates a new VeiculoTaxista.",
+        "operationId": "ApiV1VeiculoTaxistaPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "VeiculoTaxistaSummary",
+            "in": "body",
+            "description": "VeiculoTaxista's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/VeiculoTaxistaSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/VeiculoTaxista/{id}": {
+      "get": {
+        "tags": [
+          "VeiculoTaxista"
+        ],
+        "summary": "Gets a VeiculoTaxista.\r\n<param name=\"id\">VeiculoTaxista's ID</param>",
+        "operationId": "ApiV1VeiculoTaxistaByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[VeiculoTaxistaSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "VeiculoTaxista"
+        ],
+        "summary": "Removes an existing VeiculoTaxista.",
+        "operationId": "ApiV1VeiculoTaxistaByIdDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Response[IEnumerable[CorridaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CorridaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "CorridaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idSolicitacao": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idTaxista": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idVeiculo": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idRotaExecutada": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idTarifa": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "inicio": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "fim": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "avaliacaoTaxista": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "type": "integer"
+        },
+        "avaliacaoPassageiro": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "type": "integer"
+        },
+        "tempoEmEspera": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Notification": {
+      "type": "object",
+      "properties": {
+        "property": {
+          "type": "string",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Response[Guid]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "format": "uuid",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "string"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[Boolean]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "boolean"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[CorridaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/CorridaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[CorVeiculoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CorVeiculoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "CorVeiculoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[CorVeiculoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/CorVeiculoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[EnderecoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnderecoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "EnderecoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "cep": {
+          "type": "string"
+        },
+        "logradouro": {
+          "type": "string"
+        },
+        "numero": {
+          "type": "string"
+        },
+        "complemento": {
+          "type": "string"
+        },
+        "bairro": {
+          "type": "string"
+        },
+        "localidade": {
+          "type": "string"
+        },
+        "uf": {
+          "type": "string"
+        },
+        "idLocalizacao": {
+          "format": "uuid",
+          "type": "string"
+        }
+      }
+    },
+    "Response[EnderecoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/EnderecoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[FaixaDescontoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FaixaDescontoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "FaixaDescontoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "valor": {
+          "format": "float",
+          "type": "number"
+        },
+        "descricao": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[FaixaDescontoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FaixaDescontoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[FaixaDescontoTaxistaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FaixaDescontoTaxistaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "FaixaDescontoTaxistaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idFaixaDesconto": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idTaxista": {
+          "format": "uuid",
+          "type": "string"
+        }
+      }
+    },
+    "Response[FaixaDescontoTaxistaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FaixaDescontoTaxistaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[FavoritoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FavoritoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "FavoritoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idPassageiro": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idTaxista": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "preferencia": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Response[FavoritoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FavoritoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[FormaPagamentoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FormaPagamentoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "FormaPagamentoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "descricao": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[FormaPagamentoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FormaPagamentoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[FormaPagamentoTaxistaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FormaPagamentoTaxistaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "FormaPagamentoTaxistaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idFormaPagamento": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idTaxista": {
+          "format": "uuid",
+          "type": "string"
+        }
+      }
+    },
+    "Response[FormaPagamentoTaxistaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FormaPagamentoTaxistaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[FotoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FotoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "FotoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "nomeArquivo": {
+          "type": "string"
+        },
+        "dados": {
+          "format": "byte",
+          "type": "string"
+        }
+      }
+    },
+    "Response[FotoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/FotoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "IFormFile": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "readOnly": true
+        },
+        "contentDisposition": {
+          "type": "string",
+          "readOnly": true
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "readOnly": true
+        },
+        "length": {
+          "format": "int64",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "fileName": {
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Response[IEnumerable[GrupoUsuarioSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GrupoUsuarioSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "GrupoUsuarioSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "descricao": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[GrupoUsuarioSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/GrupoUsuarioSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[LocalizacaoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocalizacaoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "LocalizacaoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "endereco": {
+          "type": "string"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "nomePublico": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[LocalizacaoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/LocalizacaoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[PassageiroSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PassageiroSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "PassageiroSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "ativo": {
+          "type": "boolean"
+        },
+        "idFoto": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idLocalizacaoAtual": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "endereco": {
+          "$ref": "#/definitions/EnderecoSummary"
+        },
+        "usuario": {
+          "$ref": "#/definitions/UsuarioSummary"
+        }
+      }
+    },
+    "UsuarioSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "cpf": {
+          "type": "string"
+        },
+        "rg": {
+          "type": "string"
+        },
+        "telefone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "credenciais": {
+          "$ref": "#/definitions/CredenciaisUsuario"
+        }
+      }
+    },
+    "CredenciaisUsuario": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "senhaAnterior": {
+          "type": "string"
+        },
+        "senha": {
+          "type": "string"
+        },
+        "confirmarSenha": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[PassageiroSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/PassageiroSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[PontoTaxiSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PontoTaxiSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "PontoTaxiSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "endereco": {
+          "$ref": "#/definitions/EnderecoSummary"
+        }
+      }
+    },
+    "Response[PontoTaxiSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/PontoTaxiSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[TaxistaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TaxistaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "TaxistaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "ativo": {
+          "type": "boolean"
+        },
+        "idLocalizacaoAtual": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idPontoTaxi": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "usuario": {
+          "$ref": "#/definitions/UsuarioSummary"
+        },
+        "endereco": {
+          "$ref": "#/definitions/EnderecoSummary"
+        },
+        "foto": {
+          "$ref": "#/definitions/FotoSummary"
+        }
+      }
+    },
+    "Response[IEnumerable[RotaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RotaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "RotaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        }
+      }
+    },
+    "Response[RotaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/RotaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[SolicitacaoCorridaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SolicitacaoCorridaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "SolicitacaoCorridaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idPassageiro": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idLocalizacaoOrigem": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idLocalizacaoDestino": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idRota": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idFormaPagamento": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idFaixaDesconto": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "tipoAtendimento": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "integer"
+        },
+        "data": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "eta": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "tempoDisponivel": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "valorEstimado": {
+          "format": "float",
+          "type": "number"
+        },
+        "valorProposto": {
+          "format": "float",
+          "type": "number"
+        },
+        "situacao": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[SolicitacaoCorridaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/SolicitacaoCorridaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[TarifaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TarifaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "TarifaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "bandeirada": {
+          "format": "float",
+          "type": "number"
+        },
+        "kmRodadoBandeira1": {
+          "format": "float",
+          "type": "number"
+        },
+        "kmRodadoBandeira2": {
+          "format": "float",
+          "type": "number"
+        },
+        "horaParada": {
+          "format": "float",
+          "type": "number"
+        }
+      }
+    },
+    "Response[Decimal]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "format": "double",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "number"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[TarifaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/TarifaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[TaxistaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/TaxistaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[VeiculoTaxistaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VeiculoTaxistaSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "VeiculoTaxistaSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idVeiculo": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idTaxista": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "ativo": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Response[IEnumerable[UsuarioSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UsuarioSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[UsuarioSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/UsuarioSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[UsuarioGrupoUsuarioSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UsuarioGrupoUsuarioSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "UsuarioGrupoUsuarioSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idUsuario": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idGrupoUsuario": {
+          "format": "uuid",
+          "type": "string"
+        }
+      }
+    },
+    "Response[UsuarioGrupoUsuarioSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/UsuarioGrupoUsuarioSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[VeiculoSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VeiculoSummary"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "VeiculoSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "placa": {
+          "type": "string"
+        },
+        "marca": {
+          "type": "string"
+        },
+        "modelo": {
+          "type": "string"
+        },
+        "ano": {
+          "type": "string"
+        },
+        "versao": {
+          "type": "string"
+        },
+        "idFoto": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "idCorVeiculo": {
+          "format": "uuid",
+          "type": "string"
+        }
+      }
+    },
+    "Response[VeiculoSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/VeiculoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IEnumerable[MarcaVeiculo]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MarcaVeiculo"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "MarcaVeiculo": {
+      "type": "object",
+      "properties": {
+        "codigo": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[IEnumerable[ModeloVeiculo]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModeloVeiculo"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "ModeloVeiculo": {
+      "type": "object",
+      "properties": {
+        "codigo": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[IEnumerable[AnoVersao]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AnoVersao"
+          }
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "AnoVersao": {
+      "type": "object",
+      "properties": {
+        "codigo": {
+          "type": "string"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "ano": {
+          "type": "string"
+        },
+        "versao": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[VeiculoTaxistaSummary]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/VeiculoTaxistaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "oauth2": {
+      "flow": "implicit",
+      "authorizationUrl": "https://auth.todetaxi.com.br/connect/authorize",
+      "scopes": {
+        "todetaxiapi": "TOdeTaxiAPI"
+      },
+      "type": "oauth2"
+    }
+  }
+}

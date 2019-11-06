@@ -1,9 +1,11 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController,  ViewController, ModalController, AlertController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController,  ViewController, ModalController, AlertController, NavParams, Platform } from 'ionic-angular';
 import { global } from '../../providers/global';
 import { AuthGuard } from '../../auth/auth.guard';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
-
+import { MouseEvent, MapsAPILoader, } from '@agm/core';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AppServiceProvider } from '../../providers/app-service/app-service';
 declare var google;
 
 @IonicPage()
@@ -12,27 +14,57 @@ declare var google;
   templateUrl: 'home.html',
 })
 export class Home {
-  @ViewChild('map', {static: false}) mapElement: ElementRef;
-  map: any;
+  // @ViewChild('map', {static: false}) mapElement: ElementRef;
+  // map: any;
   start = 'Hospital Philadelfia - Avenida Doutor Júlio Rodrigues - Marajoara, Teófilo Otoni - MG';
   end = 'Sebrae Minas - Avenida Francisco Sá - Centro, Teófilo Otoni - MG';
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
   showDetails;
-  constructor(public navCtrl: NavController, private oauthService: OAuthService, public viewCtrl: ViewController, public modalCtrl: ModalController, public alertCtrl: AlertController, public global: global) {
+  zoom = 15;
+
+  public lat: number;
+  public lng: number;
+
+  constructor(public navCtrl: NavController,
+    private oauthService: OAuthService,
+    public viewCtrl: ViewController,
+    public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
+    public global: global,
+    private mapsAPILoader: MapsAPILoader,
+    public geolocation: Geolocation,
+    private platform: Platform,
+    private serviceProvider: AppServiceProvider) {
     
   }
 
-  ionViewDidLoad(){
-    this.initMap();
+  async ionViewDidLoad(){
+    await this.initMap();
   }
-  initMap() {
-    this.map = new google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 15,
-      center: {lat: -17.8663175, lng: -41.5115479}
-    });
+  async initMap() {
+    await this.platform.ready().then(() => {
+      //use the geolocation 
+      this.geolocation.getCurrentPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: true }).then(resp => {
+          const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+          const mapOptions = {
+            center: latLng,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          this.lat = resp.coords.latitude;
+          this.lng = resp.coords.longitude;
+          this.serviceProvider.originlatitude = this.lat;
+          this.serviceProvider.originlongititude = this.lng;
+          this.serviceProvider.directionlat = this.lat;
+          this.serviceProvider.directionlng = this.lng;
 
-    this.directionsDisplay.setMap(this.map);
+          //loader.dismiss();
+      }).catch((error) => {
+        //loader.dismiss();
+        //this.getCurrentLocation();
+      });
+    });
   }
 
   ionViewCanEnter(){

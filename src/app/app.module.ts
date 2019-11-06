@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { MyApp } from './app.component';
-
+import { AgmCoreModule } from '@agm/core';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
@@ -12,6 +12,11 @@ import { OAuthService } from '../../auth-oidc/src/oauth-service';
 import { OAuthModule } from '../../auth-oidc/src/angular-oauth-oidic.module';
 import { HttpClientModule } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { AgmDirectionModule } from 'agm-direction';
+import { AppServiceProvider } from '../providers/app-service/app-service';
+import { ApiModule } from '../core/api/to_de_taxi/api.module';
+
+const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
 
 var config = {
   backButtonText: '',
@@ -26,10 +31,21 @@ var config = {
     MyApp,
   ],
   imports: [
+    ApiModule.forRoot({rootUrl: toDeTaxiAPIBaseURL}),
     BrowserModule,
     IonicModule.forRoot(MyApp,config),
     HttpClientModule,
-    OAuthModule.forRoot(),
+    OAuthModule.forRoot({
+			resourceServer: {
+				allowedUrls: ['https://api.todetaxi.com.br'],
+				sendAccessToken: true
+			}
+		}),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAP_Xy-1QSclKYAvxSmAZO2BuFAWWAlOZQ',
+      libraries: ['places', 'geometry']
+    }),
+    AgmDirectionModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -43,7 +59,9 @@ var config = {
     InAppBrowser,
     OAuthService,
     global,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    Geolocation,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AppServiceProvider,
   ]
 })
 export class AppModule {}

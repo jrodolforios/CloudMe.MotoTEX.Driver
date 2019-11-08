@@ -42,6 +42,14 @@ export class Home {
   async ionViewDidLoad(){
     await this.initMap();
   }
+
+  getProfilePhoto(){
+    if(this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.foto)
+    return atob(this.serviceProvider.taxistaLogado.foto.dados);
+    else
+    return 'assets/img/user.png';
+  }
+
   async initMap() {
     await this.platform.ready().then(() => {
       //use the geolocation 

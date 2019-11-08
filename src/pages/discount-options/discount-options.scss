@@ -1,0 +1,25 @@
+page-discount-options {
+    .configText{
+        padding-top: 30px;
+        padding-left: 10px;
+    }
+
+    .iconPayment{
+        font-size: 30px;
+        color: green;
+    }
+    
+    ion-segment{
+        background-color: green;
+        .segment-button{
+            color: white !important;
+            background-color: green;
+            opacity: 1 !important;
+            /*font-weight: bold;*/
+            font-size: 1.5rem !important;
+            border-bottom-width: 3px;
+            border-bottom-color: transparent;
+        }
+    }
+}
+

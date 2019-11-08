@@ -2,7 +2,7 @@
   <ion-navbar color="primary" hideBackButton="true">
     <ion-buttons style="order:1;" start>
       <button class="user-img-btn" [navPush]="'Profile'" ion-button icon-only>
-        <img src="assets/img/user.png">
+        <img [src]="getProfilePhoto()">
       </button>
     </ion-buttons>
     <ion-title text-capitalize>TÔdeTAXI</ion-title>

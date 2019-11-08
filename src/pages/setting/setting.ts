@@ -27,24 +27,18 @@ export class Setting {
 
   presentEmergency() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Contatos de emergência',
+      title: 'Configurações Financeiras',
       buttons: [
         {
-          text: 'Motorista',
+          text: 'Formas de pagamento',
           role: 'Driver',
           handler: () => {
-            console.log('Driver clicked');
+            this.navCtrl.push("PaymentChooserPage");
           }
         },{
-          text: 'Suporte técnico',
+          text: 'Faixas de desconto',
           handler: () => {
-            console.log('Technical clicked');
-          }
-        },{
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
+            this.navCtrl.push("DiscountOptionsPage");
           }
         }
       ]

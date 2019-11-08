@@ -24,6 +24,9 @@ export class Setting {
     authGuard.canActivate();
   }
 
+  alterarSenha(){
+    this.navCtrl.push("ChangePasswordPage");
+  }
 
   presentEmergency() {
     let actionSheet = this.actionSheetCtrl.create({

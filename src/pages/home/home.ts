@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController,  ViewController, ModalController, AlertController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, ModalController, AlertController, NavParams, Platform } from 'ionic-angular';
 import { global } from '../../providers/global';
 import { AuthGuard } from '../../auth/auth.guard';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
@@ -36,38 +36,42 @@ export class Home {
     public geolocation: Geolocation,
     private platform: Platform,
     private serviceProvider: AppServiceProvider) {
-    
+
   }
 
-  async ionViewDidLoad(){
+  async ionViewDidLoad() {
     await this.initMap();
   }
 
-  getProfilePhoto(){
-    if(this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.foto)
-    return atob(this.serviceProvider.taxistaLogado.foto.dados);
-    else
-    return 'assets/img/user.png';
+  getProfilePhoto() {
+    try {
+      if (this.serviceProvider && this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.foto)
+        return atob(this.serviceProvider.taxistaLogado.foto.dados);
+      else
+        return 'assets/img/user.png';
+    } catch (e) {
+      return 'assets/img/user.png';
+    }
   }
 
   async initMap() {
     await this.platform.ready().then(() => {
       //use the geolocation 
       this.geolocation.getCurrentPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: true }).then(resp => {
-          const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-          const mapOptions = {
-            center: latLng,
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-          };
-          this.lat = resp.coords.latitude;
-          this.lng = resp.coords.longitude;
-          this.serviceProvider.originlatitude = this.lat;
-          this.serviceProvider.originlongititude = this.lng;
-          this.serviceProvider.directionlat = this.lat;
-          this.serviceProvider.directionlng = this.lng;
+        const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+        const mapOptions = {
+          center: latLng,
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        this.lat = resp.coords.latitude;
+        this.lng = resp.coords.longitude;
+        this.serviceProvider.originlatitude = this.lat;
+        this.serviceProvider.originlongititude = this.lng;
+        this.serviceProvider.directionlat = this.lat;
+        this.serviceProvider.directionlng = this.lng;
 
-          //loader.dismiss();
+        //loader.dismiss();
       }).catch((error) => {
         //loader.dismiss();
         //this.getCurrentLocation();
@@ -75,7 +79,7 @@ export class Home {
     });
   }
 
-  ionViewCanEnter(){
+  ionViewCanEnter() {
     var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService)
 
     authGuard.canActivate();
@@ -96,31 +100,31 @@ export class Home {
   }
 
 
-//show details of trip
-    activeTrip(){
-      this.showDetails = !this.showDetails;
-    }
+  //show details of trip
+  activeTrip() {
+    this.showDetails = !this.showDetails;
+  }
 
-//present destination trip
-    presentDestinationModal() {
-      let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
-      DestinationModal.present();
-      
-    }
+  //present destination trip
+  presentDestinationModal() {
+    let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
+    DestinationModal.present();
 
-//present message
-    presentMessageModal() {
-      let MessageModal = this.modalCtrl.create('MessageModal');
-      MessageModal.present();
-    } 
+  }
 
-// cancle trip
+  //present message
+  presentMessageModal() {
+    let MessageModal = this.modalCtrl.create('MessageModal');
+    MessageModal.present();
+  }
+
+  // cancle trip
   cancelAlert() {
     let alert = this.alertCtrl.create({
       subTitle: 'Are you sure you want to cancel this trip?',
-      buttons: ['No' , 'Yes']
+      buttons: ['No', 'Yes']
     });
     alert.present();
-  }       
-  
+  }
+
 }

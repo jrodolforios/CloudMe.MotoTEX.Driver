@@ -8,11 +8,8 @@
 
 <ion-content class="app-content">
 
-  <ion-item-group class="setting-list" margin-bottom>
-    <ion-item class="change-setting" no-padding>
-      <ion-label stacked>Alterar senha</ion-label>
-      <ion-input type="password" placeholder="*************"></ion-input>
-    </ion-item>
+  <ion-item-group class="setting-list" (click)="alterarSenha()"  margin-bottom>
+    <ion-item class="change-setting" no-padding>Alterar senha</ion-item>
 
     <!--<ion-item mode="md" no-padding>
       <ion-label>

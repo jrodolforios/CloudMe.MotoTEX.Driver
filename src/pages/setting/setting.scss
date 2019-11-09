@@ -2,6 +2,12 @@ page-setting{
     .scroll-content{
         padding-top: 20px !important;
     }
+    .cancelRed{
+        color: red;
+    }
+    .checkGreen{
+        color:green
+    }
 }
 
 .setting-list{
@@ -16,16 +22,7 @@ page-setting{
             margin-top: 3px;
         }
     }
-    // .checkbox-md{
-    //     margin-bottom: 16px !important; 
-    //     .checkbox-icon{
-    //         background-color: transparent;
-    //     }
-    //     .checkbox-checked{
-    //         background-color: color($colors , secondary);
-    //         border-color: color($colors , secondary);
-    //     }
-    // }
+
     input::-webkit-input-placeholder {
         color: color($colors,dark) !important;
     }

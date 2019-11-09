@@ -28,10 +28,10 @@
 
 
 <ion-content class="app-content">
-    <agm-map #map id="map" data-tap-disabled="true" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="true" [zoomControl]="false"
-    [fullscreenControl]="false" [streetViewControl]="false">
-    <agm-marker [latitude]="lat" iconUrl="/assets/img/grabpin.png" [longitude]="lng" [markerDraggable]="false" 
-      [animation]="'DROP'" >
+  <agm-map #map id="map" data-tap-disabled="true" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
+    [disableDefaultUI]="true" [zoomControl]="false" [fullscreenControl]="false" [streetViewControl]="false">
+    <agm-marker [latitude]="lat" iconUrl="/assets/img/grabpin.png" [longitude]="lng" [markerDraggable]="false"
+      [animation]="'DROP'">
       <agm-info-window>
         <strong>Você está aqui </strong>
       </agm-info-window>
@@ -48,58 +48,67 @@
   <ion-toolbar color="primary">
 
     <div class="Trip-det" *ngIf="!global.accept">
-        <ion-fab top center class="animated infinite shake" *ngIf="!showDetails">
-          <button (click)="activeTrip()" ion-fab color="danger">
-            <ion-icon name="md-disc" color="light"></ion-icon>
-          </button>
-        </ion-fab>
-        <ion-fab top center *ngIf="showDetails">
-          <button (click)="presentDestinationModal()" ion-fab color="secondary">
-            <ion-icon name="md-checkmark" color="light"></ion-icon>
-          </button>
-        </ion-fab>
-        <div *ngIf="showDetails">
-          <ion-grid class="trip-detail">
-            <ion-row>
-              <ion-col col-6>
-                <h4>Passageiros</h4>
-                <ion-item no-padding no-lines>
-                  <ion-icon name="md-people" color="secondary" item-start></ion-icon>
-                  <div class="no-person">2</div>
-                </ion-item>
-              </ion-col>
-              <ion-col style="direction: rtl" col-6>
-                <h4>Forma de pagamento</h4>
-                <ion-item no-padding no-lines>
-                  <ion-icon name="md-card" color="secondary" item-start></ion-icon>
-                  Dinheiro
-                </ion-item>
-              </ion-col>
-            </ion-row>
+      <ion-fab top center class="animated infinite shake" *ngIf="!showDetails">
+        <button (click)="activeTrip()" ion-fab color="danger">
+          <ion-icon name="md-disc" color="light"></ion-icon>
+        </button>
+      </ion-fab>
+      <ion-fab twice top center *ngIf="showDetails">
+        <ion-row>
+          <ion-col col-6>
+            <button (click)="presentDestinationModal()" ion-fab color="secondary">
+              <ion-icon name="md-checkmark" color="light"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col col-6>
+            <button (click)="presentDestinationModal()" ion-fab color="danger">
+              <ion-icon name="md-trash" color="light"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-fab>
+      <div *ngIf="showDetails">
+        <ion-grid class="trip-detail">
+          <ion-row>
+            <ion-col col-6>
+              <h4>Passageiros</h4>
+              <ion-item no-padding no-lines>
+                <ion-icon name="md-people" color="secondary" item-start></ion-icon>
+                <div class="no-person">2</div>
+              </ion-item>
+            </ion-col>
+            <ion-col style="direction: rtl" col-6>
+              <h4>Forma de pagamento</h4>
+              <ion-item no-padding no-lines>
+                <ion-icon name="md-card" color="secondary" item-start></ion-icon>
+                Dinheiro
+              </ion-item>
+            </ion-col>
+          </ion-row>
 
-            <ion-row text-center>
-              <ion-col col-4>
-                <h4 no-margin>Distância da viagem</h4>
-                <h3>1 Km</h3>
-              </ion-col>
-              <ion-col class="mid-col" col-4>
-                <h4 no-margin>Tempo</h4>
-                <h3>0:05min</h3>
-              </ion-col>
-              <ion-col col-4>
-                <h4 no-margin>Valor aproximado </h4>
-                <h3>R$ 15,00</h3>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </div>
+          <ion-row text-center>
+            <ion-col col-4>
+              <h4 no-margin>Distância da viagem</h4>
+              <h3>1 Km</h3>
+            </ion-col>
+            <ion-col class="mid-col" col-4>
+              <h4 no-margin>Tempo</h4>
+              <h3>0:05min</h3>
+            </ion-col>
+            <ion-col col-4>
+              <h4 no-margin>Valor aproximado </h4>
+              <h3>R$ 15,00</h3>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </div>
 
-    
+
     <div *ngIf="global.accept" class="accept-trip" text-center>
       <p>10 min to arrive</p>
     </div>
-    
+
   </ion-toolbar>
 
   <div class="accept-trip" *ngIf="global.accept">

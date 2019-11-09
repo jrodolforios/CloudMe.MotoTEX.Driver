@@ -5,6 +5,8 @@ import 'intl-tel-input';
 import { AuthGuard } from '../../auth/auth.guard';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
+import { CorridaService, LocalizacaoService, SolicitacaoCorridaService, FormaPagamentoService } from '../../core/api/to_de_taxi/services';
+import { CorridaSummary, SolicitacaoCorridaSummary } from '../../core/api/to_de_taxi/models';
 @IonicPage()
 @Component({
   selector: 'page-profile',
@@ -13,8 +15,8 @@ import { AppServiceProvider } from '../../providers/app-service/app-service';
 export class Profile {
 
   tabs = "Histórico";
-  history: Array<any>;
-  notification: Array<any>;
+  history: Array<any> = [];
+  notification: Array<any> = [];
   notify: Array<any>;
   headerbg: any;
   darkHeader: any;
@@ -26,16 +28,15 @@ export class Profile {
   public fotoPerfil: string = 'assets/img/user-img.png';
 
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public renderer: Renderer, private oauthService: OAuthService, public serviceProvider: AppServiceProvider) {
-    this.history = [{ from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15:30hrs', cash: 'R$ 50,13' }, { from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15h30', cash: 'R$ 50,13' }]
-
-    this.notify = [{ from: '243 Joanie Pine', to: '8753 Mauricio Walks', date: 'Hoje às 15:00hrs' }]
-    if (serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.usuario) {
-      this.nome = serviceProvider.taxistaLogado.usuario.nome;
-      this.email = serviceProvider.taxistaLogado.usuario.email;
-      this.telefone = serviceProvider.taxistaLogado.usuario.telefone;
-      this.fotoPerfil = atob(serviceProvider.taxistaLogado.foto.dados);
-    }
+  constructor(public navCtrl: NavController,
+    public viewCtrl: ViewController,
+    public renderer: Renderer,
+    private oauthService: OAuthService,
+    public serviceProvider: AppServiceProvider,
+    private corridaService: CorridaService,
+    private solicitacaoCorridaService: SolicitacaoCorridaService,
+    public localizacaoService: LocalizacaoService,
+    public formaPagamentoService: FormaPagamentoService) {
   }
 
 
@@ -57,9 +58,76 @@ export class Profile {
 
 
   //scroll header function
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     var lengthHeader = document.getElementsByClassName("toolbar-md").length - 1;
     this.headerbg = document.getElementsByClassName("toolbar-md")[lengthHeader];
+
+
+    if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.usuario) {
+      this.nome = this.serviceProvider.taxistaLogado.usuario.nome;
+      this.email = this.serviceProvider.taxistaLogado.usuario.email;
+      this.telefone = this.serviceProvider.taxistaLogado.usuario.telefone;
+      this.fotoPerfil = atob(this.serviceProvider.taxistaLogado.foto.dados);
+
+      await this.corridaService.ApiV1CorridaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise()
+        .then(async x => {
+          if (x.success) {
+            var corridas = x.data
+            this.notify = [];
+            this.history = [];
+            await corridas.forEach(async y => {
+              if (y.status == 6 || y.status == 5 || y.status == 1) {
+                var solicitacaoCorrida: SolicitacaoCorridaSummary
+                await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(y.idSolicitacao).toPromise()
+                  .then(z => {
+                    if (z.success)
+                      solicitacaoCorrida = z.data
+                  });
+
+                var origem: string = '';
+                await this.localizacaoService.ApiV1LocalizacaoByIdGet(solicitacaoCorrida.idLocalizacaoOrigem).toPromise()
+                  .then(z => {
+                    if (z.success)
+                      origem = z.data.nomePublico;
+                  });
+
+                var destino: string = '';
+                await this.localizacaoService.ApiV1LocalizacaoByIdGet(solicitacaoCorrida.idLocalizacaoDestino).toPromise()
+                  .then(z => {
+                    if (z.success)
+                      destino = z.data.nomePublico;
+                  });
+
+                var formaPagamento: string = '';
+                await this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(solicitacaoCorrida.idFormaPagamento).toPromise()
+                  .then(z => {
+                    if (z.success)
+                      formaPagamento = z.data.descricao;
+                  })
+
+                if (y.status == 1) { //Agendada
+                  this.notify.push({
+                    origem: origem,
+                    destino: destino,
+                    data: this.serviceProvider.formatData(new Date(solicitacaoCorrida.data)),
+                    valor: 'R$' + solicitacaoCorrida.valorEstimado.toFixed(2),
+                    formaPagamento: formaPagamento
+                  });
+                }
+                else if (y.status == 6 || y.status == 5) {
+                  this.history.push({
+                    origem: origem,
+                    destino: destino,
+                    data: this.serviceProvider.formatData(new Date(solicitacaoCorrida.data)),
+                    valor: 'R$' + solicitacaoCorrida.valorEstimado.toFixed(2),
+                    formaPagamento: formaPagamento
+                  })
+                }
+              }
+            });
+          }
+        });
+    }
   }
 
   scrollingFun(ev) {

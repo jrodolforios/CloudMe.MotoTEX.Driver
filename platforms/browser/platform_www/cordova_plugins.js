@@ -64,6 +64,31 @@ module.exports = [
         "clobbers": [
             "Ionic.WebView"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-vibration/src/browser/Vibration.js",
+        "id": "cordova-plugin-vibration.Vibration",
+        "pluginId": "cordova-plugin-vibration",
+        "merges": [
+            "navigator"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-vibration/www/vibration.js",
+        "id": "cordova-plugin-vibration.notification",
+        "pluginId": "cordova-plugin-vibration",
+        "merges": [
+            "navigator"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-nativeaudio/www/nativeaudio-browser.js",
+        "id": "cordova-plugin-nativeaudio.NativeAudioBrowser",
+        "pluginId": "cordova-plugin-nativeaudio",
+        "clobbers": [
+            "cordova.plugins.NativeAudio",
+            "plugins.NativeAudio"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -76,7 +101,9 @@ module.exports.metadata =
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "2.2.0",
     "cordova-plugin-ionic-webview": "4.1.3",
-    "cordova-plugin-geolocation": "4.0.2"
+    "cordova-plugin-geolocation": "4.0.2",
+    "cordova-plugin-vibration": "3.1.1",
+    "cordova-plugin-nativeaudio": "3.0.9"
 }
 // BOTTOM OF METADATA
 });

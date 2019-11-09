@@ -30,6 +30,12 @@
     },
     "cordova-plugin-geolocation": {
       "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-nativeaudio": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   },
   "dependent_plugins": {}

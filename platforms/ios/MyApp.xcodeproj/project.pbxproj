@@ -31,6 +31,12 @@
 		637FA0599F1944548796BE40 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AA08FC9CD5B449D8963E80A /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		421992EA43E64B9D8A96BB4F /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = B0CA57C290C8487B81F969F7 /* CDVLocation.m */; };
 		8023DF4495C944EDB7BEC0FC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3762CCFC5A4F89BFEECF87 /* CoreLocation.framework */; };
+		DCCAAC9A1F144CFEA0D699E6 /* CDVVibration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D35F20514E94CB5B45F9B1B /* CDVVibration.m */; };
+		26C3DBBFF2334085A872147C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25CFFBA14EEC49669671BC66 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C42B15A9DA2A4D01B6A089BA /* NativeAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 261ABFF36905449EBF214244 /* NativeAudio.m */; };
+		1E3331444CAA4AD3B9B59B3C /* NativeAudioAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DE13BE834347BCA2247D65 /* NativeAudioAsset.m */; };
+		502BF7A5B69B484286D87850 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F98E58BA8A4740939D6077 /* Foundation.framework */; };
+		03221868891B45B8818E3A51 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F423E5DC707442B6AB57AE42 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +118,15 @@
 		B0CA57C290C8487B81F969F7 /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		FED93F3152D7408B8BB25E71 /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		1B3762CCFC5A4F89BFEECF87 /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		0D35F20514E94CB5B45F9B1B /* CDVVibration.m */ = {isa = PBXFileReference; name = "CDVVibration.m"; path = "cordova-plugin-vibration/CDVVibration.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		4F145ABB90054097B5DA380B /* CDVVibration.h */ = {isa = PBXFileReference; name = "CDVVibration.h"; path = "cordova-plugin-vibration/CDVVibration.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		25CFFBA14EEC49669671BC66 /* AudioToolbox.framework */ = {isa = PBXFileReference; name = "AudioToolbox.framework"; path = "System/Library/Frameworks/AudioToolbox.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		261ABFF36905449EBF214244 /* NativeAudio.m */ = {isa = PBXFileReference; name = "NativeAudio.m"; path = "cordova-plugin-nativeaudio/NativeAudio.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		C1DE13BE834347BCA2247D65 /* NativeAudioAsset.m */ = {isa = PBXFileReference; name = "NativeAudioAsset.m"; path = "cordova-plugin-nativeaudio/NativeAudioAsset.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		56F7D210DAFE43E896CA2145 /* NativeAudio.h */ = {isa = PBXFileReference; name = "NativeAudio.h"; path = "cordova-plugin-nativeaudio/NativeAudio.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		9603D8458F7A4CAF878430C4 /* NativeAudioAsset.h */ = {isa = PBXFileReference; name = "NativeAudioAsset.h"; path = "cordova-plugin-nativeaudio/NativeAudioAsset.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		30F98E58BA8A4740939D6077 /* Foundation.framework */ = {isa = PBXFileReference; name = "Foundation.framework"; path = "System/Library/Frameworks/Foundation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		F423E5DC707442B6AB57AE42 /* AVFoundation.framework */ = {isa = PBXFileReference; name = "AVFoundation.framework"; path = "System/Library/Frameworks/AVFoundation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +137,9 @@
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				637FA0599F1944548796BE40 /* WebKit.framework in Frameworks */,
 				8023DF4495C944EDB7BEC0FC /* CoreLocation.framework in Frameworks */,
+				26C3DBBFF2334085A872147C /* AudioToolbox.framework in Frameworks */,
+				502BF7A5B69B484286D87850 /* Foundation.framework in Frameworks */,
+				03221868891B45B8818E3A51 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +212,9 @@
 			children = (
 				9AA08FC9CD5B449D8963E80A /* WebKit.framework */,
 				1B3762CCFC5A4F89BFEECF87 /* CoreLocation.framework */,
+				25CFFBA14EEC49669671BC66 /* AudioToolbox.framework */,
+				30F98E58BA8A4740939D6077 /* Foundation.framework */,
+				F423E5DC707442B6AB57AE42 /* AVFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -252,6 +273,12 @@
 				F5F95E08AD574E2AA64DBB85 /* IONAssetHandler.h */,
 				B0CA57C290C8487B81F969F7 /* CDVLocation.m */,
 				FED93F3152D7408B8BB25E71 /* CDVLocation.h */,
+				0D35F20514E94CB5B45F9B1B /* CDVVibration.m */,
+				4F145ABB90054097B5DA380B /* CDVVibration.h */,
+				261ABFF36905449EBF214244 /* NativeAudio.m */,
+				C1DE13BE834347BCA2247D65 /* NativeAudioAsset.m */,
+				56F7D210DAFE43E896CA2145 /* NativeAudio.h */,
+				9603D8458F7A4CAF878430C4 /* NativeAudioAsset.h */,
 			);
 			name = Plugins;
 			path = "MyApp/Plugins";
@@ -392,6 +419,9 @@
 				17B2999A2E0D451E919C5442 /* CDVWKProcessPoolFactory.m in Sources */,
 				E4E99A8F301D44A4A84E5937 /* IONAssetHandler.m in Sources */,
 				421992EA43E64B9D8A96BB4F /* CDVLocation.m in Sources */,
+				DCCAAC9A1F144CFEA0D699E6 /* CDVVibration.m in Sources */,
+				C42B15A9DA2A4D01B6A089BA /* NativeAudio.m in Sources */,
+				1E3331444CAA4AD3B9B59B3C /* NativeAudioAsset.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,7 +455,7 @@
 				INFOPLIST_FILE = "MyApp/MyApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.starter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudme.ToDeTaxi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -448,7 +478,7 @@
 				INFOPLIST_FILE = "MyApp/MyApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.starter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudme.ToDeTaxi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -492,7 +522,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.starter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudme.ToDeTaxi;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
@@ -533,7 +563,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = io.ionic.starter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudme.ToDeTaxi;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;

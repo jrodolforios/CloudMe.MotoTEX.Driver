@@ -15,6 +15,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AgmDirectionModule } from 'agm-direction';
 import { AppServiceProvider } from '../providers/app-service/app-service';
 import { ApiModule } from '../core/api/to_de_taxi/api.module';
+import { Vibration } from '@ionic-native/vibration/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
 
@@ -57,7 +59,9 @@ var config = {
     SplashScreen,
     Keyboard,
     InAppBrowser,
+    Vibration,
     OAuthService,
+    NativeAudio,
     global,
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -6,6 +6,8 @@ import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
+import { Vibration } from '@ionic-native/vibration/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 declare var google;
 
 @IonicPage()
@@ -35,12 +37,27 @@ export class Home {
     private mapsAPILoader: MapsAPILoader,
     public geolocation: Geolocation,
     private platform: Platform,
-    private serviceProvider: AppServiceProvider) {
-
+    private serviceProvider: AppServiceProvider,
+    private vibration: Vibration,
+    private nativeAudio: NativeAudio) {
   }
 
   async ionViewDidLoad() {
     await this.initMap();
+    await this.nativeAudio.preloadComplex('todetaximotoristaruncomming', 'assets/sounds/simple_beep.mp3',1,1,0)
+    .then().catch(err =>{
+      alert("Preload " + JSON.stringify(err))
+    });
+
+    this.callVibration();
+  }
+
+  async callVibration(){
+    this.vibration.vibrate([2000,1000,2000,1000,2000,1000,2000,1000,2000,1000,2000]);
+    this.nativeAudio.play('todetaximotoristaruncomming').then().catch(err =>{
+      alert("play " + JSON.stringify(err))
+    });
+
   }
 
   getProfilePhoto() {
@@ -75,6 +92,7 @@ export class Home {
       }).catch((error) => {
         //loader.dismiss();
         //this.getCurrentLocation();
+        this.initMap();
       });
     });
   }
@@ -103,6 +121,16 @@ export class Home {
   //show details of trip
   activeTrip() {
     this.showDetails = !this.showDetails;
+    this.vibration.vibrate(0);
+
+    this.nativeAudio.stop('todetaximotoristaruncomming').then().catch(err =>{
+      alert("stop " + JSON.stringify(err))
+    });
+
+    this.nativeAudio.unload('todetaximotoristaruncomming').then().catch(err =>{
+      alert("unload " + JSON.stringify(err))
+    });
+
   }
 
   //present destination trip

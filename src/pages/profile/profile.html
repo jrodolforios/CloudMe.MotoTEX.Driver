@@ -33,78 +33,78 @@
     </ion-item>
 
     <ion-segment color="primary" [(ngModel)]="tabs">
-      <ion-segment-button color="primary" value="history">
+      <ion-segment-button color="primary" value="Histórico">
         Histórico
       </ion-segment-button>
-      <ion-segment-button color="primary" value="Notifications">
-        Notificações
+      <ion-segment-button color="primary" value="Agendamentos">
+        Agendamentos
       </ion-segment-button>
     </ion-segment>
 
     <div [ngSwitch]="tabs">
 
-      <div *ngSwitchCase="'history'">
+      <div *ngSwitchCase="'Histórico'">
         <div *ngFor="let item of history">
-          <img src="assets/img/map.png" />
+          <!-- <img src="assets/img/map.png" /> -->
           <div class="trip-distention">
             <ion-row>
               <ion-col col-7>
                 <ion-item no-padding no-lines>
                   <ion-icon name="md-disc" color="dark" item-start></ion-icon>
-                  {{item.from}}
+                  {{item.origem}}
                 </ion-item>
                 <ion-item no-padding no-lines>
                   <ion-icon name="md-pin" color="dark" item-start></ion-icon>
-                  {{item.to}}
+                  {{item.destino}}
                 </ion-item>
                 <div class="line"></div>
               </ion-col>
               <ion-col col-5>
                 <div class="status" text-right item-end>
                   <h4>Sucesso</h4>
-                  <p no-margin>{{item.date}}</p>
+                  <p no-margin>{{item.data}}</p>
                 </div>
               </ion-col>
             </ion-row>
           </div>
           <ion-item class="cash" no-lines>
             <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
-            <h2>{{item.cash}}</h2>
-            <p>Dinheiro</p>
+            <h2>{{item.valor}}</h2>
+            <p>{{item.formaPagamento}}</p>
           </ion-item>
         </div>
       </div>
 
-      <div *ngSwitchCase="'Notifications'">
+      <div *ngSwitchCase="'Agendamentos'">
         <div *ngFor="let item of notify">
           <div class="trip-distention notify">
             <ion-row>
               <ion-col col-7>
                 <ion-item no-padding no-lines>
                   <ion-icon name="md-disc" color="dark" item-start></ion-icon>
-                  {{item.from}}
+                  {{item.origem}}
                 </ion-item>
                 <ion-item no-padding no-lines>
                   <ion-icon name="md-pin" color="dark" item-start></ion-icon>
-                  {{item.to}}
+                  {{item.destino}}
                 </ion-item>
                 <div class="line"></div>
               </ion-col>
               <ion-col col-5>
                 <div class="status" text-right item-end>
-                  <p>{{item.date}}</p>
+                  <p>{{item.data}}</p>
                 </div>
               </ion-col>
             </ion-row>
           </div>
           <ion-item class="cash" no-lines>
             <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
-            <h2>R$ 15,00</h2>
-            <p>Dinheiro</p>
+            <h2>{{item.valor}}</h2>
+            <p>{{item.formaPagamento}}</p>
             <button color="secondary" (click)="removeItem(item)" ion-button item-end>cancel</button>
           </ion-item>
         </div>
-        <p *ngIf="notify.length==0" style="padding: 20px" text-center text-capitalize no-margin>não notificar</p>
+        <p *ngIf="notify.length==0" style="padding: 20px" text-center text-capitalize no-margin>sem agendamentos</p>
       </div>
 
     </div>

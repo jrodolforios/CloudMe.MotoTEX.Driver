@@ -7,6 +7,7 @@ import {JwksValidationHandler } from '../../auth-oidc/src/token-validation/jwks-
 import { authConfig } from '../auth/auth.config';
 import { TaxistaService } from '../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../providers/app-service/app-service';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 
 
@@ -25,7 +26,8 @@ export class MyApp {
     public splashScreen: SplashScreen,
     private oauthService: OAuthService,
     private taxistaService: TaxistaService,
-    private serviceProvider: AppServiceProvider,) {
+    private serviceProvider: AppServiceProvider,
+    private nativeAudio: NativeAudio) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -38,6 +40,10 @@ export class MyApp {
   }
 
   private async configureWithNewConfigApi() {
+    this.nativeAudio.unload('todetaximotoristaruncomming').then().catch(err =>{});
+    await this.nativeAudio.preloadComplex('todetaximotoristaruncomming', 'assets/sounds/simple_beep.mp3',1,1,0)
+    .then().catch(err => {});
+    
     this.oauthService.configure(authConfig);
     this.oauthService.setStorage(localStorage);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
@@ -47,7 +53,7 @@ export class MyApp {
 
       this.oauthService.loadUserProfile().then(async x => {
         if (x["sub"]) {
-          await this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
+          this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
             if (taxista.success)
               this.serviceProvider.taxistaLogado = taxista.data;
           });

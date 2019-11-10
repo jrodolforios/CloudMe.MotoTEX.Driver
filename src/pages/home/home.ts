@@ -44,20 +44,12 @@ export class Home {
 
   async ionViewDidLoad() {
     await this.initMap();
-    await this.nativeAudio.preloadComplex('todetaximotoristaruncomming', 'assets/sounds/simple_beep.mp3',1,1,0)
-    .then().catch(err =>{
-      alert("Preload " + JSON.stringify(err))
-    });
-
     this.callVibration();
   }
 
   async callVibration(){
     this.vibration.vibrate([2000,1000,2000,1000,2000,1000,2000,1000,2000,1000,2000]);
-    this.nativeAudio.play('todetaximotoristaruncomming').then().catch(err =>{
-      alert("play " + JSON.stringify(err))
-    });
-
+    this.nativeAudio.play('todetaximotoristaruncomming')
   }
 
   getProfilePhoto() {
@@ -123,14 +115,7 @@ export class Home {
     this.showDetails = !this.showDetails;
     this.vibration.vibrate(0);
 
-    this.nativeAudio.stop('todetaximotoristaruncomming').then().catch(err =>{
-      alert("stop " + JSON.stringify(err))
-    });
-
-    this.nativeAudio.unload('todetaximotoristaruncomming').then().catch(err =>{
-      alert("unload " + JSON.stringify(err))
-    });
-
+    this.nativeAudio.stop('todetaximotoristaruncomming')
   }
 
   //present destination trip

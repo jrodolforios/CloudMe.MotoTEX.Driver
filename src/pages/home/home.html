@@ -28,6 +28,11 @@
 
 
 <ion-content class="app-content">
+  <ion-fab middle right *ngIf="global.accept">
+    <button (click)="cancelAlert()"  ion-fab class="backwhite">
+      <ion-icon name="navigate" color="dark"></ion-icon>
+    </button>
+  </ion-fab>
   <agm-map #map id="map" data-tap-disabled="true" [latitude]="lat" [longitude]="lng" [zoom]="zoom"
     [disableDefaultUI]="true" [zoomControl]="false" [fullscreenControl]="false" [streetViewControl]="false">
     <agm-marker [latitude]="lat" iconUrl="/assets/img/grabpin.png" [longitude]="lng" [markerDraggable]="false"
@@ -106,7 +111,20 @@
 
 
     <div *ngIf="global.accept" class="accept-trip" text-center>
-      <p>10 min to arrive</p>
+      <ion-grid class="trip-detail">
+        <ion-row>
+          <ion-col col-12>
+            <ion-fab top center class="ionfabtrip">
+              <button (click)="cancelAlert()" color="danger" ion-fab>
+                <ion-icon name="md-trash" color="light"></ion-icon>
+              </button>
+            </ion-fab>
+          </ion-col>
+          <ion-col col-12>
+            <p>10 min to arrive</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
 
   </ion-toolbar>
@@ -118,8 +136,8 @@
       </button>
     </ion-fab>
     <ion-fab class="delete-fab" top center edge>
-      <button (click)="cancelAlert()" color="secondary" ion-fab>
-        <ion-icon name="md-trash" color="light"></ion-icon>
+      <button (click)="cancelAlert()" class="DoneRun" ion-fab>
+        <ion-icon name="md-checkmark" color="light"></ion-icon>
       </button>
     </ion-fab>
     <ion-fab class="phone-fab left-right-fab" top right mini edge>

@@ -66,7 +66,7 @@ export class Home {
   async initMap() {
     await this.platform.ready().then(() => {
       //use the geolocation 
-      this.geolocation.getCurrentPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: true }).then(resp => {
+      this.geolocation.watchPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: true }).subscribe(resp => {
         const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
         const mapOptions = {
           center: latLng,
@@ -81,10 +81,6 @@ export class Home {
         this.serviceProvider.directionlng = this.lng;
 
         //loader.dismiss();
-      }).catch((error) => {
-        //loader.dismiss();
-        //this.getCurrentLocation();
-        this.initMap();
       });
     });
   }

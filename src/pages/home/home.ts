@@ -6,8 +6,7 @@ import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
-import { Vibration } from '@ionic-native/vibration/ngx';
-import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService } from '../../core/api/to_de_taxi/services';
 declare var google;
 
 @IonicPage()
@@ -28,6 +27,33 @@ export class Home {
   public lat: number;
   public lng: number;
 
+  public descTipoViagem: string = '';
+  public descTituloTipoViagem: string = ''
+  public descDistanciaViagem: string = '';
+  public descTempoViagem: string = '';
+  public descValorCorrida: string = '';
+  public descFormaPagamento: string = '';
+  public textoOrigem: string = '';
+  public textoDestino: string = '';
+  public origin: any;
+  public destination: any;
+
+  public markerOptions = {
+    origin: {
+      icon: '/assets/img/start.png',
+      animation: '\'DROP\'',
+    },
+    destination: {
+      icon: '/assets/img/finish.png',
+      animation: '\'DROP\'',
+    },
+  }
+
+  public renderOptions = {
+    suppressMarkers: true,
+  };
+
+
   constructor(public navCtrl: NavController,
     private oauthService: OAuthService,
     public viewCtrl: ViewController,
@@ -38,18 +64,103 @@ export class Home {
     public geolocation: Geolocation,
     private platform: Platform,
     private serviceProvider: AppServiceProvider,
-    private vibration: Vibration,
-    private nativeAudio: NativeAudio) {
+    private formaPagamentoService: FormaPagamentoService,
+    private faixaDescontoService: FaixaDescontoService,
+    private localizacaoService: LocalizacaoService) {
   }
 
   async ionViewDidLoad() {
     await this.initMap();
-    this.callVibration();
+    if (await this.serviceProvider.encontrarCorrida()) {
+      if (this.serviceProvider.solicitacaoCorridaEmQuestao
+        && this.serviceProvider.solicitacaoCorridaEmQuestao != null
+        && this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1) {
+          this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
+          .then(x => {
+            if(x.success)
+              this.descFormaPagamento = x.data.descricao;
+          });
+
+          this.descTituloTipoViagem = this.serviceProvider.getTipoViagem(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento)
+
+          switch(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento){
+          case 0:
+              this.descTipoViagem = 'Indefinido';
+              break;
+            case 1:
+              if(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != null
+                && this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != undefined)
+                {
+                  this.faixaDescontoService.ApiV1FaixaDescontoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto).toPromise()
+                  .then(x => {
+                    if(x.success)
+                      this.descTipoViagem = x.data.descricao;
+                  });
+                }else{
+                  this.descTipoViagem = "Sem desconto"
+                }
+              break;
+            case 2:
+              this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
+              break;
+            case 3:
+              this.descDistanciaViagem = this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
+              break;
+            }
+
+            this.descTempoViagem = this.serviceProvider.formatedTimeHHMMss(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
+            this.descValorCorrida = this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
+
+            await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x =>{
+              if(x.success)
+              {
+                this.textoOrigem = x.data.nomePublico;
+                this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
+              }
+            })
+
+            await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x =>{
+              if(x.success)
+              {
+                this.textoDestino = x.data.nomePublico;
+                this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
+              }
+            })
+
+            await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
+      }
+    }
+
   }
 
-  async callVibration(){
-    this.vibration.vibrate([2000,1000,2000,1000,2000,1000,2000,1000,2000,1000,2000]);
-    this.nativeAudio.play('todetaximotoristaruncomming')
+  async calculateDistance(origin_lat: any, origin_lng: any, dest_lat: any, dest_lng: any) {
+    var directionsService = new google.maps.DirectionsService();
+    var routeDistance: number = 0;
+    var timeDurationSec: number = 0;
+    const _origin = new google.maps.LatLng(origin_lat, origin_lng);
+    const _destination = new google.maps.LatLng(dest_lat, dest_lng);
+
+    var request = {
+      origin: _origin,
+      destination: _destination,
+      travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+
+    await directionsService.route(request, function (response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        routeDistance = (response.routes[0].legs[0].distance.value / 1000);
+        timeDurationSec = parseInt(response.routes[0].legs[0].duration.value);
+      }
+    });
+
+    // setTimeout(() => {
+    //   this.serviceProvider.tripDistance = +routeDistance.toFixed(1);
+    //   this.tripDistance = this.serviceProvider.tripDistance;
+
+    //   this.serviceProvider.timeDurationSeconds = timeDurationSec;
+    //   this.timeDuration = this.serviceProvider.formatedTimeHHMMss(timeDurationSec);
+    //   console.log(this.tripDistance);
+    // }, 3000);
   }
 
   getProfilePhoto() {
@@ -61,6 +172,23 @@ export class Home {
     } catch (e) {
       return 'assets/img/user.png';
     }
+  }
+
+  ignoreCorrida() {
+    this.descTipoViagem = '';
+    this.descTituloTipoViagem = ''
+    this.descDistanciaViagem = '';
+    this.descTempoViagem = '';
+    this.descValorCorrida = '';
+    this.descFormaPagamento = '';
+    this.textoOrigem = '';
+    this.textoDestino = '';
+    this.origin = undefined;
+    this.destination = undefined;
+  
+
+    this.showDetails = false;
+    this.serviceProvider.discartViagem();
   }
 
   async initMap() {
@@ -108,10 +236,12 @@ export class Home {
 
   //show details of trip
   activeTrip() {
-    this.showDetails = !this.showDetails;
-    this.vibration.vibrate(0);
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao && this.serviceProvider.solicitacaoCorridaEmQuestao != null
+      && this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1) {
+      this.showDetails = !this.showDetails;
+    }
 
-    this.nativeAudio.stop('todetaximotoristaruncomming')
+    this.serviceProvider.endNotification();
   }
 
   //present destination trip

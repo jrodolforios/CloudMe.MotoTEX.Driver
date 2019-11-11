@@ -17,8 +17,6 @@ declare var google;
 export class Home {
   // @ViewChild('map', {static: false}) mapElement: ElementRef;
   // map: any;
-  start = 'Hospital Philadelfia - Avenida Doutor Júlio Rodrigues - Marajoara, Teófilo Otoni - MG';
-  end = 'Sebrae Minas - Avenida Francisco Sá - Centro, Teófilo Otoni - MG';
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
   showDetails;
@@ -75,65 +73,63 @@ export class Home {
       if (this.serviceProvider.solicitacaoCorridaEmQuestao
         && this.serviceProvider.solicitacaoCorridaEmQuestao != null
         && this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1) {
-          this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
+        this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
           .then(x => {
-            if(x.success)
+            if (x.success)
               this.descFormaPagamento = x.data.descricao;
           });
 
-          this.descTituloTipoViagem = this.serviceProvider.getTipoViagem(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento)
+        this.descTituloTipoViagem = this.serviceProvider.getTipoViagem(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento)
 
-          switch(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento){
+        switch (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento) {
           case 0:
-              this.descTipoViagem = 'Indefinido';
-              break;
-            case 1:
-              if(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != null
-                && this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != undefined)
-                {
-                  this.faixaDescontoService.ApiV1FaixaDescontoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto).toPromise()
-                  .then(x => {
-                    if(x.success)
-                      this.descTipoViagem = x.data.descricao;
-                  });
-                }else{
-                  this.descTipoViagem = "Sem desconto"
-                }
-              break;
-            case 2:
-              this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
-              break;
-            case 3:
-              this.descDistanciaViagem = this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
-              break;
+            this.descTipoViagem = 'Indefinido';
+            break;
+          case 1:
+            if (this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != null
+              && this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != undefined) {
+              this.faixaDescontoService.ApiV1FaixaDescontoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto).toPromise()
+                .then(x => {
+                  if (x.success)
+                    this.descTipoViagem = x.data.descricao;
+                });
+            } else {
+              this.descTipoViagem = "Sem desconto"
             }
+            break;
+          case 2:
+            this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
+            break;
+          case 3:
+            this.descDistanciaViagem = this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
+            break;
+        }
 
-            this.descTempoViagem = this.serviceProvider.formatedTimeHHMMss(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
-            this.descValorCorrida = this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
+        this.descTempoViagem = this.serviceProvider.formatedTimeHHMMss(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
+        this.descValorCorrida = this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
 
-            await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x =>{
-              if(x.success)
-              {
-                this.textoOrigem = x.data.nomePublico;
-                this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
-              }
-            })
+        await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
+          if (x.success) {
+            this.textoOrigem = x.data.nomePublico;
+            this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
+          }
+        })
 
-            await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x =>{
-              if(x.success)
-              {
-                this.textoDestino = x.data.nomePublico;
-                this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
-              }
-            })
+        await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x => {
+          if (x.success) {
+            this.textoDestino = x.data.nomePublico;
+            this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
+          }
+        })
 
-            await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
+        await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
       }
     }
 
   }
 
   async calculateDistance(origin_lat: any, origin_lng: any, dest_lat: any, dest_lng: any) {
+    var encontrouADistancia: boolean = false;
     var directionsService = new google.maps.DirectionsService();
     var routeDistance: number = 0;
     var timeDurationSec: number = 0;
@@ -153,14 +149,14 @@ export class Home {
       }
     });
 
-    // setTimeout(() => {
-    //   this.serviceProvider.tripDistance = +routeDistance.toFixed(1);
-    //   this.tripDistance = this.serviceProvider.tripDistance;
 
-    //   this.serviceProvider.timeDurationSeconds = timeDurationSec;
-    //   this.timeDuration = this.serviceProvider.formatedTimeHHMMss(timeDurationSec);
-    //   console.log(this.tripDistance);
-    // }, 3000);
+      setTimeout(() => {
+        this.descDistanciaViagem = routeDistance.toFixed(1);
+        encontrouADistancia = true;
+        // this.serviceProvider.timeDurationSeconds = timeDurationSec;
+        // this.timeDuration = this.serviceProvider.formatedTimeHHMMss(timeDurationSec);
+        // console.log(this.tripDistance);
+      }, 3000);
   }
 
   getProfilePhoto() {
@@ -185,7 +181,7 @@ export class Home {
     this.textoDestino = '';
     this.origin = undefined;
     this.destination = undefined;
-  
+
 
     this.showDetails = false;
     this.serviceProvider.discartViagem();
@@ -218,21 +214,6 @@ export class Home {
 
     authGuard.canActivate();
   }
-
-  calculateAndDisplayRoute() {
-    this.directionsService.route({
-      origin: this.start,
-      destination: this.end,
-      travelMode: 'DRIVING'
-    }, (response, status) => {
-      if (status === 'OK') {
-        this.directionsDisplay.setDirections(response);
-      } else {
-        window.alert('Requisição de rota falhou: ' + status);
-      }
-    });
-  }
-
 
   //show details of trip
   activeTrip() {

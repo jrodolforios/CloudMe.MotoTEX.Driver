@@ -17,6 +17,8 @@ import { AppServiceProvider } from '../providers/app-service/app-service';
 import { ApiModule } from '../core/api/to_de_taxi/api.module';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
 
@@ -58,11 +60,13 @@ var config = {
     StatusBar,
     SplashScreen,
     Keyboard,
+    LaunchNavigator,
     InAppBrowser,
     Vibration,
     OAuthService,
     NativeAudio,
     global,
+    CallNumber,
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppServiceProvider,

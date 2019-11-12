@@ -36,6 +36,12 @@
     },
     "cordova-plugin-nativeaudio": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "mx.ferreyra.callnumber": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   },
   "dependent_plugins": {}

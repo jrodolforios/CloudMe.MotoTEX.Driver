@@ -37,6 +37,17 @@
 		1E3331444CAA4AD3B9B59B3C /* NativeAudioAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DE13BE834347BCA2247D65 /* NativeAudioAsset.m */; };
 		502BF7A5B69B484286D87850 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F98E58BA8A4740939D6077 /* Foundation.framework */; };
 		03221868891B45B8818E3A51 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F423E5DC707442B6AB57AE42 /* AVFoundation.framework */; };
+		CB79BB7FCBDC49B3B7D580F7 /* ActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 66436FDC4D314CBC991B8691 /* ActionSheet.m */; };
+		2490D3C59EC349A4981AAC82 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FCBA46D53C4C509C1751AA /* CDVNotification.m */; };
+		1248AA0E2B02464ABEC3CAD4 /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C5E03740F82248B29CA70AE4 /* CDVNotification.bundle */; };
+		20D8AD03EAB04E2BA92730A3 /* LaunchNavigatorPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202E2CAAD6A4016A23A65D7 /* LaunchNavigatorPlugin.m */; };
+		75A3D7FA116E40709685BCD5 /* WE_CordovaLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FC0E5F5553114C198F6714D8 /* WE_CordovaLogger.m */; };
+		45E35967044945B19BB4EB04 /* LN_LaunchNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F702FCB0A554CD8A38C7757 /* LN_LaunchNavigator.m */; };
+		0425D5588CD449428B6EE1A0 /* LN_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 00342073BE6E42419841302A /* LN_Reachability.m */; };
+		078D478D5EF448889ACC37C5 /* WE_Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 57194A6585054E249F19DB5E /* WE_Logger.m */; };
+		B7AEA2E2ED6146F5B401563E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166B6B3D818A4A07AF0CA6C5 /* MapKit.framework */; };
+		D6590BE28314476383F4BBC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367248DD3DB44DAD93E3E630 /* SystemConfiguration.framework */; };
+		715FE03F41304D1FB1CB7D3A /* CFCallNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE1726A11C04C0B9588E31E /* CFCallNumber.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +138,25 @@
 		9603D8458F7A4CAF878430C4 /* NativeAudioAsset.h */ = {isa = PBXFileReference; name = "NativeAudioAsset.h"; path = "cordova-plugin-nativeaudio/NativeAudioAsset.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		30F98E58BA8A4740939D6077 /* Foundation.framework */ = {isa = PBXFileReference; name = "Foundation.framework"; path = "System/Library/Frameworks/Foundation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		F423E5DC707442B6AB57AE42 /* AVFoundation.framework */ = {isa = PBXFileReference; name = "AVFoundation.framework"; path = "System/Library/Frameworks/AVFoundation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		66436FDC4D314CBC991B8691 /* ActionSheet.m */ = {isa = PBXFileReference; name = "ActionSheet.m"; path = "cordova-plugin-actionsheet/ActionSheet.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		09FF35812095425CBB00F7CD /* ActionSheet.h */ = {isa = PBXFileReference; name = "ActionSheet.h"; path = "cordova-plugin-actionsheet/ActionSheet.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		83FCBA46D53C4C509C1751AA /* CDVNotification.m */ = {isa = PBXFileReference; name = "CDVNotification.m"; path = "cordova-plugin-dialogs/CDVNotification.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		068257B1406C4480BCC52B7D /* CDVNotification.h */ = {isa = PBXFileReference; name = "CDVNotification.h"; path = "cordova-plugin-dialogs/CDVNotification.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		C5E03740F82248B29CA70AE4 /* CDVNotification.bundle */ = {isa = PBXFileReference; name = "CDVNotification.bundle"; path = "CDVNotification.bundle"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.plug-in; explicitFileType = undefined; includeInIndex = 0; };
+		4202E2CAAD6A4016A23A65D7 /* LaunchNavigatorPlugin.m */ = {isa = PBXFileReference; name = "LaunchNavigatorPlugin.m"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/LaunchNavigatorPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		FC0E5F5553114C198F6714D8 /* WE_CordovaLogger.m */ = {isa = PBXFileReference; name = "WE_CordovaLogger.m"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/WE_CordovaLogger.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		7F702FCB0A554CD8A38C7757 /* LN_LaunchNavigator.m */ = {isa = PBXFileReference; name = "LN_LaunchNavigator.m"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/LN_LaunchNavigator.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		00342073BE6E42419841302A /* LN_Reachability.m */ = {isa = PBXFileReference; name = "LN_Reachability.m"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/LN_Reachability.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		57194A6585054E249F19DB5E /* WE_Logger.m */ = {isa = PBXFileReference; name = "WE_Logger.m"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/WE_Logger.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		D019FCA057B84EABB7F0D45C /* LaunchNavigatorPlugin.h */ = {isa = PBXFileReference; name = "LaunchNavigatorPlugin.h"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/LaunchNavigatorPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		06A230DDBB2C483181B82679 /* WE_CordovaLogger.h */ = {isa = PBXFileReference; name = "WE_CordovaLogger.h"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/WE_CordovaLogger.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		4E54258A2E2F4FF0A324F7E6 /* LN_LaunchNavigator.h */ = {isa = PBXFileReference; name = "LN_LaunchNavigator.h"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/LN_LaunchNavigator.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		D9B3B3AA8E3C45EC8006CBE7 /* LN_Reachability.h */ = {isa = PBXFileReference; name = "LN_Reachability.h"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/LN_Reachability.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		949D9E3FFBE84AE49B8C07C2 /* WE_Logger.h */ = {isa = PBXFileReference; name = "WE_Logger.h"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/WE_Logger.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		166B6B3D818A4A07AF0CA6C5 /* MapKit.framework */ = {isa = PBXFileReference; name = "MapKit.framework"; path = "System/Library/Frameworks/MapKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		367248DD3DB44DAD93E3E630 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		6DE1726A11C04C0B9588E31E /* CFCallNumber.m */ = {isa = PBXFileReference; name = "CFCallNumber.m"; path = "mx.ferreyra.callnumber/CFCallNumber.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		C6A03B30F9EF4ED1AA4E1B38 /* CFCallNumber.h */ = {isa = PBXFileReference; name = "CFCallNumber.h"; path = "mx.ferreyra.callnumber/CFCallNumber.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +170,8 @@
 				26C3DBBFF2334085A872147C /* AudioToolbox.framework in Frameworks */,
 				502BF7A5B69B484286D87850 /* Foundation.framework in Frameworks */,
 				03221868891B45B8818E3A51 /* AVFoundation.framework in Frameworks */,
+				B7AEA2E2ED6146F5B401563E /* MapKit.framework in Frameworks */,
+				D6590BE28314476383F4BBC1 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +234,7 @@
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* MyApp-Info.plist */,
 				6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */,
+				C5E03740F82248B29CA70AE4 /* CDVNotification.bundle */,
 			);
 			name = Resources;
 			path = "MyApp/Resources";
@@ -215,6 +248,8 @@
 				25CFFBA14EEC49669671BC66 /* AudioToolbox.framework */,
 				30F98E58BA8A4740939D6077 /* Foundation.framework */,
 				F423E5DC707442B6AB57AE42 /* AVFoundation.framework */,
+				166B6B3D818A4A07AF0CA6C5 /* MapKit.framework */,
+				367248DD3DB44DAD93E3E630 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -279,6 +314,22 @@
 				C1DE13BE834347BCA2247D65 /* NativeAudioAsset.m */,
 				56F7D210DAFE43E896CA2145 /* NativeAudio.h */,
 				9603D8458F7A4CAF878430C4 /* NativeAudioAsset.h */,
+				66436FDC4D314CBC991B8691 /* ActionSheet.m */,
+				09FF35812095425CBB00F7CD /* ActionSheet.h */,
+				83FCBA46D53C4C509C1751AA /* CDVNotification.m */,
+				068257B1406C4480BCC52B7D /* CDVNotification.h */,
+				4202E2CAAD6A4016A23A65D7 /* LaunchNavigatorPlugin.m */,
+				FC0E5F5553114C198F6714D8 /* WE_CordovaLogger.m */,
+				7F702FCB0A554CD8A38C7757 /* LN_LaunchNavigator.m */,
+				00342073BE6E42419841302A /* LN_Reachability.m */,
+				57194A6585054E249F19DB5E /* WE_Logger.m */,
+				D019FCA057B84EABB7F0D45C /* LaunchNavigatorPlugin.h */,
+				06A230DDBB2C483181B82679 /* WE_CordovaLogger.h */,
+				4E54258A2E2F4FF0A324F7E6 /* LN_LaunchNavigator.h */,
+				D9B3B3AA8E3C45EC8006CBE7 /* LN_Reachability.h */,
+				949D9E3FFBE84AE49B8C07C2 /* WE_Logger.h */,
+				6DE1726A11C04C0B9588E31E /* CFCallNumber.m */,
+				C6A03B30F9EF4ED1AA4E1B38 /* CFCallNumber.h */,
 			);
 			name = Plugins;
 			path = "MyApp/Plugins";
@@ -372,6 +423,7 @@
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */,
+				1248AA0E2B02464ABEC3CAD4 /* CDVNotification.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +474,14 @@
 				DCCAAC9A1F144CFEA0D699E6 /* CDVVibration.m in Sources */,
 				C42B15A9DA2A4D01B6A089BA /* NativeAudio.m in Sources */,
 				1E3331444CAA4AD3B9B59B3C /* NativeAudioAsset.m in Sources */,
+				CB79BB7FCBDC49B3B7D580F7 /* ActionSheet.m in Sources */,
+				2490D3C59EC349A4981AAC82 /* CDVNotification.m in Sources */,
+				20D8AD03EAB04E2BA92730A3 /* LaunchNavigatorPlugin.m in Sources */,
+				75A3D7FA116E40709685BCD5 /* WE_CordovaLogger.m in Sources */,
+				45E35967044945B19BB4EB04 /* LN_LaunchNavigator.m in Sources */,
+				0425D5588CD449428B6EE1A0 /* LN_Reachability.m in Sources */,
+				078D478D5EF448889ACC37C5 /* WE_Logger.m in Sources */,
+				715FE03F41304D1FB1CB7D3A /* CFCallNumber.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TaxistaSummary, SolicitacaoCorridaSummary } from '../../core/api/to_de_taxi/models';
+import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary } from '../../core/api/to_de_taxi/models';
 import { ToastController, NavController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
@@ -17,13 +17,20 @@ import { SolicitacaoCorridaService } from '../../core/api/to_de_taxi/services';
   providedIn: 'root'
 })
 export class AppServiceProvider {
-  originlatitude: any;
-  originlongititude: any;
 
-  directionlat: any;
-  directionlng: any;
+  taxistLat: any;
+  Taxistlng: any;
+  
+  //Para uso na modal
+  textoOrigem:string = '';
+  textoDestino:string = '';
+
+  descDistanciaViagem:string = '';
+  descTempoViagem:string = '';
+  descValorCorrida:string = '';
 
   solicitacaoCorridaEmQuestao: SolicitacaoCorridaSummary
+  corridaEmQuestao: CorridaSummary
 
   taxistaLogado: TaxistaSummary;
 

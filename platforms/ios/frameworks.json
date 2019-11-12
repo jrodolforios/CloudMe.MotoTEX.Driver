@@ -1,7 +1,9 @@
 {
     "WebKit.framework": 1,
-    "CoreLocation.framework": 1,
-    "AudioToolbox.framework": 2,
+    "CoreLocation.framework": 2,
+    "AudioToolbox.framework": 3,
     "Foundation.framework": 1,
-    "AVFoundation.framework": 1
+    "AVFoundation.framework": 1,
+    "MapKit.framework": 1,
+    "SystemConfiguration.framework": 1
 }

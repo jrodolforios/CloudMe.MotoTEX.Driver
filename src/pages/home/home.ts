@@ -6,7 +6,9 @@ import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
-import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService } from '../../core/api/to_de_taxi/services';
+import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService } from '../../core/api/to_de_taxi/services';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 declare var google;
 
 @IonicPage()
@@ -26,6 +28,7 @@ export class Home {
   public lng: number;
 
   public descTipoViagem: string = '';
+  public telefonePassageiro: string = '';
   public descTituloTipoViagem: string = ''
   public descDistanciaViagem: string = '';
   public descTempoViagem: string = '';
@@ -64,7 +67,11 @@ export class Home {
     private serviceProvider: AppServiceProvider,
     private formaPagamentoService: FormaPagamentoService,
     private faixaDescontoService: FaixaDescontoService,
-    private localizacaoService: LocalizacaoService) {
+    private localizacaoService: LocalizacaoService,
+    private corridaService: CorridaService,
+    private launchNavigator: LaunchNavigator,
+    private callNumber: CallNumber,
+    private passageiroService: PassageiroService) {
   }
 
   async ionViewDidLoad() {
@@ -101,7 +108,7 @@ export class Home {
             this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
             break;
           case 3:
-            this.descDistanciaViagem = this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
+            this.descTipoViagem = this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
             break;
         }
 
@@ -122,14 +129,22 @@ export class Home {
           }
         })
 
+        await this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
+          if (x.success)
+            this.telefonePassageiro = x.data.usuario.telefone
+        })
+
         await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
       }
     }
 
   }
 
+  callPassageiro() {
+    this.callNumber.callNumber(this.telefonePassageiro.replace(/[^0-9]+/g, ''), true);
+  }
+
   async calculateDistance(origin_lat: any, origin_lng: any, dest_lat: any, dest_lng: any) {
-    var encontrouADistancia: boolean = false;
     var directionsService = new google.maps.DirectionsService();
     var routeDistance: number = 0;
     var timeDurationSec: number = 0;
@@ -150,13 +165,12 @@ export class Home {
     });
 
 
-      setTimeout(() => {
-        this.descDistanciaViagem = routeDistance.toFixed(1);
-        encontrouADistancia = true;
-        // this.serviceProvider.timeDurationSeconds = timeDurationSec;
-        // this.timeDuration = this.serviceProvider.formatedTimeHHMMss(timeDurationSec);
-        // console.log(this.tripDistance);
-      }, 3000);
+    setTimeout(() => {
+      this.descDistanciaViagem = routeDistance.toFixed(1);
+      // this.serviceProvider.timeDurationSeconds = timeDurationSec;
+      // this.timeDuration = this.serviceProvider.formatedTimeHHMMss(timeDurationSec);
+      // console.log(this.tripDistance);
+    }, 3000);
   }
 
   getProfilePhoto() {
@@ -179,6 +193,7 @@ export class Home {
     this.descFormaPagamento = '';
     this.textoOrigem = '';
     this.textoDestino = '';
+    this.telefonePassageiro = '';
     this.origin = undefined;
     this.destination = undefined;
 
@@ -197,12 +212,13 @@ export class Home {
           zoom: 15,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        this.lat = resp.coords.latitude;
-        this.lng = resp.coords.longitude;
-        this.serviceProvider.originlatitude = this.lat;
-        this.serviceProvider.originlongititude = this.lng;
-        this.serviceProvider.directionlat = this.lat;
-        this.serviceProvider.directionlng = this.lng;
+        if (!this.serviceProvider.solicitacaoCorridaEmQuestao || this.global.accept) {
+          this.lat = resp.coords.latitude;
+          this.lng = resp.coords.longitude;
+        }
+
+        this.serviceProvider.taxistLat = this.lat;
+        this.serviceProvider.Taxistlng = this.lng;
 
         //loader.dismiss();
       });
@@ -227,9 +243,22 @@ export class Home {
 
   //present destination trip
   presentDestinationModal() {
+    this.serviceProvider.textoDestino = this.textoDestino;
+    this.serviceProvider.textoOrigem = this.textoOrigem;
+    this.serviceProvider.descDistanciaViagem = this.descDistanciaViagem;
+    this.serviceProvider.descTempoViagem = this.descTempoViagem;
+    this.serviceProvider.descValorCorrida = this.descValorCorrida;
+
     let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
     DestinationModal.present();
 
+  }
+
+  navigateTo() {
+    if (this.global.accept)
+      this.launchNavigator.navigate([this.origin.lat, this.origin.lng], {
+        app: this.launchNavigator.APP.GOOGLE_MAPS
+      });
   }
 
   //present message
@@ -239,12 +268,40 @@ export class Home {
   }
 
   // cancle trip
-  cancelAlert() {
-    let alert = this.alertCtrl.create({
-      subTitle: 'Are you sure you want to cancel this trip?',
-      buttons: ['No', 'Yes']
+  async cancelAlert() {
+    const alert = await this.alertCtrl.create({
+      title: 'Deseja mesmo cancelar essa via corrida?',
+      message: 'Cancelando essa corrida agora, o passageiro poderá te qualificar.',
+      buttons: [
+        {
+          text: 'Cancelar mesmo assim',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.ignoreCorrida();
+
+            this.cancelarCorrida();
+          }
+        },
+        {
+          text: 'Continuar corrida',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }
+      ]
     });
-    alert.present();
+    return await alert.present();
+  }
+
+  cancelarCorrida() {
+    this.serviceProvider.corridaEmQuestao.status = 5;
+    this.global.accept = false;
+    this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => {
+      if (!x.success)
+        alert(JSON.stringify(x.notifications));
+    });
   }
 
 }

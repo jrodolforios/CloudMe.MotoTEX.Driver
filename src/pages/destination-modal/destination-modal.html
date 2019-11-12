@@ -6,22 +6,22 @@
 
 <ion-content padding>
   <div class="destination" text-center>
-    <h4> <span>De</span> Hospital Philadelfia</h4>
-    <h4> <span>Para</span> Sebrae Teófilo Otoni</h4>
+    <h4> <span>De</span> {{origem}}</h4>
+    <h4> <span>Para</span> {{destino}}</h4>
   </div>
   <ion-grid class="trip-detail">
     <ion-row text-center>
       <ion-col col-4>
-        <h4>Distancia da viagem</h4>
-        <h3>1Km</h3>
+        <h4>Distância</h4>
+        <h3>{{distancia}} Km</h3>
       </ion-col>
       <ion-col class="mid-col" col-4>
-        <h4>Tempo esperado</h4>
-        <h3>0:06min</h3>
+        <h4>Tempo</h4>
+        <h3>{{tempo}}</h3>
       </ion-col>
       <ion-col col-4>
-        <h4>Valor aproximado</h4>
-        <h3>R$ 15,00</h3>
+        <h4>Valor aprox.</h4>
+        <h3>R$ {{valor}}</h3>
       </ion-col>
     </ion-row>
   </ion-grid>

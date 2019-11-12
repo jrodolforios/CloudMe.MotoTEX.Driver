@@ -58,6 +58,18 @@
     <feature name="NativeAudio">
         <param name="ios-package" value="NativeAudio" />
     </feature>
+    <feature name="ActionSheet">
+        <param name="ios-package" value="ActionSheet" />
+    </feature>
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification" />
+    </feature>
+    <feature name="LaunchNavigator">
+        <param name="ios-package" value="LaunchNavigatorPlugin" />
+    </feature>
+    <feature name="CallNumber">
+        <param name="ios-package" value="CFCallNumber" />
+    </feature>
     <name>TÔdeTaxi Motorista</name>
     <description>APP motorista do TÔdeTaxi</description>
     <author email="contato@cloudme.com.br" href="http://www.cloudme.com.br">CloudMe Solutions</author>

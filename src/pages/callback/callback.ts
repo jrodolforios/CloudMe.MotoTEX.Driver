@@ -26,14 +26,14 @@ export class CallbackPage implements OnInit {
     private fotoService: FotoService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then(loggedIn => {
       if (!this.oauthService.hasValidIdToken() && !this.oauthService.hasValidAccessToken()) {
         this.navCtrl.push("Login");
       } else {
-        this.oauthService.loadUserProfile().then(async x => {
+        this.oauthService.loadUserProfile().then(x => {
           if (x["sub"]) {
-            await this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
+            this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(taxista => {
               if (taxista.success)
                 this.serviceProvider.taxistaLogado = taxista.data;
             });

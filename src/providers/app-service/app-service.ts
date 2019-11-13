@@ -129,4 +129,23 @@ export class AppServiceProvider {
     return strData;
   }
 
+  getStatusCorrida(status: 0 | 1 | 2 | 3 | 4 | 5 | 6){
+    switch(status){
+      case 0:
+        return 'Indefinido';
+      case 1:
+        return 'Agendado';
+      case 2:
+        return 'solicitado';
+      case 3:
+        return 'Em curso';
+      case 4:
+        return 'Espera';
+      case 5:
+        return 'Cancelada';
+      case 6:
+        return 'Concluída';
+    }
+  }
+
 }

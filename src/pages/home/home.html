@@ -22,6 +22,10 @@
       <ion-icon name="md-pin" color="secondary" item-start></ion-icon>
       {{textoDestino}}
     </ion-item>
+    <ion-item no-lines *ngIf="global.accept">
+      <ion-icon name="md-person" class="textGreen" item-start></ion-icon>
+      {{nomePassageiro}}
+    </ion-item>
     <div class="line"></div>
   </div>
 </ion-header>
@@ -109,7 +113,7 @@
     </div>
 
 
-    <div *ngIf="global.accept" class="accept-trip" text-center>
+    <div *ngIf="global.accept && !global.running" class="accept-trip" text-center>
       <ion-grid class="trip-detail">
         <ion-row>
           <ion-col col-12>
@@ -120,7 +124,24 @@
             </ion-fab>
           </ion-col>
           <ion-col col-12>
-            <p>10 min to arrive</p>
+            <p><b>Buscar Passageiro</b></p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div *ngIf="global.accept && global.running" class="accept-trip" text-center>
+      <ion-grid class="trip-detail">
+        <ion-row>
+          <ion-col col-12>
+            <ion-fab top center class="ionfabtrip">
+              <button (click)="doneRun()" class="DoneRun" ion-fab>
+                <ion-icon name="checkmark-circle-outline" color="light"></ion-icon>
+              </button>
+            </ion-fab>
+          </ion-col>
+          <ion-col col-12>
+            <p><b>Levar passageiro até o destino</b></p>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -128,14 +149,14 @@
 
   </ion-toolbar>
 
-  <div class="accept-trip" *ngIf="global.accept">
+  <div class="accept-trip" *ngIf="global.accept && !global.running">
     <ion-fab class="message-fab left-right-fab" top left mini edge>
       <button (click)="presentMessageModal()" color="dark" ion-fab mini>
         <ion-icon name="md-text" color="secondary"></ion-icon>
       </button>
     </ion-fab>
     <ion-fab class="delete-fab" top center edge>
-      <button (click)="cancelAlert()" class="DoneRun" ion-fab>
+      <button (click)="getPassageiro()" class="DoneRun" ion-fab>
         <ion-icon name="md-man" color="light"></ion-icon>
       </button>
     </ion-fab>

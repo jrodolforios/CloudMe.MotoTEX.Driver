@@ -35,6 +35,7 @@ export class Home {
   public descValorCorrida: string = '';
   public descFormaPagamento: string = '';
   public textoOrigem: string = '';
+  public nomePassageiro: string = ''
   public textoDestino: string = '';
   public origin: any;
   public destination: any;
@@ -108,7 +109,7 @@ export class Home {
             this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
             break;
           case 3:
-            this.descTipoViagem = this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
+            this.descTipoViagem = "R$ " + this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
             break;
         }
 
@@ -131,13 +132,80 @@ export class Home {
 
         await this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
           if (x.success)
-            this.telefonePassageiro = x.data.usuario.telefone
+            this.telefonePassageiro = x.data.usuario.telefone;
+          this.nomePassageiro = x.data.usuario.nome;
         })
 
         await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
       }
     }
 
+  }
+
+  async getPassageiro() {
+    const alert = await this.alertCtrl.create({
+      title: 'Iniciar Corrida',
+      message: 'O passageiro já está embarcado e pronto para iniciar a corrida?',
+      buttons: [
+        {
+          text: 'Começar corrida',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.iniciarCorrida();
+          }
+        },
+        {
+          text: 'Aguardar passageiro',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }
+      ]
+    });
+    return await alert.present();
+  }
+
+  async doneRun(){
+    const alert = await this.alertCtrl.create({
+      title: 'Finalizar corrida',
+      message: 'Tem certeza que deseja finalizar a corrida de forma bem-sucedida?',
+      buttons: [
+        {
+          text: 'Sim, finalizar',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.finalizarCorrida();
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }
+      ]
+    });
+    return await alert.present();
+  }
+
+  finalizarCorrida() {
+    this.serviceProvider.corridaEmQuestao.status = 6
+    this.serviceProvider.corridaEmQuestao.fim = (new Date()).toISOString();
+    this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => { });
+
+    this.global.running = false;
+    this.global.accept = false;
+    this.ignoreCorrida();
+  }
+
+  iniciarCorrida() {
+    this.serviceProvider.corridaEmQuestao.status = 3
+    this.serviceProvider.corridaEmQuestao.inicio = (new Date()).toISOString();
+    this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => { });
+
+    this.global.running = true;
   }
 
   callPassageiro() {
@@ -192,11 +260,11 @@ export class Home {
     this.descValorCorrida = '';
     this.descFormaPagamento = '';
     this.textoOrigem = '';
+    this.nomePassageiro = '';
     this.textoDestino = '';
     this.telefonePassageiro = '';
     this.origin = undefined;
     this.destination = undefined;
-
 
     this.showDetails = false;
     this.serviceProvider.discartViagem();
@@ -255,10 +323,15 @@ export class Home {
   }
 
   navigateTo() {
-    if (this.global.accept)
+    if (this.global.accept && !this.global.running) {
       this.launchNavigator.navigate([this.origin.lat, this.origin.lng], {
         app: this.launchNavigator.APP.GOOGLE_MAPS
       });
+    } else if (this.global.accept && this.global.running) {
+      this.launchNavigator.navigate([this.destination.lat, this.destination.lng], {
+        app: this.launchNavigator.APP.GOOGLE_MAPS
+      });
+    }
   }
 
   //present message
@@ -285,7 +358,6 @@ export class Home {
         },
         {
           text: 'Continuar corrida',
-          role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
           }

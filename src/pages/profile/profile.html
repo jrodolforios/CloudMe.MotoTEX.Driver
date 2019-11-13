@@ -61,7 +61,7 @@
               </ion-col>
               <ion-col col-5>
                 <div class="status" text-right item-end>
-                  <h4>Sucesso</h4>
+                  <h4>{{item.status}}</h4>
                   <p no-margin>{{item.data}}</p>
                 </div>
               </ion-col>
@@ -101,7 +101,7 @@
             <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
             <h2>{{item.valor}}</h2>
             <p>{{item.formaPagamento}}</p>
-            <button color="secondary" (click)="removeItem(item)" ion-button item-end>cancel</button>
+            <button color="secondary" (click)="removeItem(item)" ion-button item-end>cancelar</button>
           </ion-item>
         </div>
         <p *ngIf="notify.length==0" style="padding: 20px" text-center text-capitalize no-margin>sem agendamentos</p>

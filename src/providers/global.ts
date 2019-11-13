@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class global  {
     public accept = false;
+    public running = false;
     
     public constructor()
      { 

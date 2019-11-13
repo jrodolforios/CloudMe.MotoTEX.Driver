@@ -120,7 +120,8 @@ export class Profile {
                     destino: destino,
                     data: this.serviceProvider.formatData(new Date(solicitacaoCorrida.data)),
                     valor: 'R$' + solicitacaoCorrida.valorEstimado.toFixed(2),
-                    formaPagamento: formaPagamento
+                    formaPagamento: formaPagamento,
+                    status: this.serviceProvider.getStatusCorrida(y.status)
                   })
                 }
               }

@@ -86,6 +86,21 @@ export class AppServiceProvider {
   }
 
   formatedTimeHHMMss(timeInSeconds: number) {
+    var sec_num = timeInSeconds // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    var fHours, fMinutes, fSecconds: string;    
+
+    if (hours   < 10) {fHours   = "0"+hours;} else {fHours   = ""+hours;}
+    if (minutes < 10) {fMinutes = "0"+minutes;} else {fMinutes = ""+minutes;}
+    if (seconds < 10) {fSecconds = "0"+seconds.toFixed(0);} else {fSecconds = seconds.toFixed(0);}
+    
+    return fHours + 'h ' + fMinutes + 'min ' + fSecconds + 'seg'; 
+  }
+
+  formatedTimeHHMM(timeInSeconds: number) {
     var sec_num = timeInSeconds// don't forget the second param
     var hours = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);

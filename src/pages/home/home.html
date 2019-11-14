@@ -33,7 +33,7 @@
 
 <ion-content class="app-content">
   <ion-fab middle right *ngIf="global.accept">
-    <button (click)="navigateTo()"  ion-fab class="backwhite">
+    <button (click)="navigateTo()" ion-fab class="backwhite">
       <ion-icon name="navigate" color="dark"></ion-icon>
     </button>
   </ion-fab>
@@ -57,8 +57,10 @@
   <ion-toolbar color="primary">
 
     <div class="Trip-det" *ngIf="!global.accept">
-      <ion-fab top center [ngClass]="{'shake': serviceProvider.solicitacaoCorridaEmQuestao , 'old-clip': global.accept}" class="animated infinite" *ngIf="!showDetails">
-        <button (click)="activeTrip()" ion-fab [color]="serviceProvider.solicitacaoCorridaEmQuestao ? 'danger' : 'default'">
+      <ion-fab top center [ngClass]="{'shake': serviceProvider.solicitacaoCorridaEmQuestao , 'old-clip': global.accept}"
+        class="animated infinite" *ngIf="!showDetails">
+        <button (click)="activeTrip()" ion-fab
+          [color]="serviceProvider.solicitacaoCorridaEmQuestao ? 'danger' : 'default'">
           <ion-icon name="md-disc" color="light"></ion-icon>
         </button>
       </ion-fab>
@@ -134,9 +136,9 @@
       <ion-grid class="trip-detail">
         <ion-row>
           <ion-col col-12>
-            <ion-fab top center class="ionfabtrip">
-              <button (click)="doneRun()" class="DoneRun" ion-fab>
-                <ion-icon name="checkmark-circle-outline" color="light"></ion-icon>
+            <ion-fab class="delete-fab" top center edge>
+              <button (click)="pausarCorrida()" color="danger" ion-fab>
+                <ion-icon name="pause" color="light"></ion-icon>
               </button>
             </ion-fab>
           </ion-col>
@@ -148,6 +150,15 @@
     </div>
 
   </ion-toolbar>
+
+  <div class="accept-trip delete-fab" *ngIf="global.accept && global.running">
+    <ion-fab top center class="delete-fab">
+      <button (click)="doneRun()" class="DoneRun" ion-fab>
+        <ion-icon name="checkmark-circle-outline" color="light"></ion-icon>
+      </button>
+    </ion-fab>
+    <div class="border"></div>
+  </div>
 
   <div class="accept-trip" *ngIf="global.accept && !global.running">
     <ion-fab class="message-fab left-right-fab" top left mini edge>

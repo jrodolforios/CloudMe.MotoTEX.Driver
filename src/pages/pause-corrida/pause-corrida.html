@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-navbar color="light">
+      <ion-title text-center text-capitalize>Corrida pausada</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+    <div class="destination" text-center>
+      <h1 class="timerClass">{{tempo}}</h1>
+    </div>
+
+  </ion-content>
+  
+  <ion-footer class="map-footer" color="primary">
+    <ion-grid float-right no-padding>
+      <ion-row>
+        <ion-col>
+          <button ion-button full clear text-uppercase color="primary" (click)="startTimer();dismiss()">Excluir</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button full clear text-uppercase color="dark" class="bold"(click)="dismiss()">Continuar</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>

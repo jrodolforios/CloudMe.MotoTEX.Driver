@@ -113,7 +113,7 @@ export class Home {
             break;
         }
 
-        this.descTempoViagem = this.serviceProvider.formatedTimeHHMMss(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
+        this.descTempoViagem = this.serviceProvider.formatedTimeHHMM(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
         this.descValorCorrida = this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
 
         await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
@@ -188,6 +188,11 @@ export class Home {
       ]
     });
     return await alert.present();
+  }
+
+  pausarCorrida(){
+    let DestinationModal = this.modalCtrl.create('PauseCorridaPage');
+    DestinationModal.present();
   }
 
   finalizarCorrida() {

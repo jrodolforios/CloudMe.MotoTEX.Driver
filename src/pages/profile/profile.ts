@@ -67,7 +67,7 @@ export class Profile {
       this.nome = this.serviceProvider.taxistaLogado.usuario.nome;
       this.email = this.serviceProvider.taxistaLogado.usuario.email;
       this.telefone = this.serviceProvider.taxistaLogado.usuario.telefone;
-      this.fotoPerfil = atob(this.serviceProvider.taxistaLogado.foto.dados);
+      this.fotoPerfil = atob(this.serviceProvider.fotoTaxista);
 
       await this.corridaService.ApiV1CorridaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise()
         .then(async x => {

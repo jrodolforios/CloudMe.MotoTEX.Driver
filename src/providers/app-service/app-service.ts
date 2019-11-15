@@ -30,7 +30,8 @@ export class AppServiceProvider {
   descValorCorrida:string = '';
 
   solicitacaoCorridaEmQuestao: SolicitacaoCorridaSummary
-  corridaEmQuestao: CorridaSummary
+  corridaEmQuestao: CorridaSummary;
+  fotoTaxista: string;
 
   taxistaLogado: TaxistaSummary;
 

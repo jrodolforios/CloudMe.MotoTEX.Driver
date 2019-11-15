@@ -34,8 +34,14 @@ export class CallbackPage implements OnInit {
         this.oauthService.loadUserProfile().then(x => {
           if (x["sub"]) {
             this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(taxista => {
-              if (taxista.success)
+              if (taxista.success) {
                 this.serviceProvider.taxistaLogado = taxista.data;
+
+                this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto =>{
+                  if(foto.success)
+                  this.serviceProvider.fotoTaxista = foto.data.dados;
+                })
+              }
             });
             this.navCtrl.push("Home");
           } else {

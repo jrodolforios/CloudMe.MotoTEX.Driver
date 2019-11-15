@@ -3163,6 +3163,65 @@
         ]
       }
     },
+    "/api/v1/Passageiro/informar_localizacao/{id}": {
+      "post": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Informa a localização de um Passageiro.",
+        "operationId": "ApiV1PassageiroInformar_localizacaoByIdPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "localizacao",
+            "in": "body",
+            "description": "Sumário da nova localização do passageiro (necessário apenas latitude e longitude)",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/LocalizacaoSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
     "/api/v1/PontoTaxi": {
       "get": {
         "tags": [
@@ -4456,6 +4515,65 @@
             "in": "query",
             "required": false,
             "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Taxista/informar_localizacao/{id}": {
+      "post": {
+        "tags": [
+          "Taxista"
+        ],
+        "summary": "Informa a localização de um Taxista.",
+        "operationId": "ApiV1TaxistaInformar_localizacaoByIdPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "name": "localizacao",
+            "in": "body",
+            "description": "Sumário da nova localização do taxista (necessário apenas latitude e longitude)",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/LocalizacaoSummary"
+            }
           }
         ],
         "responses": {
@@ -6559,6 +6677,10 @@
           "format": "uuid",
           "type": "string"
         },
+        "idUsuario": {
+          "format": "uuid",
+          "type": "string"
+        },
         "endereco": {
           "type": "string"
         },
@@ -6666,6 +6788,16 @@
         },
         "credenciais": {
           "$ref": "#/definitions/CredenciaisUsuario"
+        },
+        "tipo": {
+          "format": "int32",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "type": "integer"
         }
       }
     },
@@ -6800,6 +6932,10 @@
         "disponivel": {
           "type": "boolean"
         },
+        "idFoto": {
+          "format": "uuid",
+          "type": "string"
+        },
         "idLocalizacaoAtual": {
           "format": "uuid",
           "type": "string"
@@ -6813,9 +6949,6 @@
         },
         "endereco": {
           "$ref": "#/definitions/EnderecoSummary"
-        },
-        "foto": {
-          "$ref": "#/definitions/FotoSummary"
         }
       }
     },
@@ -7472,7 +7605,7 @@
   "securityDefinitions": {
     "oauth2": {
       "flow": "implicit",
-      "authorizationUrl": "https://auth.todetaxi.com.br/connect/authorize",
+      "authorizationUrl": "http://localhost:5000/connect/authorize",
       "scopes": {
         "todetaxiapi": "TOdeTaxiAPI"
       },

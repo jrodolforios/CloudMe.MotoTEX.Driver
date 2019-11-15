@@ -248,8 +248,8 @@ export class Home {
 
   getProfilePhoto() {
     try {
-      if (this.serviceProvider && this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.foto)
-        return atob(this.serviceProvider.taxistaLogado.foto.dados);
+      if (this.serviceProvider && this.serviceProvider.taxistaLogado && this.serviceProvider.fotoTaxista)
+        return atob(this.serviceProvider.fotoTaxista);
       else
         return 'assets/img/user.png';
     } catch (e) {

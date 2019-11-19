@@ -75,7 +75,7 @@ export class DestinationModal {
     })
 
     if(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 3){
-      statusCorrida = 3;
+      statusCorrida = 2;
       this.isAgendamento = false;
     } else if(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2){
       statusCorrida = 1;

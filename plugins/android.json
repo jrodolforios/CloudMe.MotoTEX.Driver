@@ -45,6 +45,12 @@
     },
     "mx.ferreyra.callnumber": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-background-mode": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   },
   "dependent_plugins": {
@@ -52,6 +58,9 @@
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     },
     "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-badge": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   }

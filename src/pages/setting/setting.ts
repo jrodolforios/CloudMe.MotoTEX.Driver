@@ -24,6 +24,11 @@ export class Setting {
         if (x.success) {
           this.serviceProvider.taxistaLogado = x.data;
           this.taxistaDisponivel = this.serviceProvider.taxistaLogado.disponivel;
+
+          if (this.taxistaDisponivel)
+            this.serviceProvider.enableBackground();
+          else
+            this.serviceProvider.disableBackground();
         }
       });
     }

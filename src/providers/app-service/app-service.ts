@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary } from '../../core/api/to_de_taxi/models';
-import { ToastController, NavController } from 'ionic-angular';
+import { ToastController, Platform } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { SolicitacaoCorridaService } from '../../core/api/to_de_taxi/services';
-
-
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { SignalRserviceServiceProvider } from '../signal-rservice-service/signal-rservice-service';
+import { CatalogosService } from '../Catalogos/catalogos.service';
+import { App } from 'ionic-angular';
 /*
   Generated class for the AppServiceProvider provider.
 
@@ -39,7 +42,13 @@ export class AppServiceProvider {
     public toastCtrl: ToastController,
     private vibration: Vibration,
     private nativeAudio: NativeAudio,
-    private solicitacaoCorridaService: SolicitacaoCorridaService, ) {
+    private solicitacaoCorridaService: SolicitacaoCorridaService,
+    private backgroundMode: BackgroundMode,
+    private platform: Platform,
+    private localNotifications: LocalNotifications,
+    private signalRService: SignalRserviceServiceProvider,
+    private CatalogosService: CatalogosService,
+    private app: App) {
 
   }
 
@@ -55,25 +64,13 @@ export class AppServiceProvider {
     this.solicitacaoCorridaEmQuestao = undefined;
   }
 
-  async encontrarCorrida() {
-    var encontrou: boolean = false;
-
-    await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaGet().toPromise().then(x => {
-      if (x.success) {
-        x.data.forEach(data => {
-          if (data.situacao == 1) {
-            encontrou = true;
-            this.solicitacaoCorridaEmQuestao = data;
-          }
-        })
-      }
-    });
+  private async encontrarCorrida(corridaSummary: CorridaSummary) {
+    this.solicitacaoCorridaEmQuestao = corridaSummary;
 
     if (this.solicitacaoCorridaEmQuestao && this.solicitacaoCorridaEmQuestao != null && this.solicitacaoCorridaEmQuestao.situacao == 1) {
       this.callNotification();
+      this.app.getRootNav().setRoot('Home');
     }
-
-    return encontrou;
   }
 
   async callNotification() {
@@ -161,6 +158,61 @@ export class AppServiceProvider {
         return 'Cancelada';
       case 6:
         return 'Concluída';
+    }
+  }
+
+  enableBackground() {
+     this.signalRService.startConnection();
+     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
+
+     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
+
+     this.CatalogosService.solicitacaoCorrida.changesSubject.subscribe(x =>{
+       if(!this.solicitacaoCorridaEmQuestao)
+       var solicitacaoCorridaParaNotificar: SolicitacaoCorridaSummary;
+       x.addedItems.forEach(x => {
+        solicitacaoCorridaParaNotificar = x;
+       });
+
+       this.encontrarCorrida(solicitacaoCorridaParaNotificar);
+       
+     })
+
+    this.platform.ready().then(() => {
+      if (!(this.backgroundMode.isActive() && this.backgroundMode.isEnabled())) {
+        this.backgroundMode.setDefaults({
+          text: "Você está ativo, receberá chamados de corrida",
+          title: "Ativo para receber chamados",
+          ticker: "Você está ativo",
+          resume: true,
+          bigText: true,
+          hidden: false,
+          silent: false
+        });
+
+        this.backgroundMode.enable();
+
+        this.backgroundMode.on('activate').subscribe(() => {
+          this.backgroundMode.disableWebViewOptimizations();
+
+          this.localNotifications.schedule({
+            id: 1,
+            title: 'TÔdeTAXI está ativo',
+            text: 'Você está ativo, receberá chamados de corrida',
+            //data: { secret: key }
+          });
+        });
+      }
+    });
+  }
+
+  disableBackground() {
+    this.CatalogosService.solicitacaoCorrida.stopTrackingChanges();
+    this.signalRService.disconnect();
+    if (this.backgroundMode.isActive && this.backgroundMode.isEnabled) {
+      this.backgroundMode.disable();
+
+      this.localNotifications.cancel(1);
     }
   }
 

@@ -36,9 +36,9 @@ export class DestinationModal {
     this.distancia = this.serviceProvider.descDistanciaViagem;
     this.valor = this.serviceProvider.descValorCorrida;
 
-    if(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 3){
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 3) {
       this.isAgendamento = false;
-    } else if(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2){
+    } else if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
       this.isAgendamento = true;
     }
   }
@@ -57,27 +57,27 @@ export class DestinationModal {
     this.distancia = '';
     this.valor = '';
 
-    await this.tarifaService.ApiV1TarifaGet().toPromise().then(x =>{
-      if(x.success){
-        x.data.forEach(y =>{
+    await this.tarifaService.ApiV1TarifaGet().toPromise().then(x => {
+      if (x.success) {
+        x.data.forEach(y => {
           idTarifa = y.id;
         });
       }
     });
 
-    await this.veiculoTaxistaService.ApiV1VeiculoTaxistaConsultaVeiculosDeTaxistasByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x =>{
-      if(x.success){
-        x.data.forEach(y =>{
-          if(y.ativo)
+    await this.veiculoTaxistaService.ApiV1VeiculoTaxistaConsultaVeiculosDeTaxistasByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+      if (x.success) {
+        x.data.forEach(y => {
+          if (y.ativo)
             idVeiculo = y.idVeiculo;
         });
       }
     })
 
-    if(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 3){
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 3) {
       statusCorrida = 2;
       this.isAgendamento = false;
-    } else if(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2){
+    } else if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
       statusCorrida = 1;
       this.isAgendamento = true;
     }
@@ -92,8 +92,8 @@ export class DestinationModal {
       status: statusCorrida
     }
 
-    this.corridaService.ApiV1CorridaPost(corrida).toPromise().then(x =>{
-      if(x.success){
+    this.corridaService.ApiV1CorridaPost(corrida).toPromise().then(x => {
+      if (x.success) {
         corrida.id = x.data;
         this.serviceProvider.corridaEmQuestao = corrida;
       }
@@ -102,10 +102,17 @@ export class DestinationModal {
     this.serviceProvider.solicitacaoCorridaEmQuestao.situacao = 2
 
     this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaPut(this.serviceProvider.solicitacaoCorridaEmQuestao).toPromise()
-    .then(x =>{
-      if(!x.success)
-        alert(JSON.stringify(x.notifications));
-    });
+      .then(x => {
+        if (!x.success) {
+          alert(JSON.stringify(x.notifications));
+        }
+      });
+
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
+      this.global.accept = false;
+      this.serviceProvider.corridaEmQuestao = undefined;
+      this.serviceProvider.solicitacaoCorridaEmQuestao = undefined;
+    }
   }
 
   // close Modal
@@ -113,7 +120,7 @@ export class DestinationModal {
     this.viewCtrl.dismiss();
   }
 
-  async showMessageAgendamentoAndDimiss(){
+  async showMessageAgendamentoAndDimiss() {
     const alert = await this.alertCtrl.create({
       title: 'Corrida agendada',
       message: 'Sua corrida foi agendada, fique atento ao horário para não perdê-la',

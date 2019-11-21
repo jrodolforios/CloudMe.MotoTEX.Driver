@@ -3,9 +3,9 @@ import { Nav, Platform, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
-import {JwksValidationHandler } from '../../auth-oidc/src/token-validation/jwks-validation-handler'
+import { JwksValidationHandler } from '../../auth-oidc/src/token-validation/jwks-validation-handler'
 import { authConfig } from '../auth/auth.config';
-import { TaxistaService } from '../core/api/to_de_taxi/services';
+import { TaxistaService, FotoService } from '../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../providers/app-service/app-service';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
@@ -27,7 +27,8 @@ export class MyApp {
     private oauthService: OAuthService,
     private taxistaService: TaxistaService,
     private serviceProvider: AppServiceProvider,
-    private nativeAudio: NativeAudio) {
+    private nativeAudio: NativeAudio,
+    private fotoService: FotoService) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -40,10 +41,10 @@ export class MyApp {
   }
 
   private async configureWithNewConfigApi() {
-    this.nativeAudio.unload('todetaximotoristaruncomming').then().catch(err =>{});
-    await this.nativeAudio.preloadComplex('todetaximotoristaruncomming', 'assets/sounds/simple_beep.mp3',1,1,0)
-    .then().catch(err => {});
-    
+    this.nativeAudio.unload('todetaximotoristaruncomming').then().catch(err => { });
+    await this.nativeAudio.preloadComplex('todetaximotoristaruncomming', 'assets/sounds/simple_beep.mp3', 1, 1, 0)
+      .then().catch(err => { });
+
     this.oauthService.configure(authConfig);
     this.oauthService.setStorage(localStorage);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
@@ -54,15 +55,26 @@ export class MyApp {
       this.oauthService.loadUserProfile().then(async x => {
         if (x["sub"]) {
           this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
-            if (taxista.success)
+            if (taxista.success) {
               this.serviceProvider.taxistaLogado = taxista.data;
+
+              await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto =>{
+                if(foto.success)
+                this.serviceProvider.fotoTaxista = foto.data.dados;
+              });
+
+              if (this.serviceProvider.taxistaLogado.disponivel)
+                this.serviceProvider.enableBackground();
+              else
+                this.serviceProvider.disableBackground();
+            }
           });
           this.nav.push("Home");
         } else {
           this.nav.push("Login");
         }
       });
-    } else{
+    } else {
       this.nav.push('Login')
     }
   }
@@ -78,7 +90,7 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-    
+
   }
 
   openPage(page) {

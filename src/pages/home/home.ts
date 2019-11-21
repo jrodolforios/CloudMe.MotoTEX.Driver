@@ -9,6 +9,7 @@ import { AppServiceProvider } from '../../providers/app-service/app-service';
 import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService } from '../../core/api/to_de_taxi/services';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { CatalogosService } from '../../providers/Catalogos/catalogos.service';
 declare var google;
 
 @IonicPage()
@@ -72,74 +73,77 @@ export class Home {
     private corridaService: CorridaService,
     private launchNavigator: LaunchNavigator,
     private callNumber: CallNumber,
-    private passageiroService: PassageiroService) {
+    private passageiroService: PassageiroService,
+    private CatalogosService: CatalogosService,) {
   }
 
   async ionViewDidLoad() {
+    if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
+      this.serviceProvider.enableBackground();
+    else
+      this.serviceProvider.disableBackground();
+
     await this.initMap();
-    if (await this.serviceProvider.encontrarCorrida()) {
-      if (this.serviceProvider.solicitacaoCorridaEmQuestao
-        && this.serviceProvider.solicitacaoCorridaEmQuestao != null
-        && this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1) {
-        this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
-          .then(x => {
-            if (x.success)
-              this.descFormaPagamento = x.data.descricao;
-          });
-
-        this.descTituloTipoViagem = this.serviceProvider.getTipoViagem(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento)
-
-        switch (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento) {
-          case 0:
-            this.descTipoViagem = 'Indefinido';
-            break;
-          case 1:
-            if (this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != null
-              && this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != undefined) {
-              this.faixaDescontoService.ApiV1FaixaDescontoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto).toPromise()
-                .then(x => {
-                  if (x.success)
-                    this.descTipoViagem = x.data.descricao;
-                });
-            } else {
-              this.descTipoViagem = "Sem desconto"
-            }
-            break;
-          case 2:
-            this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
-            break;
-          case 3:
-            this.descTipoViagem = "R$ " + this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
-            break;
-        }
-
-        this.descTempoViagem = this.serviceProvider.formatedTimeHHMM(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
-        this.descValorCorrida = this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
-
-        await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
-          if (x.success) {
-            this.textoOrigem = x.data.nomePublico;
-            this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
-          }
-        })
-
-        await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x => {
-          if (x.success) {
-            this.textoDestino = x.data.nomePublico;
-            this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
-          }
-        })
-
-        await this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao
+      && this.serviceProvider.solicitacaoCorridaEmQuestao != null
+      && this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1) {
+      this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
+        .then(x => {
           if (x.success)
-            this.telefonePassageiro = x.data.usuario.telefone;
-          this.nomePassageiro = x.data.usuario.nome;
-        })
+            this.descFormaPagamento = x.data.descricao;
+        });
 
-        await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
+      this.descTituloTipoViagem = this.serviceProvider.getTipoViagem(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento)
+
+      switch (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento) {
+        case 0:
+          this.descTipoViagem = 'Indefinido';
+          break;
+        case 1:
+          if (this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != null
+            && this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != undefined) {
+            this.faixaDescontoService.ApiV1FaixaDescontoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto).toPromise()
+              .then(x => {
+                if (x.success)
+                  this.descTipoViagem = x.data.descricao;
+              });
+          } else {
+            this.descTipoViagem = "Sem desconto"
+          }
+          break;
+        case 2:
+          this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
+          break;
+        case 3:
+          this.descTipoViagem = "R$ " + this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
+          break;
       }
-    }
 
+      this.descTempoViagem = this.serviceProvider.formatedTimeHHMM(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
+      this.descValorCorrida = this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
+
+      await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
+        if (x.success) {
+          this.textoOrigem = x.data.nomePublico;
+          this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
+        }
+      })
+
+      await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x => {
+        if (x.success) {
+          this.textoDestino = x.data.nomePublico;
+          this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
+        }
+      })
+
+      await this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
+        if (x.success)
+          this.telefonePassageiro = x.data.usuario.telefone;
+        this.nomePassageiro = x.data.usuario.nome;
+      })
+
+      await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
+    }
   }
 
   async getPassageiro() {
@@ -166,7 +170,7 @@ export class Home {
     return await alert.present();
   }
 
-  async doneRun(){
+  async doneRun() {
     const alert = await this.alertCtrl.create({
       title: 'Finalizar corrida',
       message: 'Tem certeza que deseja finalizar a corrida de forma bem-sucedida?',
@@ -190,7 +194,7 @@ export class Home {
     return await alert.present();
   }
 
-  pausarCorrida(){
+  pausarCorrida() {
     let DestinationModal = this.modalCtrl.create('PauseCorridaPage');
     DestinationModal.present();
   }
@@ -278,7 +282,7 @@ export class Home {
   async initMap() {
     await this.platform.ready().then(() => {
       //use the geolocation 
-      this.geolocation.watchPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: true }).subscribe(resp => {
+      this.geolocation.watchPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: false }).subscribe(resp => {
         const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
         const mapOptions = {
           center: latLng,
@@ -290,8 +294,8 @@ export class Home {
           this.lng = resp.coords.longitude;
         }
 
-        this.serviceProvider.taxistLat = this.lat;
-        this.serviceProvider.Taxistlng = this.lng;
+        this.serviceProvider.taxistLat = resp.coords.latitude;
+        this.serviceProvider.Taxistlng = resp.coords.longitude;
 
         //loader.dismiss();
       });
@@ -323,6 +327,45 @@ export class Home {
     this.serviceProvider.descValorCorrida = this.descValorCorrida;
 
     let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
+    DestinationModal.onDidDismiss(() => {
+      if (this.global.accept == false && !this.serviceProvider.solicitacaoCorridaEmQuestao) {
+        this.ignoreCorrida();
+      } else{
+        this.CatalogosService.corrida.startTrackingChanges();
+        this.CatalogosService.corrida.changesSubject.subscribe(x =>{
+          x.updatedItems.forEach(async y =>{
+            if(y.id == this.serviceProvider.corridaEmQuestao.id){
+              this.serviceProvider.corridaEmQuestao = y;
+
+              if(this.serviceProvider.corridaEmQuestao.status == 5){
+                this.ignoreCorrida();
+                const alert = await this.alertCtrl.create({
+                  title: 'Corrida cancelada',
+                  message: 'A corrida foi cancelada pelo usuário',
+                  buttons: [
+                    {
+                      text: 'Ok',
+                      role: 'cancel',
+                      cssClass: 'secondary',
+                      handler: (blah) => {
+                        // Classificar passageiro
+                      }
+                    },
+                    {
+                      text: 'Continuar corrida',
+                      cssClass: 'secondary',
+                      handler: (blah) => {
+                      }
+                    }
+                  ]
+                });
+                return await alert.present();
+              }
+            }
+          })
+        })
+      }
+    });
     DestinationModal.present();
 
   }

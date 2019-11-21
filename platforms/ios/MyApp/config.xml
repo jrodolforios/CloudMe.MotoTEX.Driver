@@ -70,6 +70,16 @@
     <feature name="CallNumber">
         <param name="ios-package" value="CFCallNumber" />
     </feature>
+    <feature name="BackgroundMode">
+        <param name="ios-package" onload="true" value="APPBackgroundMode" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Badge">
+        <param name="ios-package" value="APPBadge" />
+    </feature>
+    <feature name="LocalNotification">
+        <param name="ios-package" value="APPLocalNotification" />
+    </feature>
     <name>TÔdeTaxi Motorista</name>
     <description>APP motorista do TÔdeTaxi</description>
     <author email="contato@cloudme.com.br" href="http://www.cloudme.com.br">CloudMe Solutions</author>

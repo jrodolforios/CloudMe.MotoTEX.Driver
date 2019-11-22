@@ -78,11 +78,6 @@ export class Home {
   }
 
   async ionViewDidLoad() {
-    if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
-      this.serviceProvider.enableBackground();
-    else
-      this.serviceProvider.disableBackground();
-
     await this.initMap();
     if (this.serviceProvider.solicitacaoCorridaEmQuestao
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
@@ -262,6 +257,7 @@ export class Home {
   }
 
   ignoreCorrida() {
+    this.CatalogosService.corrida.stopTrackingChanges();
     this.descTipoViagem = '';
     this.descTituloTipoViagem = ''
     this.descDistanciaViagem = '';
@@ -350,12 +346,6 @@ export class Home {
                       handler: (blah) => {
                         // Classificar passageiro
                       }
-                    },
-                    {
-                      text: 'Continuar corrida',
-                      cssClass: 'secondary',
-                      handler: (blah) => {
-                      }
                     }
                   ]
                 });
@@ -416,6 +406,7 @@ export class Home {
   }
 
   cancelarCorrida() {
+    this.CatalogosService.corrida.stopTrackingChanges();
     this.serviceProvider.corridaEmQuestao.status = 5;
     this.global.accept = false;
     this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => {

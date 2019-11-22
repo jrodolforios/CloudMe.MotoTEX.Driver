@@ -37,10 +37,15 @@ export class CallbackPage implements OnInit {
               if (taxista.success) {
                 this.serviceProvider.taxistaLogado = taxista.data;
 
-                await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto =>{
-                  if(foto.success)
-                  this.serviceProvider.fotoTaxista = foto.data.dados;
+                await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
+                  if (foto.success)
+                    this.serviceProvider.fotoTaxista = foto.data.dados;
                 });
+
+                if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
+                  this.serviceProvider.enableBackground();
+                else
+                  this.serviceProvider.disableBackground();
               }
             });
             this.navCtrl.push("Home");

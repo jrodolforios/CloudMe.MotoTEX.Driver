@@ -48,6 +48,7 @@ export class MyApp {
     this.oauthService.configure(authConfig);
     this.oauthService.setStorage(localStorage);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
+    this.oauthService.setupAutomaticSilentRefresh();
 
     await this.oauthService.loadDiscoveryDocumentAndTryLogin();
     if (this.oauthService.hasValidIdToken() || this.oauthService.hasValidAccessToken()) {

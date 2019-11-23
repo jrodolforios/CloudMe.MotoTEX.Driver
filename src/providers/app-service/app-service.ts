@@ -80,9 +80,18 @@ export class AppServiceProvider {
   async callNotification() {
     this.vibration.vibrate([2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000]);
     this.nativeAudio.play('todetaximotoristaruncomming').then().catch();
+    
+    this.localNotifications.schedule({
+      id: 999,
+      title: 'Chamado em andamento',
+      text: 'Toque para ver o chamado em andamento',
+      //data: { secret: key }
+    });
+
   }
 
   async endNotification() {
+    this.localNotifications.cancel(999).catch();
     this.vibration.vibrate(0);
     this.nativeAudio.stop('todetaximotoristaruncomming')
   }
@@ -256,12 +265,6 @@ export class AppServiceProvider {
         this.backgroundMode.on('activate').subscribe(() => {
           this.backgroundMode.disableWebViewOptimizations();
 
-          this.localNotifications.schedule({
-            id: 1,
-            title: 'TÔdeTAXI está ativo',
-            text: 'Você está ativo, receberá chamados de corrida',
-            //data: { secret: key }
-          });
         });
       }
     });

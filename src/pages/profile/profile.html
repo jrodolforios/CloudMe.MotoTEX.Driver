@@ -101,6 +101,7 @@
             <ion-icon name="md-cash" color="secondary" item-start></ion-icon>
             <h2>{{item.valor}}</h2>
             <p>{{item.formaPagamento}}</p>
+            <button color="secondary" (click)="iniciarCorrida(item)" ion-button item-end>Iniciar</button>
             <button color="secondary" (click)="removeItem(item)" ion-button item-end>cancelar</button>
           </ion-item>
         </div>

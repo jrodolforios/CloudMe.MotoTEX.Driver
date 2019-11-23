@@ -11,6 +11,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CatalogosService } from '../../providers/Catalogos/catalogos.service';
 import { CorridaSummary } from '../../core/api/to_de_taxi/models';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 declare var google;
 
 @IonicPage()
@@ -76,14 +77,16 @@ export class Home {
     private callNumber: CallNumber,
     private passageiroService: PassageiroService,
     private CatalogosService: CatalogosService,
-    private solicitacaoCorridaService: SolicitacaoCorridaService, ) {
+    private solicitacaoCorridaService: SolicitacaoCorridaService,
+    private localNotifications: LocalNotifications, ) {
   }
 
   async ionViewDidLoad() {
     await this.initMap();
-    if (this.serviceProvider.solicitacaoCorridaEmQuestao
+    if ((this.serviceProvider.solicitacaoCorridaEmQuestao
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
-      && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0)) {
+      && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0))
+      || this.serviceProvider.corridaEmQuestao.status == 2) {
       this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
         .then(x => {
           if (x.success)
@@ -292,6 +295,9 @@ export class Home {
     this.serviceProvider.solicitacaoCorridaEmQuestao = undefined;
 
     this.showDetails = false;
+    this.global.accept = false;
+    this.global.running = false;
+
     this.serviceProvider.discartViagem();
   }
 
@@ -364,6 +370,7 @@ export class Home {
         this.CatalogosService.corrida.changesSubject.subscribe(async x => {
           var idAdded: string = '';
           var idUpdated: string = '';
+
           await x.addedItems.forEach(async item => {
             if (idAdded != item.id) {
               idAdded = item.id;
@@ -407,7 +414,7 @@ export class Home {
     if(this.serviceProvider.corridaEmQuestao.id == item.id){
       if(loader) loader.dismiss();
 
-      if(item.status == 5)
+      if(item.status == 5 )
         this.showCorridaCanceladaPeloUsuario();
     }
   }
@@ -415,7 +422,15 @@ export class Home {
     if (item.idTaxista == this.serviceProvider.taxistaLogado.id
       && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
         if(loader) loader.dismiss();
-      if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
+      if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2 ) {
+        var random: number = Math.random()
+        this.localNotifications.schedule({
+          id: random,
+          title: 'Corrida agendada',
+          text: 'Você tem uma corrida agendada para agora. Abra o app e vá até seus agendamentos e inicie a corrida.',
+          trigger: {at: new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data)},
+        });
+
         await this.showAlertCorridaAgendada();
       }
       this.serviceProvider.corridaEmQuestao = item;

@@ -4,7 +4,7 @@ import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary, FormaPagamen
 import { ToastController, Platform, LoadingController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
-import { SolicitacaoCorridaService } from '../../core/api/to_de_taxi/services';
+import { SolicitacaoCorridaService, CorridaService } from '../../core/api/to_de_taxi/services';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SignalRserviceServiceProvider } from '../signal-rservice-service/signal-rservice-service';
@@ -51,7 +51,8 @@ export class AppServiceProvider {
     private localNotifications: LocalNotifications,
     private signalRService: SignalRserviceServiceProvider,
     private CatalogosService: CatalogosService,
-    private app: App) {
+    private app: App,
+    private corridaService: CorridaService) {
     this.formasPagamentoTaxista = [];
     this.faixasDescontoTaxista = [];
   }
@@ -238,8 +239,15 @@ export class AppServiceProvider {
         this.notificarCorrida(solicitacaoCorridaParaNotificar);
       }
       else if (this.solicitacaoCorridaEmQuestao) {
-        x.updatedItems.forEach(x => {
-          if (x.id == this.solicitacaoCorridaEmQuestao.id && (x.situacao == 2 || x.situacao == 4) && !this.corridaEmQuestao) {
+        x.updatedItems.forEach(async x => {
+          var corrida: CorridaSummary
+          await this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.solicitacaoCorridaEmQuestao.id).toPromise()
+          .then(z =>{
+            if(z.success && z.data)
+            corrida = z.data;
+          });
+
+          if (x.id == this.solicitacaoCorridaEmQuestao.id && (x.situacao == 2 || x.situacao == 4) && corrida && corrida.idTaxista != this.taxistaLogado.id) {
             this.endNotification();
             this.solicitacaoCorridaEmQuestao = undefined;
           }

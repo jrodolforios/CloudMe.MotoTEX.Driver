@@ -83,6 +83,7 @@ export class PaymentChooserPage {
   saveConfig() {
     var formaPagamentoTaxistaParaAdicionar: FormaPagamentoTaxistaSummary;
     var idTaxista: string = this.serviceProvider.taxistaLogado.id
+    this.serviceProvider.formasPagamentoTaxista.length = 0;
     this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
       if (x.success && x.data) {
         this.formasPagamento.forEach(async y => {
@@ -93,8 +94,10 @@ export class PaymentChooserPage {
             }
 
             await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaPost(formaPagamentoTaxistaParaAdicionar).toPromise().then(z => {
-              if (z.success)
+              if (z.success) {
+                this.serviceProvider.formasPagamentoTaxista.push(formaPagamentoTaxistaParaAdicionar);
                 this.serviceProvider.presentToast("Formas de pagamento atulizadas.");
+              }
               else
                 this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
             });

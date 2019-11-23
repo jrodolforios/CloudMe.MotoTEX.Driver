@@ -34,8 +34,8 @@
         <button ion-button full clear text-uppercase color="primary" (click)="dismiss()">Cancelar</button>
       </ion-col>
       <ion-col>
-        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="!isAgendamento" (click)="dismiss();AcceptTrip()">Aceitar</button>
-        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="isAgendamento" (click)="AcceptTrip();showMessageAgendamentoAndDimiss()"> Agendar</button>
+        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="!isAgendamento" (click)="AcceptTrip();dismiss();">Aceitar</button>
+        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="isAgendamento" (click)="AcceptTrip();dismiss()"> Agendar</button>
       </ion-col>
     </ion-row>
   </ion-grid>

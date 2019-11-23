@@ -82,7 +82,7 @@ export class CheckDisponibilityPage {
           if(!y.success || !y.data){
             const alert = await this.alertCtrl.create({
               title: 'Você não pode ficar Disopnível',
-              message: 'Não conseguimos selecionar o veiculo que você selecionou. Tente novamente mais tarde.',
+              message: 'Não conseguimos selecionar o veiculo que você marcou. Tente novamente mais tarde.',
               buttons: [{
                 text: 'Ok',
                 role: 'cancel',
@@ -105,7 +105,7 @@ export class CheckDisponibilityPage {
         } else {
           const alert = await this.alertCtrl.create({
             title: 'Você não pode ficar Disopnível',
-            message: 'Parece que seu carro está ativo para outro taxista em operação no momento.',
+            message: 'Parece que seu carro está ativo para outro taxista em operação no momento ou você não está autorizado a realizar corridas pelo APP',
             buttons: [{
               text: 'Ok',
               role: 'cancel',

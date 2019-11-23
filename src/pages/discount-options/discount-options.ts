@@ -58,6 +58,7 @@ export class DiscountOptionsPage {
 
   saveConfig() {
     var faixaDescontoTaxistaParaAdicionar: FaixaDescontoTaxistaSummary;
+    this.serviceProvider.faixasDescontoTaxista.length = 0;
     var idTaxista: string = this.serviceProvider.taxistaLogado.id
     this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
       if (x.success && x.data) {
@@ -69,8 +70,10 @@ export class DiscountOptionsPage {
             }
 
             await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaPost(faixaDescontoTaxistaParaAdicionar).toPromise().then(z => {
-              if (z.success)
-                this.serviceProvider.presentToast("Formas de pagamento atulizadas.");
+              if (z.success) {
+                this.serviceProvider.faixasDescontoTaxista.push(faixaDescontoTaxistaParaAdicionar);
+                this.serviceProvider.presentToast("Formas de pagamento atualizadas.");
+              }
               else
                 this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
             });

@@ -1,15 +1,16 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, ViewController, ModalController, AlertController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, ModalController, AlertController, NavParams, Platform, Loading } from 'ionic-angular';
 import { global } from '../../providers/global';
 import { AuthGuard } from '../../auth/auth.guard';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
-import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService } from '../../core/api/to_de_taxi/services';
+import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService } from '../../core/api/to_de_taxi/services';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CatalogosService } from '../../providers/Catalogos/catalogos.service';
+import { CorridaSummary } from '../../core/api/to_de_taxi/models';
 declare var google;
 
 @IonicPage()
@@ -74,14 +75,15 @@ export class Home {
     private launchNavigator: LaunchNavigator,
     private callNumber: CallNumber,
     private passageiroService: PassageiroService,
-    private CatalogosService: CatalogosService,) {
+    private CatalogosService: CatalogosService,
+    private solicitacaoCorridaService: SolicitacaoCorridaService, ) {
   }
 
   async ionViewDidLoad() {
     await this.initMap();
     if (this.serviceProvider.solicitacaoCorridaEmQuestao
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
-      && this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1) {
+      && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0)) {
       this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
         .then(x => {
           if (x.success)
@@ -195,8 +197,10 @@ export class Home {
   }
 
   finalizarCorrida() {
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+
     this.serviceProvider.corridaEmQuestao.status = 6
-    this.serviceProvider.corridaEmQuestao.fim = (new Date()).toISOString();
+    this.serviceProvider.corridaEmQuestao.fim = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
     this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => { });
 
     this.global.running = false;
@@ -205,8 +209,10 @@ export class Home {
   }
 
   iniciarCorrida() {
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+
     this.serviceProvider.corridaEmQuestao.status = 3
-    this.serviceProvider.corridaEmQuestao.inicio = (new Date()).toISOString();
+    this.serviceProvider.corridaEmQuestao.inicio = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
     this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => { });
 
     this.global.running = true;
@@ -236,13 +242,24 @@ export class Home {
       }
     });
 
-
     setTimeout(() => {
       this.descDistanciaViagem = routeDistance.toFixed(1);
       // this.serviceProvider.timeDurationSeconds = timeDurationSec;
       // this.timeDuration = this.serviceProvider.formatedTimeHHMMss(timeDurationSec);
       // console.log(this.tripDistance);
     }, 3000);
+  }
+
+  async recusarCorrida() {
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao)
+      await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
+        id: '00000000-0000-0000-0000-000000000000',
+        acao: 3,
+        idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
+        idTaxista: this.serviceProvider.taxistaLogado.id
+      }).toPromise().then(x => {
+        console.log(JSON.stringify(x));
+      });
   }
 
   getProfilePhoto() {
@@ -270,6 +287,9 @@ export class Home {
     this.telefonePassageiro = '';
     this.origin = undefined;
     this.destination = undefined;
+
+    this.serviceProvider.corridaEmQuestao = undefined;
+    this.serviceProvider.solicitacaoCorridaEmQuestao = undefined;
 
     this.showDetails = false;
     this.serviceProvider.discartViagem();
@@ -307,7 +327,7 @@ export class Home {
   //show details of trip
   activeTrip() {
     if (this.serviceProvider.solicitacaoCorridaEmQuestao && this.serviceProvider.solicitacaoCorridaEmQuestao != null
-      && this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1) {
+      && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0)) {
       this.showDetails = !this.showDetails;
     }
 
@@ -323,41 +343,144 @@ export class Home {
     this.serviceProvider.descValorCorrida = this.descValorCorrida;
 
     let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
-    DestinationModal.onDidDismiss(() => {
-      if (this.global.accept == false && !this.serviceProvider.solicitacaoCorridaEmQuestao) {
-        this.ignoreCorrida();
-      } else{
-        this.CatalogosService.corrida.startTrackingChanges();
-        this.CatalogosService.corrida.changesSubject.subscribe(x =>{
-          x.updatedItems.forEach(async y =>{
-            if(y.id == this.serviceProvider.corridaEmQuestao.id){
-              this.serviceProvider.corridaEmQuestao = y;
+    DestinationModal.onDidDismiss(async () => {
+      if (this.global.accept == false) {
+        if (!this.global.accept) {
+          this.ignoreCorrida();
+          await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
+            id: '00000000-0000-0000-0000-000000000000',
+            acao: 3,
+            idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
+            idTaxista: this.serviceProvider.taxistaLogado.id
+          }).toPromise().then(x => {
+            console.log(JSON.stringify(x));
+          });
+        }
+      } else {
+        const loader = await this.serviceProvider.loading('Aguarde...');
+        await loader.present();
 
-              if(this.serviceProvider.corridaEmQuestao.status == 5){
-                this.ignoreCorrida();
-                const alert = await this.alertCtrl.create({
-                  title: 'Corrida cancelada',
-                  message: 'A corrida foi cancelada pelo usuário',
-                  buttons: [
-                    {
-                      text: 'Ok',
-                      role: 'cancel',
-                      cssClass: 'secondary',
-                      handler: (blah) => {
-                        // Classificar passageiro
-                      }
-                    }
-                  ]
-                });
-                return await alert.present();
-              }
+        this.CatalogosService.corrida.startTrackingChanges()
+        this.CatalogosService.corrida.changesSubject.subscribe(async x => {
+          var idAdded: string = '';
+          var idUpdated: string = '';
+          await x.addedItems.forEach(async item => {
+            if (idAdded != item.id) {
+              idAdded = item.id;
+              await this.realizarTratamentoAddCorrida(item, loader);
+            }
+          });
+
+          await x.updatedItems.forEach(async item => {
+            if (idUpdated != item.id) {
+              idUpdated = item.id;
+              await this.realizarTratamentoUpdateCorrida(item, loader);
             }
           })
+        });
+
+        this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
+        .toPromise().then(x =>{
+          if(x.success && x.data){
+            this.realizarTratamentoAddCorrida(x.data, loader);
+            this.realizarTratamentoUpdateCorrida(x.data, loader);
+          }
         })
+
+        await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
+          id: '00000000-0000-0000-0000-000000000000',
+          acao: 2,
+          idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
+          idTaxista: this.serviceProvider.taxistaLogado.id
+        }).toPromise().then(async x => {
+          if (!x.success || !x.data)
+            this.ignoreCorrida();
+          console.log(JSON.stringify(x));
+        });
+
       }
     });
     DestinationModal.present();
 
+  }
+  realizarTratamentoUpdateCorrida(item: CorridaSummary, loader: Loading) {
+    if(this.serviceProvider.corridaEmQuestao.id == item.id){
+      if(loader) loader.dismiss();
+
+      if(item.status == 5)
+        this.showCorridaCanceladaPeloUsuario();
+    }
+  }
+  async realizarTratamentoAddCorrida(item: CorridaSummary, loader: Loading) {
+    if (item.idTaxista == this.serviceProvider.taxistaLogado.id
+      && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
+        if(loader) loader.dismiss();
+      if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
+        await this.showAlertCorridaAgendada();
+      }
+      this.serviceProvider.corridaEmQuestao = item;
+
+    } else if (item.idTaxista != this.serviceProvider.taxistaLogado.id
+      && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
+        if(loader) loader.dismiss();
+      await this.showAlertCorridaOutroTaxista();
+    }
+  }
+
+  async showCorridaCanceladaPeloUsuario() {
+    const alert = await this.alertCtrl.create({
+      title: 'Corrida cancelada',
+      message: 'O passageiro cancelou a corrida.',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.ignoreCorrida();
+
+            //TODO: Qualificar corrida;
+          }
+        }
+      ]
+    });
+    return await alert.present();
+  }
+
+  async showAlertCorridaOutroTaxista() {
+    const alert = await this.alertCtrl.create({
+      title: 'Corrida já aceita por outro taxista',
+      message: 'Essa corrida já foi aceita por outro taxista. Aguarde um novo chamado',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.ignoreCorrida();
+          }
+        }
+      ]
+    });
+    return await alert.present();
+  }
+
+  async showAlertCorridaAgendada() {
+    const alert = await this.alertCtrl.create({
+      title: 'A corrida foi agendada',
+      message: 'A corrida foi agendada, fique atento para não perder o horário.',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            this.ignoreCorrida();
+          }
+        }
+      ]
+    });
+    return await alert.present();
   }
 
   navigateTo() {

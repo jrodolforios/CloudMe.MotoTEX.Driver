@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary } from '../../core/api/to_de_taxi/models';
-import { ToastController, Platform } from 'ionic-angular';
+import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary, FormaPagamentoSummary, FaixaDescontoSummary } from '../../core/api/to_de_taxi/models';
+import { ToastController, Platform, LoadingController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { SolicitacaoCorridaService } from '../../core/api/to_de_taxi/services';
@@ -23,25 +23,28 @@ export class AppServiceProvider {
 
   taxistLat: any;
   Taxistlng: any;
-  
-  //Para uso na modal
-  textoOrigem:string = '';
-  textoDestino:string = '';
 
-  descDistanciaViagem:string = '';
-  descTempoViagem:string = '';
-  descValorCorrida:string = '';
+  //Para uso na modal
+  textoOrigem: string = '';
+  textoDestino: string = '';
+
+  descDistanciaViagem: string = '';
+  descTempoViagem: string = '';
+  descValorCorrida: string = '';
 
   solicitacaoCorridaEmQuestao: SolicitacaoCorridaSummary
   corridaEmQuestao: CorridaSummary;
-  fotoTaxista: string;
 
   taxistaLogado: TaxistaSummary;
+  fotoTaxista: string;
+  formasPagamentoTaxista: FormaPagamentoSummary[];
+  faixasDescontoTaxista: FaixaDescontoSummary[];
 
   constructor(public http: HttpClient,
     public toastCtrl: ToastController,
     private vibration: Vibration,
     private nativeAudio: NativeAudio,
+    public loadingCtrl: LoadingController,
     private solicitacaoCorridaService: SolicitacaoCorridaService,
     private backgroundMode: BackgroundMode,
     private platform: Platform,
@@ -49,7 +52,8 @@ export class AppServiceProvider {
     private signalRService: SignalRserviceServiceProvider,
     private CatalogosService: CatalogosService,
     private app: App) {
-
+    this.formasPagamentoTaxista = [];
+    this.faixasDescontoTaxista = [];
   }
 
   async presentToast(message: string) {
@@ -64,10 +68,10 @@ export class AppServiceProvider {
     this.solicitacaoCorridaEmQuestao = undefined;
   }
 
-  private async encontrarCorrida(corridaSummary: CorridaSummary) {
+  private async notificarCorrida(corridaSummary: CorridaSummary) {
     this.solicitacaoCorridaEmQuestao = corridaSummary;
 
-    if (this.solicitacaoCorridaEmQuestao && this.solicitacaoCorridaEmQuestao != null && this.solicitacaoCorridaEmQuestao.situacao == 1) {
+    if (this.solicitacaoCorridaEmQuestao && this.solicitacaoCorridaEmQuestao != null && (this.solicitacaoCorridaEmQuestao.situacao == 1 || this.solicitacaoCorridaEmQuestao.situacao == 0)) {
       this.callNotification();
       this.app.getRootNav().setRoot('Home');
     }
@@ -83,19 +87,26 @@ export class AppServiceProvider {
     this.nativeAudio.stop('todetaximotoristaruncomming')
   }
 
+  async loading(message: string) {
+    const loader = await this.loadingCtrl.create({
+      content: message
+    });
+    return loader;
+  }
+
   formatedTimeHHMMss(timeInSeconds: number) {
     var sec_num = timeInSeconds // don't forget the second param
-    var hours   = Math.floor(sec_num / 3600);
+    var hours = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
     var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-    var fHours, fMinutes, fSecconds: string;    
+    var fHours, fMinutes, fSecconds: string;
 
-    if (hours   < 10) {fHours   = "0"+hours;} else {fHours   = ""+hours;}
-    if (minutes < 10) {fMinutes = "0"+minutes;} else {fMinutes = ""+minutes;}
-    if (seconds < 10) {fSecconds = "0"+seconds.toFixed(0);} else {fSecconds = seconds.toFixed(0);}
-    
-    return fHours + 'h ' + fMinutes + 'min ' + fSecconds + 'seg'; 
+    if (hours < 10) { fHours = "0" + hours; } else { fHours = "" + hours; }
+    if (minutes < 10) { fMinutes = "0" + minutes; } else { fMinutes = "" + minutes; }
+    if (seconds < 10) { fSecconds = "0" + seconds.toFixed(0); } else { fSecconds = seconds.toFixed(0); }
+
+    return fHours + 'h ' + fMinutes + 'min ' + fSecconds + 'seg';
   }
 
   formatedTimeHHMM(timeInSeconds: number) {
@@ -105,8 +116,8 @@ export class AppServiceProvider {
 
     var fHours, fMinutes, fSecconds: string;
 
-    if (hours < 10) { fHours = "0" + hours; } else { fHours = ''+hours }
-    if (minutes < 10) { fMinutes = "0" + minutes; } else { fMinutes = ''+minutes }
+    if (hours < 10) { fHours = "0" + hours; } else { fHours = '' + hours }
+    if (minutes < 10) { fMinutes = "0" + minutes; } else { fMinutes = '' + minutes }
     return fHours + 'h ' + fMinutes + 'min'
   }
 
@@ -142,8 +153,8 @@ export class AppServiceProvider {
     return strData;
   }
 
-  getStatusCorrida(status: 0 | 1 | 2 | 3 | 4 | 5 | 6){
-    switch(status){
+  getStatusCorrida(status: 0 | 1 | 2 | 3 | 4 | 5 | 6) {
+    switch (status) {
       case 0:
         return 'Indefinido';
       case 1:
@@ -162,21 +173,71 @@ export class AppServiceProvider {
   }
 
   enableBackground() {
-     this.signalRService.startConnection();
-     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
+    this.signalRService.startConnection();
+    this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
 
-     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
+    this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
 
-     this.CatalogosService.solicitacaoCorrida.changesSubject.subscribe(x =>{
-       if(!this.solicitacaoCorridaEmQuestao)
-       var solicitacaoCorridaParaNotificar: SolicitacaoCorridaSummary;
-       x.addedItems.forEach(x => {
-        solicitacaoCorridaParaNotificar = x;
-       });
+    this.CatalogosService.solicitacaoCorrida.changesSubject.subscribe(x => {
+      var faixadescontoExiste = false;
+      var formaPagamentoExiste = false;
+      var idAdded: string = '';
+      var idUpdated: string = '';
+      if (!this.solicitacaoCorridaEmQuestao) {
+        var solicitacaoCorridaParaNotificar: SolicitacaoCorridaSummary;
+        x.addedItems.forEach(x => {
+          if (idAdded != x.id) {
+            idAdded = x.id;
+            this.faixasDescontoTaxista.forEach(y => {
+              if ((y.id == x.idFaixaDesconto && !faixadescontoExiste) || x.idFaixaDesconto == null)
+                faixadescontoExiste = true;
+            });
 
-       this.encontrarCorrida(solicitacaoCorridaParaNotificar);
-       
-     })
+            this.formasPagamentoTaxista.forEach(y => {
+              if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
+                formaPagamentoExiste = true;
+            });
+
+            if (formaPagamentoExiste && faixadescontoExiste)
+              solicitacaoCorridaParaNotificar = x;
+          }
+        });
+
+        faixadescontoExiste = false;
+        formaPagamentoExiste = false;
+
+        x.updatedItems.forEach(x => {
+          if (idUpdated != x.id) {
+            idUpdated = x.id;
+            if (x.situacao == 1) {
+              this.faixasDescontoTaxista.forEach(y => {
+                if ((y.id == x.idFaixaDesconto && !faixadescontoExiste) || x.idFaixaDesconto == null)
+                  faixadescontoExiste = true;
+              })
+
+              this.formasPagamentoTaxista.forEach(y => {
+                if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
+                  formaPagamentoExiste = true;
+              })
+
+              if (formaPagamentoExiste && faixadescontoExiste)
+                solicitacaoCorridaParaNotificar = x;
+            }
+          }
+        });
+
+        this.notificarCorrida(solicitacaoCorridaParaNotificar);
+      }
+      else if (this.solicitacaoCorridaEmQuestao) {
+        x.updatedItems.forEach(x => {
+          if (x.id == this.solicitacaoCorridaEmQuestao.id && (x.situacao == 2 || x.situacao == 4) && !this.corridaEmQuestao) {
+            this.endNotification();
+            this.solicitacaoCorridaEmQuestao = undefined;
+          }
+        });
+      }
+
+    })
 
     this.platform.ready().then(() => {
       if (!(this.backgroundMode.isActive() && this.backgroundMode.isEnabled())) {

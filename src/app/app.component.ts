@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
 import { JwksValidationHandler } from '../../auth-oidc/src/token-validation/jwks-validation-handler'
 import { authConfig } from '../auth/auth.config';
-import { TaxistaService, FotoService } from '../core/api/to_de_taxi/services';
+import { TaxistaService, FotoService, FormaPagamentoTaxistaService, FaixaDescontoTaxistaService } from '../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../providers/app-service/app-service';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
@@ -28,7 +28,9 @@ export class MyApp {
     private taxistaService: TaxistaService,
     private serviceProvider: AppServiceProvider,
     private nativeAudio: NativeAudio,
-    private fotoService: FotoService) {
+    private fotoService: FotoService,
+    public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
+    private faixaDescontoTaxistaService: FaixaDescontoTaxistaService) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -62,6 +64,20 @@ export class MyApp {
               await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto =>{
                 if(foto.success)
                 this.serviceProvider.fotoTaxista = foto.data.dados;
+              });
+
+              await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+                if (x.success)
+                  x.data.forEach(y => {
+                    this.serviceProvider.formasPagamentoTaxista.push({descricao:'', id: y.idFormaPagamento})
+                  });
+              });
+
+              await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+                if (x.success)
+                  x.data.forEach(y => {
+                    this.serviceProvider.faixasDescontoTaxista.push({descricao:'', id: y.idFaixaDesconto})
+                  });
               });
 
               if (this.serviceProvider.taxistaLogado.disponivel)

@@ -10,6 +10,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SignalRserviceServiceProvider } from '../signal-rservice-service/signal-rservice-service';
 import { CatalogosService } from '../Catalogos/catalogos.service';
 import { App } from 'ionic-angular';
+import { Subscriber, Subscription } from 'rxjs';
+import { CatalogoCorrida } from '../Catalogos/catalogo-corrida.service';
 /*
   Generated class for the AppServiceProvider provider.
 
@@ -34,6 +36,7 @@ export class AppServiceProvider {
 
   solicitacaoCorridaEmQuestao: SolicitacaoCorridaSummary
   corridaEmQuestao: CorridaSummary;
+  corridaSubscriber: Subscription;
 
   taxistaLogado: TaxistaSummary;
   fotoTaxista: string;

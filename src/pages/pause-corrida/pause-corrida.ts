@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
+import { CorridaService } from '../../core/api/to_de_taxi/services';
 
 /**
  * Generated class for the PauseCorridaPage page.
@@ -15,42 +16,54 @@ import { AppServiceProvider } from '../../providers/app-service/app-service';
   templateUrl: 'pause-corrida.html',
 })
 export class PauseCorridaPage implements OnDestroy {
-  counter: number = 0;
   timerRef;
   public tempo: string = '';
-  running: boolean = false;
+  //running: boolean = false;
   startText = 'Start';
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
-    public serviceProvider: AppServiceProvider) {
-      this.startTimer();
+    public serviceProvider: AppServiceProvider,
+    public corridaService: CorridaService) {
+    this.startTimer();
   }
 
-  startTimer() {
-    this.running = !this.running;
-    if (this.running) {
-      this.startText = 'Stop';
-      const startTime = Date.now() - (this.counter || 0);
-      this.timerRef = setInterval(() => {
-        this.counter = (Date.now() - startTime) / 1000;
-        this.tempo = this.serviceProvider.formatedTimeHHMMss(this.counter);
-      });
-    } else {
-      this.startText = 'Resume';
-      clearInterval(this.timerRef);
-    }
+  async startTimer() {
+    var tempo: number = 0;
+    await this.corridaService.ApiV1CorridaPausarCorridaByIdPost(this.serviceProvider.corridaEmQuestao.id).toPromise()
+      .then(x => {
+        if (x.success) {
+          tempo = +x.data;
+        }
+      })
+
+    //this.running = !this.running;
+    // if (this.running) {
+    this.startText = 'Stop';
+    var startTime: Date = new Date();
+    this.timerRef = setInterval(() => {
+      var counter = (new Date().getTime() - (startTime.getTime() - (tempo * 1000))) / 1000;
+      this.tempo = this.serviceProvider.formatedTimeHHMMss(counter);
+    });
+    // } else {
+    //   this.startText = 'Resume';
+    //   clearInterval(this.timerRef);
+    // }
   }
 
   clearTimer() {
-    this.running = false;
+    //this.running = false;
     this.startText = 'Start';
-    this.counter = undefined;
     clearInterval(this.timerRef);
   }
 
   dismiss() {
+    this.corridaService.ApiV1CorridaRetomarCorridaByIdPost(this.serviceProvider.corridaEmQuestao.id).toPromise()
+      .then(x => {
+        console.log(JSON.stringify(x));
+      })
+    this.clearTimer();
     clearInterval(this.timerRef);
     this.viewCtrl.dismiss();
   }

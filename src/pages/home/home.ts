@@ -86,7 +86,7 @@ export class Home {
     if ((this.serviceProvider.solicitacaoCorridaEmQuestao
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
       && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0))
-      || this.serviceProvider.corridaEmQuestao.status == 2) {
+      || (this.serviceProvider.corridaEmQuestao && this.serviceProvider.corridaEmQuestao.status == 2)) {
       this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
         .then(x => {
           if (x.success)
@@ -278,6 +278,10 @@ export class Home {
 
   ignoreCorrida() {
     this.CatalogosService.corrida.stopTrackingChanges();
+    if (this.serviceProvider.corridaSubscriber) {
+      this.serviceProvider.corridaSubscriber.unsubscribe();
+      this.serviceProvider.corridaSubscriber = undefined;
+    }
     this.descTipoViagem = '';
     this.descTituloTipoViagem = ''
     this.descDistanciaViagem = '';
@@ -367,7 +371,7 @@ export class Home {
         await loader.present();
 
         this.CatalogosService.corrida.startTrackingChanges()
-        this.CatalogosService.corrida.changesSubject.subscribe(async x => {
+        this.serviceProvider.corridaSubscriber = this.CatalogosService.corrida.changesSubject.subscribe(async x => {
           var idAdded: string = '';
           var idUpdated: string = '';
 
@@ -386,13 +390,15 @@ export class Home {
           })
         });
 
-        this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
-        .toPromise().then(x =>{
-          if(x.success && x.data){
-            this.realizarTratamentoAddCorrida(x.data, loader);
-            this.realizarTratamentoUpdateCorrida(x.data, loader);
-          }
-        })
+        setTimeout(() => {
+          this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
+          .toPromise().then(x => {
+            if (x.success && x.data) {
+              this.realizarTratamentoAddCorrida(x.data, loader);
+              this.realizarTratamentoUpdateCorrida(x.data, loader);
+            }
+          })
+        }, 5000);
 
         await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
           id: '00000000-0000-0000-0000-000000000000',
@@ -411,24 +417,24 @@ export class Home {
 
   }
   realizarTratamentoUpdateCorrida(item: CorridaSummary, loader: Loading) {
-    if(this.serviceProvider.corridaEmQuestao.id == item.id){
-      if(loader) loader.dismiss();
+    if (this.serviceProvider.corridaEmQuestao.id == item.id) {
+      if (loader) loader.dismiss();
 
-      if(item.status == 5 )
+      if (item.status == 5)
         this.showCorridaCanceladaPeloUsuario();
     }
   }
   async realizarTratamentoAddCorrida(item: CorridaSummary, loader: Loading) {
     if (item.idTaxista == this.serviceProvider.taxistaLogado.id
       && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
-        if(loader) loader.dismiss();
-      if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2 ) {
+      if (loader) loader.dismiss();
+      if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
         var random: number = Math.random()
         this.localNotifications.schedule({
           id: random,
           title: 'Corrida agendada',
           text: 'Você tem uma corrida agendada para agora. Abra o app e vá até seus agendamentos e inicie a corrida.',
-          trigger: {at: new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data)},
+          trigger: { at: new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data) },
         });
 
         await this.showAlertCorridaAgendada();
@@ -437,7 +443,7 @@ export class Home {
 
     } else if (item.idTaxista != this.serviceProvider.taxistaLogado.id
       && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
-        if(loader) loader.dismiss();
+      if (loader) loader.dismiss();
       await this.showAlertCorridaOutroTaxista();
     }
   }
@@ -545,6 +551,10 @@ export class Home {
 
   cancelarCorrida() {
     this.CatalogosService.corrida.stopTrackingChanges();
+    if (this.serviceProvider.corridaSubscriber) {
+      this.serviceProvider.corridaSubscriber.unsubscribe();
+      this.serviceProvider = undefined;
+    }
     this.serviceProvider.corridaEmQuestao.status = 5;
     this.global.accept = false;
     this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => {

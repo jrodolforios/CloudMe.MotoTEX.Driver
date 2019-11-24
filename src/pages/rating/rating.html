@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar color="light">
+    <ion-title text-center text-capitalize>Classificar Passageiro</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card class="map_card">
+    <ion-item>
+      <ion-label text-center>
+        <h5>Valor aproximado da corrida</h5>
+        <h1> R$ &nbsp; {{valorCorrida}}</h1>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="map_card">
+    <h2 text-center>Classifique o passageiro:</h2>
+    <ion-item>
+      <ion-label text-center>
+        <ion-grid class="trip-detail">
+          <ion-row text-center>
+            <ion-col col-1>
+              <p>&nbsp;</p>
+            </ion-col>
+            <ion-col col-2>
+              <ion-icon name="star" (click)="cliclou(1)" [ngClass]="{'selecionado': starsCount >=1}" class="rating-icon" item-start></ion-icon>
+            </ion-col>
+            <ion-col col-2>
+              <ion-icon name="star" (click)="cliclou(2)" [ngClass]="{'selecionado': starsCount >= 2}" class="rating-icon" item-start></ion-icon>
+            </ion-col>
+            <ion-col col-2>
+              <ion-icon name="star" (click)="cliclou(3)" [ngClass]="{'selecionado': starsCount >= 3}"class="rating-icon" item-start></ion-icon>
+            </ion-col>
+            <ion-col col-2>
+              <ion-icon name="star" (click)="cliclou(4)" [ngClass]="{'selecionado': starsCount >= 4}" class="rating-icon" item-start></ion-icon>
+            </ion-col>
+            <ion-col col-2>
+              <ion-icon name="star" (click)="cliclou(5)" [ngClass]="{'selecionado': starsCount >= 5}"class="rating-icon" item-start></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <!-- <ion-rating [rate]="starsCount" size="large" (rateChange)="onRateChange($event)">
+      </ion-rating> -->
+      </ion-label>
+    </ion-item>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="map-footer" color="primary" padding>
+    <ion-segment color="primary">
+        <ion-segment-button color="green" (click)="salvarClassificacao()">
+          Confirmar
+        </ion-segment-button>
+      </ion-segment>
+</ion-footer>

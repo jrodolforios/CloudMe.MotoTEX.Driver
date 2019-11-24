@@ -25,6 +25,7 @@ import { SignalRserviceServiceProvider } from '../providers/signal-rservice-serv
 import { CatalogosService } from '../providers/Catalogos/catalogos.service';
 import { CatalogoSolicitacaoCorrida } from '../providers/Catalogos/catalogo-solicitacao-corrida.service';
 import { CatalogoCorrida } from '../providers/Catalogos/catalogo-corrida.service';
+import { IonicRatingModule } from 'ionic-rating';
 
 const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
 
@@ -43,6 +44,7 @@ var config = {
   imports: [
     ApiModule.forRoot({rootUrl: toDeTaxiAPIBaseURL}),
     BrowserModule,
+    IonicRatingModule,
     IonicModule.forRoot(MyApp,config),
     HttpClientModule,
     OAuthModule.forRoot({

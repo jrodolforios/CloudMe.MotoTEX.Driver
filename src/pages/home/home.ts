@@ -29,7 +29,7 @@ export class Home {
 
   public lat: number;
   public lng: number;
-  private loader: HTMLIonLoadingElement;
+  private loader: any;
 
   public descTipoViagem: string = '';
   public telefonePassageiro: string = '';
@@ -201,6 +201,10 @@ export class Home {
   }
 
   finalizarCorrida() {
+    this.serviceProvider.IdCorridaParaClassificacao = this.serviceProvider.corridaEmQuestao.id;
+    let ratingModal = this.modalCtrl.create('RatingPage');
+    ratingModal.present();
+
     var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
 
     this.serviceProvider.corridaEmQuestao.status = 6

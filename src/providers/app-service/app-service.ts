@@ -42,6 +42,7 @@ export class AppServiceProvider {
   fotoTaxista: string;
   formasPagamentoTaxista: FormaPagamentoSummary[];
   faixasDescontoTaxista: FaixaDescontoSummary[];
+  IdCorridaParaClassificacao: string;
 
   constructor(public http: HttpClient,
     public toastCtrl: ToastController,

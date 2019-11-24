@@ -38,6 +38,7 @@
     "@ionic-native/vibration": "^5.16.0",
     "@ionic/storage": "^2.2.0",
     "agm-direction": "^0.7.9",
+    "br-mask": "0.0.8",
     "call-number": "^1.0.1",
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",

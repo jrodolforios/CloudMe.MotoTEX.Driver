@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="light">
-    <ion-title text-center text-capitalize>Taxi</ion-title>
+    <ion-title text-center text-capitalize>Envio de proposta</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,17 +11,20 @@
   </div>
   <ion-grid class="trip-detail">
     <ion-row text-center>
-      <ion-col col-4>
+      <ion-col col-6>
         <h4>Distância</h4>
         <h3>{{distancia}} Km</h3>
       </ion-col>
-      <ion-col class="mid-col" col-4>
+      <ion-col class="mid-col" col-6>
         <h4>Tempo</h4>
         <h3>{{tempo}}</h3>
       </ion-col>
-      <ion-col col-4>
-        <h4>Valor aprox.</h4>
-        <h3>R$ {{valor}}</h3>
+    </ion-row>
+    <ion-row text-center>
+      <ion-col col-12>
+        <ion-label position="stacked" padding-bottom color="medium">Valor da proposta</ion-label>
+        R$ &nbsp; <ion-input type="tel" (input)='alterarValorProposta($event.target.value)'
+          [brmasker]="{money: true}"></ion-input>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -31,11 +34,8 @@
   <ion-grid float-right no-padding>
     <ion-row>
       <ion-col>
-        <button ion-button full clear text-uppercase color="primary" (click)="dismiss()">Cancelar</button>
-      </ion-col>
-      <ion-col>
-        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="!isAgendamento" (click)="AcceptTrip();dismiss();">Aceitar</button>
-        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="isAgendamento" (click)="AcceptTrip();dismiss()"> Agendar</button>
+        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="isAgendamento"
+          (click)="sendProposta();dismiss();"> Agendar</button>
       </ion-col>
     </ion-row>
   </ion-grid>

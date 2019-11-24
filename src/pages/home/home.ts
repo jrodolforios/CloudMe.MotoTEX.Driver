@@ -29,6 +29,7 @@ export class Home {
 
   public lat: number;
   public lng: number;
+  private loader: HTMLIonLoadingElement;
 
   public descTipoViagem: string = '';
   public telefonePassageiro: string = '';
@@ -367,8 +368,8 @@ export class Home {
           });
         }
       } else {
-        const loader = await this.serviceProvider.loading('Aguarde...');
-        await loader.present();
+        this.loader = await this.serviceProvider.loading('Aguarde...');
+        await this.loader.present();
 
         this.CatalogosService.corrida.startTrackingChanges()
         this.serviceProvider.corridaSubscriber = this.CatalogosService.corrida.changesSubject.subscribe(async x => {
@@ -378,26 +379,34 @@ export class Home {
           await x.addedItems.forEach(async item => {
             if (idAdded != item.id) {
               idAdded = item.id;
-              await this.realizarTratamentoAddCorrida(item, loader);
+              await this.realizarTratamentoAddCorrida(item);
             }
           });
 
-          await x.updatedItems.forEach(async item => {
-            if (idUpdated != item.id) {
-              idUpdated = item.id;
-              await this.realizarTratamentoUpdateCorrida(item, loader);
-            }
-          })
+          this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
+            .toPromise().then(x => {
+              if (x.success && x.data) {
+                this.realizarTratamentoUpdateCorrida(x.data);
+              }
+            })
+
+          // await x.updatedItems.forEach(async item => {
+          //   if (idUpdated != item.id) {
+          //     idUpdated = item.id;
+          //     await this.realizarTratamentoUpdateCorrida(item, loader);
+          //   }
+          // })
         });
 
         setTimeout(() => {
-          this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
-          .toPromise().then(x => {
-            if (x.success && x.data) {
-              this.realizarTratamentoAddCorrida(x.data, loader);
-              this.realizarTratamentoUpdateCorrida(x.data, loader);
-            }
-          })
+          if (!this.serviceProvider.corridaEmQuestao)
+            this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
+              .toPromise().then(x => {
+                if (x.success && x.data) {
+                  this.realizarTratamentoAddCorrida(x.data);
+                  this.realizarTratamentoUpdateCorrida(x.data);
+                }
+              })
         }, 5000);
 
         await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
@@ -416,19 +425,17 @@ export class Home {
     DestinationModal.present();
 
   }
-  realizarTratamentoUpdateCorrida(item: CorridaSummary, loader: Loading) {
+  realizarTratamentoUpdateCorrida(item: CorridaSummary) {
     if (this.serviceProvider.corridaEmQuestao.id == item.id) {
-      if (loader) loader.dismiss();
+      if (this.loader) this.loader.dismiss();
 
-      if (item.status == 5)
-        this.showCorridaCanceladaPeloUsuario();
-    }
-  }
-  async realizarTratamentoAddCorrida(item: CorridaSummary, loader: Loading) {
-    if (item.idTaxista == this.serviceProvider.taxistaLogado.id
-      && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
-      if (loader) loader.dismiss();
-      if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
+      this.serviceProvider.corridaEmQuestao = item;
+
+      if ((this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2
+        && this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano
+        && this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto > 0)
+        || (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2
+          && !this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano)) {
         var random: number = Math.random()
         this.localNotifications.schedule({
           id: random,
@@ -436,14 +443,52 @@ export class Home {
           text: 'Você tem uma corrida agendada para agora. Abra o app e vá até seus agendamentos e inicie a corrida.',
           trigger: { at: new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data) },
         });
-
-        await this.showAlertCorridaAgendada();
+        this.ignoreCorrida();
+        this.showAlertCorridaAgendada();
       }
+
+      if (item.status == 5) {
+        this.ignoreCorrida();
+        this.showCorridaCanceladaPeloUsuario();
+      }
+    }
+  }
+  async realizarTratamentoAddCorrida(item: CorridaSummary) {
+    if (item.idTaxista == this.serviceProvider.taxistaLogado.id
+      && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
+      if (this.loader) this.loader.dismiss();
+
       this.serviceProvider.corridaEmQuestao = item;
 
+      if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2
+        && this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano
+        && !(this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto > 0)
+        && this.serviceProvider.corridaEmQuestao != 7) {
+        item.status = 7
+
+        await this.corridaService.ApiV1CorridaPut(item).toPromise().then(x => console.log(JSON.stringify(x)));
+
+        let DestinationModal = this.modalCtrl.create('EnviaPropostaPage');
+        DestinationModal.onDidDismiss(async () => {
+          this.loader = await this.serviceProvider.loading('Aguarde...');
+          this.loader.present();
+        })
+        DestinationModal.present();
+      } else if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2) {
+        var random: number = Math.random()
+        this.localNotifications.schedule({
+          id: random,
+          title: 'Corrida agendada',
+          text: 'Você tem uma corrida agendada para agora. Abra o app e vá até seus agendamentos e inicie a corrida.',
+          trigger: { at: new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data) },
+        });
+        this.ignoreCorrida();
+        await this.showAlertCorridaAgendada();
+      }
     } else if (item.idTaxista != this.serviceProvider.taxistaLogado.id
       && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
-      if (loader) loader.dismiss();
+      if (this.loader) this.loader.dismiss();
+      this.ignoreCorrida();
       await this.showAlertCorridaOutroTaxista();
     }
   }

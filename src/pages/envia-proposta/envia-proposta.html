@@ -22,9 +22,11 @@
     </ion-row>
     <ion-row text-center>
       <ion-col col-12>
-        <ion-label position="stacked" padding-bottom color="medium">Valor da proposta</ion-label>
-        <ion-input type="tel" (input)='alterarValorProposta($event.target.value)'
-          [brmasker]="{money: true}"></ion-input>
+        <ion-item id="rounded">
+          <ion-label position="stacked" padding-bottom color="medium">Proposta (R$)</ion-label>
+          <ion-input type="tel" (input)='alterarValorProposta($event.target.value)' [brmasker]="{money: true}">
+          </ion-input>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

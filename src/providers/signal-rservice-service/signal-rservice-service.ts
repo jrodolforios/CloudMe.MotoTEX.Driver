@@ -18,7 +18,8 @@ export class SignalRserviceServiceProvider {
   private hubConnection: signalR.HubConnection
   private _reconnection_timeout = 5000;
   private intentionalTrackingStop = false;
-
+  private idTaxista: string = ''
+  private serviceProvider: AppServiceProvider
   constructor(private taxistaService: TaxistaService,
     private platform: Platform,
     public geolocation: Geolocation,
@@ -65,6 +66,7 @@ export class SignalRserviceServiceProvider {
       setTimeout(async () => {
         try {
           await self.startConnection();
+          await self.getCurrentLocation(this.idTaxista, this.serviceProvider);
         } catch (err) {
           console.log(JSON.stringify(err));
         }
@@ -76,7 +78,9 @@ export class SignalRserviceServiceProvider {
   }
 
 
-  public getCurrentLocation = (IdTaxista: string, serviceProvider: AppServiceProvider) => {
+  public getCurrentLocation = (taxistaId: string, localServiceProvider: AppServiceProvider) => {
+    this.idTaxista = taxistaId;
+    this.serviceProvider = localServiceProvider
     try {
       this.hubConnection.on('EnviarLocalizacao', async (data) => {
         try {
@@ -84,10 +88,10 @@ export class SignalRserviceServiceProvider {
           var longitude: string = '';
 
           this.taxistaService.ApiV1TaxistaInformarLocalizacaoByIdPost({
-            id: IdTaxista,
+            id: this.idTaxista,
             localizacao: {
-              latitude: serviceProvider.taxistLat,
-              longitude: serviceProvider.Taxistlng,
+              latitude: this.serviceProvider.taxistLat,
+              longitude: this.serviceProvider.Taxistlng,
             }
           }).toPromise().then(x => {
             console.log(x.success)

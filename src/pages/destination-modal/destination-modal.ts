@@ -36,7 +36,11 @@ export class DestinationModal {
     this.destino = this.serviceProvider.textoDestino;
     this.tempo = this.serviceProvider.descTempoViagem;
     this.distancia = this.serviceProvider.descDistanciaViagem;
-    this.valor = this.serviceProvider.descValorCorrida;
+
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano)
+      this.valor = "Interurbana"
+    else
+      this.valor = "R$" + this.serviceProvider.descValorCorrida;
 
     if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 3) {
       this.isAgendamento = false;

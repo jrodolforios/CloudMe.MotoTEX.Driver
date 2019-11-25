@@ -21,7 +21,7 @@
       </ion-col>
       <ion-col col-4>
         <h4>Valor aprox.</h4>
-        <h3>R$ {{valor}}</h3>
+        <h3>{{valor}}</h3>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -34,8 +34,7 @@
         <button ion-button full clear text-uppercase color="primary" (click)="dismiss()">Cancelar</button>
       </ion-col>
       <ion-col>
-        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="!isAgendamento" (click)="AcceptTrip();dismiss();">Aceitar</button>
-        <button ion-button full clear text-uppercase color="dark" class="bold" *ngIf="isAgendamento" (click)="AcceptTrip();dismiss()"> Agendar</button>
+        <button ion-button full clear text-uppercase color="dark" class="bold" (click)="AcceptTrip();dismiss();">Aceitar</button>
       </ion-col>
     </ion-row>
   </ion-grid>

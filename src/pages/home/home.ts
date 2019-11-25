@@ -84,6 +84,9 @@ export class Home {
 
   async ionViewDidLoad() {
     await this.initMap();
+    var loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
+
     if ((this.serviceProvider.solicitacaoCorridaEmQuestao
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
       && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0))
@@ -121,30 +124,35 @@ export class Home {
       }
 
       this.descTempoViagem = this.serviceProvider.formatedTimeHHMM(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
-      this.descValorCorrida = this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
 
-      await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
+      if (this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano)
+        this.descValorCorrida = "Interurbana"
+      else
+        this.descValorCorrida = "R$" + this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
+
+      this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
         if (x.success) {
           this.textoOrigem = x.data.nomePublico;
           this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
+
+          this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x => {
+            if (x.success) {
+              this.textoDestino = x.data.nomePublico;
+              this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
+
+              this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
+            }
+          })
         }
       })
 
-      await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x => {
-        if (x.success) {
-          this.textoDestino = x.data.nomePublico;
-          this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
-        }
-      })
-
-      await this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
+      this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
         if (x.success)
           this.telefonePassageiro = x.data.usuario.telefone;
         this.nomePassageiro = x.data.usuario.nome;
       })
-
-      await this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
     }
+    loading.dismiss();
   }
 
   async getPassageiro() {
@@ -437,7 +445,8 @@ export class Home {
 
       if ((this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2
         && this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano
-        && this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto > 0)
+        && this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto > 0
+        && this.serviceProvider.corridaEmQuestao.status == 1)
         || (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 2
           && !this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano)) {
         var random: number = Math.random()
@@ -582,9 +591,8 @@ export class Home {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            this.ignoreCorrida();
-
             this.cancelarCorrida();
+            this.ignoreCorrida();
           }
         },
         {
@@ -599,13 +607,7 @@ export class Home {
   }
 
   cancelarCorrida() {
-    this.CatalogosService.corrida.stopTrackingChanges();
-    if (this.serviceProvider.corridaSubscriber) {
-      this.serviceProvider.corridaSubscriber.unsubscribe();
-      this.serviceProvider = undefined;
-    }
     this.serviceProvider.corridaEmQuestao.status = 5;
-    this.global.accept = false;
     this.corridaService.ApiV1CorridaPut(this.serviceProvider.corridaEmQuestao).toPromise().then(x => {
       if (!x.success)
         alert(JSON.stringify(x.notifications));

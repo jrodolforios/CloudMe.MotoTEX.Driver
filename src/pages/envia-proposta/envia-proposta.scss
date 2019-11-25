@@ -1,5 +1,5 @@
 page-envia-proposta {
-    height: 260px !important;
+    height: 380px !important;
     width: 90% !important;
     top: calc((100% - 260px) / 2) !important;
     left: calc(10% /2) !important;
@@ -21,6 +21,10 @@ page-envia-proposta {
     .toolbar-title-md{
         font-size: 2.3rem;
     }
+    ion-input{
+        border: 1px;
+    }
+
     .destination{
         padding: 0 25px;
         h4{

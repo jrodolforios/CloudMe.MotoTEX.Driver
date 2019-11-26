@@ -104,7 +104,7 @@ export class CheckDisponibilityPage {
           this.serviceProvider.taxistaLogado.disponivel = this.disponibility
         } else {
           const alert = await this.alertCtrl.create({
-            title: 'Você não pode ficar Disopnível',
+            title: 'Você não pode ficar Disponível',
             message: 'Parece que seu carro está ativo para outro taxista em operação no momento ou você não está autorizado a realizar corridas pelo APP',
             buttons: [{
               text: 'Ok',

@@ -93,18 +93,24 @@ export class PaymentChooserPage {
               idTaxista: idTaxista
             }
 
-            await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaPost(formaPagamentoTaxistaParaAdicionar).toPromise().then(z => {
-              if (z.success) {
-                this.serviceProvider.formasPagamentoTaxista.push(formaPagamentoTaxistaParaAdicionar);
-                this.serviceProvider.presentToast("Formas de pagamento atulizadas.");
-              }
-              else
-                this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
-            });
+            await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaPost(formaPagamentoTaxistaParaAdicionar).toPromise().then(async z => {});
           }
         });
-      } else
-        this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
+      } else {
+        var toast = await this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
+        toast.present();
+      }
+      var toast = await this.serviceProvider.presentToast("Formas de pagamento atulizadas.");
+      toast.present();
+
+    });
+
+    this.serviceProvider.formasPagamentoTaxista.length = 0;
+    this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+      if (x.success)
+        x.data.forEach(y => {
+          this.serviceProvider.formasPagamentoTaxista.push({descricao:'', id: y.idFormaPagamento})
+        });
     });
 
     this.navCtrl.pop();

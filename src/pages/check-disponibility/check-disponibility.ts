@@ -119,6 +119,6 @@ export class CheckDisponibilityPage {
       });
     }
 
-    this.navCtrl.push("Setting");
+    this.navCtrl.push("Home");
   }
 }

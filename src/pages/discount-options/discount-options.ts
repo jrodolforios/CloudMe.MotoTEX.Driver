@@ -69,20 +69,23 @@ export class DiscountOptionsPage {
               idTaxista: idTaxista
             }
 
-            await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaPost(faixaDescontoTaxistaParaAdicionar).toPromise().then(z => {
-              if (z.success) {
-                this.serviceProvider.faixasDescontoTaxista.push(faixaDescontoTaxistaParaAdicionar);
-                this.serviceProvider.presentToast("Formas de pagamento atualizadas.");
-              }
-              else
-                this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
-            });
+            await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaPost(faixaDescontoTaxistaParaAdicionar).toPromise().then(async z => {});
           }
         });
-      } else
-        this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
+        var toast = await this.serviceProvider.presentToast("Formas de pagamento atualizadas.");
+        toast.present();
+      } else {
+        var toast = await this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
+        toast.present();
+      }
     });
-
+    this.serviceProvider.faixasDescontoTaxista.length = 0;
+    this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+      if (x.success)
+        x.data.forEach(y => {
+          this.serviceProvider.faixasDescontoTaxista.push({descricao:'', id: y.idFaixaDesconto})
+        });
+    });
     this.navCtrl.pop();
   }
 

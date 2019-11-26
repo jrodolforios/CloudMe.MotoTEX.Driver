@@ -254,6 +254,11 @@ export class AppServiceProvider {
           if (x.id == this.solicitacaoCorridaEmQuestao.id && (x.situacao == 2 || x.situacao == 4) && corrida && corrida.idTaxista != this.taxistaLogado.id) {
             this.endNotification();
             this.solicitacaoCorridaEmQuestao = undefined;
+          } else {
+            if (x.id == this.solicitacaoCorridaEmQuestao.id && x.situacao == 4) {
+              this.endNotification();
+              this.solicitacaoCorridaEmQuestao = undefined;
+            }
           }
         });
       }

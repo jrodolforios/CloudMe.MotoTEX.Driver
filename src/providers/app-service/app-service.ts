@@ -234,7 +234,7 @@ export class AppServiceProvider {
                   formaPagamentoExiste = true;
               })
 
-              if (formaPagamentoExiste && faixadescontoExiste)
+              if (formaPagamentoExiste && faixadescontoExiste && solicitacaoCorridaParaNotificar.situacao != 4)
                 solicitacaoCorridaParaNotificar = x;
             }
           }

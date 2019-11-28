@@ -102,6 +102,12 @@ export class CheckDisponibilityPage {
       }).toPromise().then(async x => {
         if (x.success && x.data) {
           this.serviceProvider.taxistaLogado.disponivel = this.disponibility
+
+          if(this.disponibility){
+            this.serviceProvider.enableBackground();
+          } else{
+            this.serviceProvider.disableBackground();
+          }
         } else {
           const alert = await this.alertCtrl.create({
             title: 'Você não pode ficar Disponível',

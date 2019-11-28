@@ -17,7 +17,8 @@ import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 export class LogoutPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private oauthService: OAuthService) {
-    this.oauthService.logOut();
+    this.oauthService.logOut(true);
+    this.navCtrl.push("Login");
   }
 
 }

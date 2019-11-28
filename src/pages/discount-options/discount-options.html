@@ -14,7 +14,7 @@
             <ion-icon name="pricetags" class="iconPayment"></ion-icon>
           &nbsp;&nbsp;&nbsp;{{fp.descricao}}
         </ion-label>
-        <ion-checkbox mode="md" color="tertiary" (ionChange)="togglePayment(fp.id, $event.value)"  [checked]="fp.marcado" item-right></ion-checkbox>
+        <ion-checkbox mode="md" color="success" (ionChange)="togglePayment(fp.id, $event.value)"  [checked]="fp.marcado" item-right></ion-checkbox>
       </ion-item>
     </ion-item-group>
   

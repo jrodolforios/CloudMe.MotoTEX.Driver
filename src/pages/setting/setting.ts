@@ -54,7 +54,7 @@ export class Setting {
 
   presentEmergency() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Configurações Financeiras',
+      title: 'Configurações Financeiras:',
       buttons: [
         {
           text: 'Formas de pagamento',

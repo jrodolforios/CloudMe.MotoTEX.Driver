@@ -6,7 +6,7 @@ import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
-import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService } from '../../core/api/to_de_taxi/services';
+import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService, TaxistaService } from '../../core/api/to_de_taxi/services';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CatalogosService } from '../../providers/Catalogos/catalogos.service';
@@ -79,7 +79,8 @@ export class Home {
     private passageiroService: PassageiroService,
     private CatalogosService: CatalogosService,
     private solicitacaoCorridaService: SolicitacaoCorridaService,
-    private localNotifications: LocalNotifications, ) {
+    private localNotifications: LocalNotifications,
+    private taxistaService: TaxistaService, ) {
   }
 
   async ionViewDidLoad() {
@@ -153,6 +154,44 @@ export class Home {
       })
     }
     loading.dismiss();
+  }
+
+  async closeAPP(){
+    const alert = await this.alertCtrl.create({
+      title: 'Parar notificações',
+      message: 'Tem certeza que deseja fechar o aplicativo e parar com as notificações de corrida?',
+      buttons: [{
+        text: 'Sim',
+        handler:  (blah) => {
+          this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
+            id: this.serviceProvider.taxistaLogado.id,
+            disponivel: false
+          }).toPromise().then(async x => {
+            if (x.success && x.data) {
+              this.serviceProvider.taxistaLogado.disponivel = false;
+              
+              if(this.serviceProvider.taxistaLogado.disponivel){
+                this.serviceProvider.enableBackground();
+              } else{
+                this.serviceProvider.disableBackground();
+              }
+
+              this.platform.exitApp();
+            }
+          });
+        }
+      },
+    {
+      text: 'Não',
+      cssClass: 'secondary',
+      role: 'cancel',
+      handler: (blah) => {
+      }
+    }]
+    });
+    return await alert.present();
+
+
   }
 
   async getPassageiro() {

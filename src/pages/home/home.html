@@ -60,8 +60,14 @@
       <ion-fab top center [ngClass]="{'shake': serviceProvider.solicitacaoCorridaEmQuestao , 'old-clip': global.accept}"
         class="animated infinite" *ngIf="!showDetails">
         <button (click)="activeTrip()" ion-fab
-          [color]="serviceProvider.solicitacaoCorridaEmQuestao ? 'danger' : 'default'">
+          [color]="serviceProvider.solicitacaoCorridaEmQuestao ? 'danger' : 'default'"
+          [ngClass]="{'blue': !serviceProvider.solicitacaoCorridaEmQuestao}">
           <ion-icon name="md-disc" color="light"></ion-icon>
+        </button>
+      </ion-fab>
+      <ion-fab class="turnoff-fab left-right-fab" top right mini edge *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
+        <button color="danger" ion-fab mini (click)="closeAPP()">
+          <ion-icon name="md-power" color="light"></ion-icon>
         </button>
       </ion-fab>
       <ion-fab twice top center *ngIf="showDetails">

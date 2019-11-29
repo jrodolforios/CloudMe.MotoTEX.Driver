@@ -200,12 +200,17 @@ export class AppServiceProvider {
       if (!this.solicitacaoCorridaEmQuestao) {
         var solicitacaoCorridaParaNotificar: SolicitacaoCorridaSummary;
         x.addedItems.forEach(x => {
+          faixadescontoExiste = false;
+          formaPagamentoExiste = false;
           if (idAdded != x.id) {
             idAdded = x.id;
             this.faixasDescontoTaxista.forEach(y => {
               if ((y.id == x.idFaixaDesconto && !faixadescontoExiste) || x.idFaixaDesconto == null)
                 faixadescontoExiste = true;
             });
+
+            if(this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
+            faixadescontoExiste = true;
 
             this.formasPagamentoTaxista.forEach(y => {
               if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
@@ -221,6 +226,8 @@ export class AppServiceProvider {
         formaPagamentoExiste = false;
 
         x.updatedItems.forEach(x => {
+          faixadescontoExiste = false;
+          formaPagamentoExiste = false;
           if (idUpdated != x.id) {
             idUpdated = x.id;
             if (x.situacao == 1) {
@@ -229,12 +236,15 @@ export class AppServiceProvider {
                   faixadescontoExiste = true;
               })
 
+              if(this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
+              faixadescontoExiste = true;
+
               this.formasPagamentoTaxista.forEach(y => {
                 if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
                   formaPagamentoExiste = true;
               })
 
-              if (formaPagamentoExiste && faixadescontoExiste && solicitacaoCorridaParaNotificar.situacao != 4)
+              if (formaPagamentoExiste && faixadescontoExiste && solicitacaoCorridaParaNotificar && solicitacaoCorridaParaNotificar.situacao != 4)
                 solicitacaoCorridaParaNotificar = x;
             }
           }

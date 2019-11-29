@@ -80,11 +80,10 @@ export class PaymentChooserPage {
 
   }
 
-  saveConfig() {
+  async saveConfig() {
     var formaPagamentoTaxistaParaAdicionar: FormaPagamentoTaxistaSummary;
     var idTaxista: string = this.serviceProvider.taxistaLogado.id
-    this.serviceProvider.formasPagamentoTaxista.length = 0;
-    this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
+    await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
       if (x.success && x.data) {
         this.formasPagamento.forEach(async y => {
           if (y.marcado) {
@@ -93,7 +92,16 @@ export class PaymentChooserPage {
               idTaxista: idTaxista
             }
 
-            await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaPost(formaPagamentoTaxistaParaAdicionar).toPromise().then(async z => {});
+            await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaPost(formaPagamentoTaxistaParaAdicionar).toPromise().then(async z => {
+              await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+                if (x.success){
+                  this.serviceProvider.formasPagamentoTaxista.length = 0;
+                  x.data.forEach(y => {
+                    this.serviceProvider.formasPagamentoTaxista.push({descricao:'', id: y.idFormaPagamento})
+                  });
+                }
+              });
+            });
           }
         });
       } else {
@@ -103,14 +111,6 @@ export class PaymentChooserPage {
       var toast = await this.serviceProvider.presentToast("Formas de pagamento atulizadas.");
       toast.present();
 
-    });
-
-    this.serviceProvider.formasPagamentoTaxista.length = 0;
-    this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
-      if (x.success)
-        x.data.forEach(y => {
-          this.serviceProvider.formasPagamentoTaxista.push({descricao:'', id: y.idFormaPagamento})
-        });
     });
 
     this.navCtrl.pop();

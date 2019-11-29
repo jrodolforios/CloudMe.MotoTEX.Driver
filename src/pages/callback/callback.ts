@@ -39,11 +39,6 @@ export class CallbackPage implements OnInit {
               if (taxista.success) {
                 this.serviceProvider.taxistaLogado = taxista.data;
 
-                await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
-                  if (foto.success)
-                    this.serviceProvider.fotoTaxista = foto.data.dados;
-                });
-
                 await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                   if (x.success)
                     x.data.forEach(y => {
@@ -58,10 +53,16 @@ export class CallbackPage implements OnInit {
                     });
                 });
 
+                
                 if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
                   this.serviceProvider.enableBackground();
                 else
                   this.serviceProvider.disableBackground();
+
+                await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
+                  if (foto.success)
+                    this.serviceProvider.fotoTaxista = foto.data.dados;
+                });
               }
             });
             this.navCtrl.push("Home");

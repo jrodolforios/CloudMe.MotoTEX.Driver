@@ -56,11 +56,10 @@ export class DiscountOptionsPage {
     });
   }
 
-  saveConfig() {
+  async saveConfig() {
     var faixaDescontoTaxistaParaAdicionar: FaixaDescontoTaxistaSummary;
-    this.serviceProvider.faixasDescontoTaxista.length = 0;
     var idTaxista: string = this.serviceProvider.taxistaLogado.id
-    this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
+    await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
       if (x.success && x.data) {
         this.formasPagamento.forEach(async y => {
           if (y.marcado) {
@@ -69,22 +68,24 @@ export class DiscountOptionsPage {
               idTaxista: idTaxista
             }
 
-            await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaPost(faixaDescontoTaxistaParaAdicionar).toPromise().then(async z => {});
+            await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaPost(faixaDescontoTaxistaParaAdicionar).toPromise().then(async z => {
+              await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+                if (x.success){
+                  this.serviceProvider.faixasDescontoTaxista.length = 0;
+                  x.data.forEach(y => {
+                    this.serviceProvider.faixasDescontoTaxista.push({descricao:'', id: y.idFaixaDesconto})
+                  });
+                }
+              });
+            });
           }
         });
-        var toast = await this.serviceProvider.presentToast("Formas de pagamento atualizadas.");
+        var toast = await this.serviceProvider.presentToast("Faixas de desconto atualizadas.");
         toast.present();
       } else {
         var toast = await this.serviceProvider.presentToast("Não conseguimos atualizar suas formas de pagamento, tente novamente.");
         toast.present();
       }
-    });
-    this.serviceProvider.faixasDescontoTaxista.length = 0;
-    this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
-      if (x.success)
-        x.data.forEach(y => {
-          this.serviceProvider.faixasDescontoTaxista.push({descricao:'', id: y.idFaixaDesconto})
-        });
     });
     this.navCtrl.pop();
   }

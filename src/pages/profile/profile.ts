@@ -128,7 +128,7 @@ export class Profile {
                 this.corridaService.ApiV1CorridaByIdGet(item.id).toPromise().then(x => {
                   if (x.success && x.data) {
                     x.data.status = 5;
-                    this.corridaService.ApiV1CorridaPut(x.data).toPromise().then(x =>{
+                    this.corridaService.ApiV1CorridaPut(x.data).toPromise().then(x => {
                       console.log(JSON.stringify(x));
                     });
                   }
@@ -168,7 +168,11 @@ export class Profile {
       this.nome = this.serviceProvider.taxistaLogado.usuario.nome;
       this.email = this.serviceProvider.taxistaLogado.usuario.email;
       this.telefone = this.serviceProvider.taxistaLogado.usuario.telefone;
-      this.fotoPerfil = atob(this.serviceProvider.fotoTaxista);
+      try {
+        this.fotoPerfil = atob(this.serviceProvider.fotoTaxista);
+      } catch (err) {
+        console.log(JSON.stringify(err));
+      }
       var contadorHistorico = 0;
 
       await this.corridaService.ApiV1CorridaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise()

@@ -40,7 +40,7 @@ export class DestinationModal {
     if (this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano)
       this.valor = "Interurbana"
     else
-      this.valor = "R$" + this.serviceProvider.descValorCorrida;
+      this.valor = this.serviceProvider.descValorCorrida;
 
     if (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento == 3) {
       this.isAgendamento = false;

@@ -1,5 +1,5 @@
 import { Component, Renderer } from '@angular/core';
-import { IonicPage, NavController, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, AlertController, Loading } from 'ionic-angular';
 import $ from "jquery";
 import 'intl-tel-input';
 import { AuthGuard } from '../../auth/auth.guard';
@@ -150,7 +150,7 @@ export class Profile {
   }
 
   ionViewCanEnter() {
-    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService)
+    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService, this.serviceProvider)
 
     authGuard.canActivate();
   }
@@ -158,6 +158,8 @@ export class Profile {
 
   //scroll header function
   async ngAfterViewInit() {
+    const loader = await this.serviceProvider.loading('Aguarde...');
+    await loader.present();
     var lengthHeader = document.getElementsByClassName("toolbar-md").length - 1;
     this.headerbg = document.getElementsByClassName("toolbar-md")[lengthHeader];
 
@@ -167,6 +169,7 @@ export class Profile {
       this.email = this.serviceProvider.taxistaLogado.usuario.email;
       this.telefone = this.serviceProvider.taxistaLogado.usuario.telefone;
       this.fotoPerfil = atob(this.serviceProvider.fotoTaxista);
+      var contadorHistorico = 0;
 
       await this.corridaService.ApiV1CorridaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise()
         .then(async x => {
@@ -175,7 +178,8 @@ export class Profile {
             this.notify = [];
             this.history = [];
             await corridas.forEach(async y => {
-              if (y.status == 6 || y.status == 5 || y.status == 1) {
+              if ((y.status == 6 || y.status == 5 || y.status == 1) && contadorHistorico <= 30) {
+                contadorHistorico++;
                 var solicitacaoCorrida: SolicitacaoCorridaSummary
                 await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(y.idSolicitacao).toPromise()
                   .then(z => {
@@ -230,6 +234,7 @@ export class Profile {
           }
         });
     }
+    loader.dismiss();
   }
 
   scrollingFun(ev) {

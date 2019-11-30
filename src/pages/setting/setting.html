@@ -30,7 +30,8 @@
     <ion-item (click)="presentEmergency()" no-padding>Configurações financeiras</ion-item>
     <ion-item [navPush]="'Profile'" no-padding>Histórico/Agendamentos</ion-item>
 
-    <ion-item class="change-setting" [navPush]="'ContratoServicosPage'" no-padding>Informações legais</ion-item>
+    <ion-item class="change-setting" [navPush]="'ContratoServicosPage'" no-padding>Termos de Uso</ion-item>
+    <ion-item class="change-setting" (click)="showPrivacyPolicy()" no-padding>Política de Privacidade</ion-item>
     <ion-item (click)="logoutNow()" no-padding>Deslogar</ion-item>
   </ion-item-group>
 

@@ -20,7 +20,7 @@ export class HubWrapper {
 				.withUrl(self._url, { accessTokenFactory: self._accessTokenFactory })
 				.build();
 
-			Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+			//Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
 
 			self.hubConnection.onclose(() => {
 				try {
@@ -43,7 +43,7 @@ export class HubWrapper {
 
 			return new Promise(async (resolve, reject) => {
 				try {
-					if (self.hubConnection.state == HubConnectionState.Disconnected) {
+					if (self.hubConnection && self.hubConnection.state == HubConnectionState.Disconnected) {
 						//Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
 						await self.hubConnection.start()
 							.then(() => {

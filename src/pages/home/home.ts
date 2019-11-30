@@ -381,7 +381,7 @@ export class Home {
   }
 
   ionViewCanEnter() {
-    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService)
+    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService, this.serviceProvider)
 
     authGuard.canActivate();
   }
@@ -477,7 +477,7 @@ export class Home {
 
   }
   realizarTratamentoUpdateCorrida(item: CorridaSummary) {
-    if (this.serviceProvider.corridaEmQuestao.id == item.id) {
+    if (this.serviceProvider.corridaEmQuestao && this.serviceProvider.corridaEmQuestao.id == item.id) {
       if (this.loader) this.loader.dismiss();
 
       this.serviceProvider.corridaEmQuestao = item;
@@ -540,8 +540,8 @@ export class Home {
     } else if (item.idTaxista != this.serviceProvider.taxistaLogado.id
       && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
       if (this.loader) this.loader.dismiss();
-      this.ignoreCorrida();
       await this.showAlertCorridaOutroTaxista();
+      this.ignoreCorrida();
     }
   }
 

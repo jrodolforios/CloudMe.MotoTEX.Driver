@@ -26,6 +26,8 @@ export class PaymentChooserPage {
   }
 
   async ionViewDidLoad() {
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
     await this.formaPagamentoService.ApiV1FormaPagamentoGet().toPromise().then(async x => {
       if (x.success)
         x.data.forEach(y => {
@@ -47,6 +49,7 @@ export class PaymentChooserPage {
           })
         });
     });
+    loading.dismiss();
   }
 
   getIcon(guid: String) {
@@ -81,6 +84,8 @@ export class PaymentChooserPage {
   }
 
   async saveConfig() {
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
     var formaPagamentoTaxistaParaAdicionar: FormaPagamentoTaxistaSummary;
     var idTaxista: string = this.serviceProvider.taxistaLogado.id
     await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
@@ -112,7 +117,7 @@ export class PaymentChooserPage {
       toast.present();
 
     });
-
+    loading.dismiss();
     this.navCtrl.pop();
   }
 

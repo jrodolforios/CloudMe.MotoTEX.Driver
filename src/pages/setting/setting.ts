@@ -4,7 +4,7 @@ import { AuthGuard } from '../../auth/auth.guard';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
 import { TaxistaService } from '../../core/api/to_de_taxi/services';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @IonicPage()
 @Component({
@@ -18,7 +18,8 @@ export class Setting {
     public actionSheetCtrl: ActionSheetController,
     private oauthService: OAuthService,
     private serviceProvider: AppServiceProvider,
-    private taxistaService: TaxistaService) {
+    private taxistaService: TaxistaService,
+    private iab: InAppBrowser) {
     if (this.serviceProvider && this.serviceProvider.taxistaLogado) {
       this.taxistaService.ApiV1TaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
         if (x.success) {
@@ -39,9 +40,13 @@ export class Setting {
   }
 
   ionViewCanEnter() {
-    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService)
+    var authGuard: AuthGuard = new AuthGuard(this.navCtrl, this.oauthService, this.serviceProvider);
 
     authGuard.canActivate();
+  }
+
+  showPrivacyPolicy(){
+    this.iab.create('https://www.todetaxi.com.br/privacy_policy.html', '_blank', { location: "yes" });
   }
 
   alterarSenha() {

@@ -26,6 +26,8 @@ export class DiscountOptionsPage {
   }
 
   async ionViewDidLoad() {
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
     await this.faixaDescontoService.ApiV1FaixaDescontoGet().toPromise().then(async x => {
       if (x.success)
         x.data.forEach(y => {
@@ -47,6 +49,7 @@ export class DiscountOptionsPage {
           })
         });
     });
+    loading.dismiss();
   }
 
   togglePayment(id: string, value: boolean) {
@@ -57,6 +60,8 @@ export class DiscountOptionsPage {
   }
 
   async saveConfig() {
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
     var faixaDescontoTaxistaParaAdicionar: FaixaDescontoTaxistaSummary;
     var idTaxista: string = this.serviceProvider.taxistaLogado.id
     await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaDeletarPorTaxistaByIdDelete(idTaxista).toPromise().then(async x => {
@@ -87,6 +92,7 @@ export class DiscountOptionsPage {
         toast.present();
       }
     });
+    loading.dismiss();
     this.navCtrl.pop();
   }
 

@@ -1,6 +1,7 @@
 import { Catalog } from './catalog';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { HubWrapper } from './hub-wrapper';
+import { HubConnectionState } from '@aspnet/signalr';
 
 export class ApiResponse<T>
 {
@@ -12,27 +13,21 @@ export class ApiResponse<T>
 export function processResponse<T>(
 	resp: ApiResponse<T>,
 	resolve: (value?: T | PromiseLike<T>) => void,
-	reject: (reason?: any) => void): void
-{
-	if (resp)
-	{
-		if (resp.success)
-		{
+	reject: (reason?: any) => void): void {
+	if (resp) {
+		if (resp.success) {
 			resolve(resp.data);
 		}
-		else
-		{
+		else {
 			reject(resp.notifications);
 		}
 	}
-	else
-	{
+	else {
 		reject('Erro desconhecido');
 	}
 }
 
-export interface CatalogApiInterface<T>
-{
+export interface CatalogApiInterface<T> {
 	get(id: string): Promise<T>;
 	getAll(): Promise<T[]>;
 	post(item: T): Promise<string>;
@@ -54,8 +49,7 @@ export class ApiCatalog<T> extends Catalog<T>
 
 	private _oauthService: OAuthService = null;
 
-	constructor(oauthService: OAuthService, apiInterface: CatalogApiInterface<T>, entry_track_endpoint: string, entry_tag: string)
-	{
+	constructor(oauthService: OAuthService, apiInterface: CatalogApiInterface<T>, entry_track_endpoint: string, entry_tag: string) {
 		super();
 
 		const self = this;
@@ -67,158 +61,146 @@ export class ApiCatalog<T> extends Catalog<T>
 		self.hub = new HubWrapper(`${baseEndpointUrl}/${self.entryTrackEndpoint}`, () => self._oauthService.getAccessToken());
 	}
 
-	startTrackingChanges()
-	{
+	startTrackingChanges() {
 		const self = this;
-		self.hub.connect()
-			.then(() =>
-			{
-				console.info(`Catálogo[${self.entryTag}]: Connection started`);
-
-				self.hub.hubConnection.on('inserted', (entry_tag, summary: T) =>
-				{
-					if (entry_tag === self.entryTag)
-					{
-						self.add([summary], true);
+		if (this.hub.hubConnection.state == HubConnectionState.Disconnected)
+			self.hub.connect()
+				.then(() => {
+					try {
+						self.hub.hubConnection.off("inserted");
 					}
-				});
-
-				self.hub.hubConnection.on('updated', (entry_tag, summary: T) =>
-				{
-					if (entry_tag === self.entryTag)
-					{
-						self.update([summary], true);
+					catch (err) {
+						console.log(JSON.stringify(err));
 					}
-				});
 
-				self.hub.hubConnection.on('deleted', (entry_tag, id: string) =>
-				{
-					if (entry_tag === self.entryTag)
-					{
-						const item = self.findItem(id);
-						if (item)
-						{
-							self.remove([item], true);
+					try {
+						self.hub.hubConnection.off("updated");
+					}
+					catch (err) {
+						console.log(JSON.stringify(err));
+					}
+
+					try {
+						self.hub.hubConnection.off("deleted");
+					}
+					catch (err) {
+						console.log(JSON.stringify(err));
+					}
+					
+					console.info(`Catálogo[${self.entryTag}]: Connection started`);
+
+					self.hub.hubConnection.on('inserted', (entry_tag, summary: T) => {
+						if (entry_tag === self.entryTag) {
+							self.add([summary], true);
 						}
-					}
+					});
+
+					self.hub.hubConnection.on('updated', (entry_tag, summary: T) => {
+						if (entry_tag === self.entryTag) {
+							self.update([summary], true);
+						}
+					});
+
+					self.hub.hubConnection.on('deleted', (entry_tag, id: string) => {
+						if (entry_tag === self.entryTag) {
+							const item = self.findItem(id);
+							if (item) {
+								self.remove([item], true);
+							}
+						}
+					});
+				})
+				.catch(err => {
+					console.error(`Catálogo[${self.entryTag}]: Error while starting connection: ${err}`);
 				});
-			})
-			.catch(err =>
-			{
-				console.error(`Catálogo[${self.entryTag}]: Error while starting connection: ${err}`);
-			});
 	}
 
-	stopTrackingChanges()
-	{
+	stopTrackingChanges() {
 		const self = this;
 		self.hub.disconnect()
 			.then(() => console.info(`Catálogo[${self.entryTag}]: Connection stopped`))
 			.catch(err => console.error(`Catálogo[${self.entryTag}]: Error while stopping connection: ${err}`));
 	}
 
-	async get(id: string): Promise<T>
-	{
+	async get(id: string): Promise<T> {
 		const self = this;
-		return new Promise<T>(async (resolve, reject) =>
-		{
-			await self.apiInterface.get(id).then(result =>
-			{
+		return new Promise<T>(async (resolve, reject) => {
+			await self.apiInterface.get(id).then(result => {
 				const item = self.findItem(id);
-				if (!item)
-				{
+				if (!item) {
 					self.add([result]);
 				}
-				else
-				{
+				else {
 					self.update([result]);
 				}
 
 				resolve(result);
 			})
-			.catch(reason =>
-			{
-				reject(reason);
-			});
+				.catch(reason => {
+					reject(reason);
+				});
 		});
 	}
 
-	async getAll(): Promise<T[]>
-	{
+	async getAll(): Promise<T[]> {
 		const self = this;
 
-		return new Promise<T[]>(async (resolve, reject) =>
-		{
-			await self.apiInterface.getAll().then(new_items =>
-			{
+		return new Promise<T[]>(async (resolve, reject) => {
+			await self.apiInterface.getAll().then(new_items => {
 				self.load(new_items);
 				resolve(new_items);
 			})
-			.catch(reason =>
-			{
-				reject(reason);
-			});
+				.catch(reason => {
+					reject(reason);
+				});
 		});
 	}
 
-	async post(item: T): Promise<boolean>
-	{
+	async post(item: T): Promise<boolean> {
 		const self = this;
 
-		return new Promise<boolean>(async (resolve, reject) =>
-		{
-			await self.apiInterface.post(item).then(async id =>
-			{
+		return new Promise<boolean>(async (resolve, reject) => {
+			await self.apiInterface.post(item).then(async id => {
 				await self.get(id); // obtém do server o objeto criado
 				resolve(id ? true : false);
 			})
-			.catch(reason =>
-			{
-				reject(reason);
-			});
+				.catch(reason => {
+					reject(reason);
+				});
 		});
 	}
 
-	async put(item: T): Promise<boolean>
-	{
+	async put(item: T): Promise<boolean> {
 		const self = this;
 
-		return new Promise<boolean>(async (resolve, reject) =>
-		{
-			await self.apiInterface.put(item).then(async result =>
-			{
+		return new Promise<boolean>(async (resolve, reject) => {
+			await self.apiInterface.put(item).then(async result => {
 				await self.get(item['id']); // obtém do server as alterações realizadas
 				resolve(result);
 			})
-			.catch(reason =>
-			{
-				reject(reason);
-			});
+				.catch(reason => {
+					reject(reason);
+				});
 
 		});
 	}
 
-	async delete(id: string): Promise<boolean>
-	{
+	async delete(id: string): Promise<boolean> {
 		const self = this;
 
 		const item = self.findItem(id);
-		if (!item)
-		{
+		if (!item) {
 			return false;
 		}
 
-		return new Promise<boolean>(async (resolve, reject) =>
-		{
-			await self.apiInterface.delete(id).then(result =>
-			{
+		return new Promise<boolean>(async (resolve, reject) => {
+			await self.apiInterface.delete(id).then(result => {
 				self.remove([item]);
 				resolve(result);
 			})
-			.catch(reason =>
-			{
-				reject(reason);
-			});
+				.catch(reason => {
+					reject(reason);
+				});
 		});
 	}
 }

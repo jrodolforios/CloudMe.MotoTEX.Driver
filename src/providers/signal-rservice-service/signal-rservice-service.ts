@@ -82,6 +82,12 @@ export class SignalRserviceServiceProvider {
     this.idTaxista = taxistaId;
     this.serviceProvider = localServiceProvider
     try {
+      try {
+        this.hubConnection.off("EnviarLocalizacao");
+      }
+      catch (err) {
+        console.log(JSON.stringify(err));
+      }
       this.hubConnection.on('EnviarLocalizacao', async (data) => {
         try {
           var latitude: string = '';

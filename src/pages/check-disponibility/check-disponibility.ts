@@ -27,6 +27,12 @@ export class CheckDisponibilityPage {
     private serviceProvider: AppServiceProvider,
     private veiculoTaxistaService: VeiculoTaxistaService,
     private veiculoService: VeiculoService) {
+
+  }
+
+  async ionViewDidLoad() {
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
     if (this.serviceProvider.taxistaLogado) {
       this.disponibility = this.serviceProvider.taxistaLogado.disponivel;
 
@@ -44,10 +50,7 @@ export class CheckDisponibilityPage {
           }
         })
     }
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CheckDisponibilityPage');
+    loading.dismiss();
   }
 
   changeDisponibility(value: boolean) {
@@ -76,6 +79,9 @@ export class CheckDisponibilityPage {
   }
 
   async saveConfig() {
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
+
     if (this.serviceProvider && this.serviceProvider.taxistaLogado) {
       await this.veiculosTaxista.forEach(async x =>{
         await this.veiculoTaxistaService.ApiV1VeiculoTaxistaPut(x).toPromise().then(async y => {
@@ -124,7 +130,7 @@ export class CheckDisponibilityPage {
         }
       });
     }
-
+    loading.dismiss();
     this.navCtrl.push("Home");
   }
 }

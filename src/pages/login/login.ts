@@ -1,35 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { windowWhen } from 'rxjs/operators';
-import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
-export class Login implements OnInit {
-  public version: string = '';
+export class Login {
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private oauthService: OAuthService,
-    private inappBrowser: InAppBrowser,
-    private appVersion: AppVersion,
-    public platform: Platform) {
+    private inappBrowser: InAppBrowser) {
   }
 
-
-  ngOnInit(): void {
-    this.platform.ready().then(x => {
-      this.appVersion.getVersionNumber().then(x => {
-        this.version = x;
-      });
-    });
-  }
-
-  async loginAuth() {
+  async loginAuth(){
     var loginUrl: string = ''
     var endUrl = this.oauthService.redirectUri;
     await this.oauthService.createLoginUrl().then(x => {

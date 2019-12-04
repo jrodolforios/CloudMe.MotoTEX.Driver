@@ -48,9 +48,6 @@
     },
     "cordova-plugin-local-notification": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
-    },
-    "cordova-plugin-app-version": {
-      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   },
   "dependent_plugins": {

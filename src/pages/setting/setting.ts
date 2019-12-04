@@ -1,30 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController, Platform } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AuthGuard } from '../../auth/auth.guard';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
 import { TaxistaService } from '../../core/api/to_de_taxi/services';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @IonicPage()
 @Component({
   selector: 'page-setting',
   templateUrl: 'setting.html',
 })
-export class Setting implements OnInit {
-  public version: string = '';
+export class Setting {
   public taxistaDisponivel: boolean = false;
-
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public actionSheetCtrl: ActionSheetController,
     private oauthService: OAuthService,
     private serviceProvider: AppServiceProvider,
     private taxistaService: TaxistaService,
-    private iab: InAppBrowser,
-    public platform: Platform,
-    private appVersion: AppVersion,) {
+    private iab: InAppBrowser) {
     if (this.serviceProvider && this.serviceProvider.taxistaLogado) {
       this.taxistaService.ApiV1TaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
         if (x.success) {
@@ -38,14 +33,6 @@ export class Setting implements OnInit {
         }
       });
     }
-  }
-
-  ngOnInit(): void {
-    this.platform.ready().then(x => {
-      this.appVersion.getVersionNumber().then(x => {
-        this.version = x;
-      });
-    });
   }
 
   logoutNow() {

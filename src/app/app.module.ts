@@ -9,7 +9,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { global } from '../providers/global';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
-import { AppVersion } from '@ionic-native/app-version/ngx';
 import { OAuthModule } from '../../auth-oidc/src/angular-oauth-oidic.module';
 import { HttpClientModule } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -71,7 +70,6 @@ var config = {
     SplashScreen,
     Keyboard,
     BackgroundMode,
-    AppVersion,
     LaunchNavigator,
     InAppBrowser,
     Vibration,

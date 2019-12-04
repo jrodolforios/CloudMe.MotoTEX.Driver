@@ -176,14 +176,6 @@ module.exports = [
             "cordova.plugins.notification.local.core",
             "plugin.notification.local.core"
         ]
-    },
-    {
-        "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
-        "id": "cordova-plugin-app-version.AppVersionPlugin",
-        "pluginId": "cordova-plugin-app-version",
-        "clobbers": [
-            "cordova.getAppVersion"
-        ]
     }
 ];
 module.exports.metadata = 
@@ -203,8 +195,7 @@ module.exports.metadata =
     "mx.ferreyra.callnumber": "0.0.2",
     "cordova-plugin-background-mode": "0.7.3",
     "cordova-plugin-badge": "0.8.8",
-    "cordova-plugin-local-notification": "0.9.0-beta.2",
-    "cordova-plugin-app-version": "0.1.9"
+    "cordova-plugin-local-notification": "0.9.0-beta.2"
 }
 // BOTTOM OF METADATA
 });

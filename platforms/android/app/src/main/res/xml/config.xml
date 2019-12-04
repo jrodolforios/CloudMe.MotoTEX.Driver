@@ -1,11 +1,34 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.cloudme.ToDeTaxi" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="ActionSheet">
+        <param name="android-package" value="nl.xservices.plugins.actionsheet.ActionSheet" />
+    </feature>
+    <feature name="AppVersion">
+        <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="BackgroundMode">
+        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
+    </feature>
+    <feature name="BackgroundModeExt">
+        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundModeExt" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
     <feature name="InAppBrowser">
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
-    <feature name="Whitelist">
-        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
-        <param name="onload" value="true" />
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
+    <feature name="NativeAudio">
+        <param name="android-package" value="com.rjfun.cordova.plugin.nativeaudio.NativeAudio" />
     </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
@@ -15,35 +38,18 @@
         <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="Device">
-        <param name="android-package" value="org.apache.cordova.device.Device" />
-    </feature>
-    <feature name="Geolocation">
-        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
-    </feature>
-    <feature name="NativeAudio">
-        <param name="android-package" value="com.rjfun.cordova.plugin.nativeaudio.NativeAudio" />
-    </feature>
-    <feature name="ActionSheet">
-        <param name="android-package" value="nl.xservices.plugins.actionsheet.ActionSheet" />
-    </feature>
-    <feature name="Notification">
-        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
-    </feature>
-    <feature name="LaunchNavigator">
-        <param name="android-package" value="uk.co.workingedge.phonegap.plugin.LaunchNavigatorPlugin" />
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="CallNumber">
         <param name="android-package" value="mx.ferreyra.callnumber.CFCallNumber" />
     </feature>
-    <feature name="BackgroundMode">
-        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
+    <feature name="LaunchNavigator">
+        <param name="android-package" value="uk.co.workingedge.phonegap.plugin.LaunchNavigatorPlugin" />
     </feature>
-    <feature name="BackgroundModeExt">
-        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundModeExt" />
-    </feature>
-    <feature name="LocalNotification">
-        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    <feature name="Badge">
+        <param name="android-package" value="de.appplant.cordova.plugin.badge.Badge" />
     </feature>
     <feature name="CDVIonicKeyboard">
         <param name="android-package" onload="true" value="io.ionic.keyboard.CDVIonicKeyboard" />
@@ -53,9 +59,6 @@
     <allow-navigation href="ionic://*" />
     <feature name="IonicWebView">
         <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
-    </feature>
-    <feature name="Badge">
-        <param name="android-package" value="de.appplant.cordova.plugin.badge.Badge" />
     </feature>
     <name>TÔdeTaxi Motorista</name>
     <description>APP motorista do TÔdeTaxi</description>

@@ -24,6 +24,7 @@
     "@angular/platform-browser": "^8.2.13",
     "@angular/platform-browser-dynamic": "^8.2.13",
     "@aspnet/signalr": "^1.1.4",
+    "@ionic-native/app-version": "^5.17.1",
     "@ionic-native/background-mode": "^5.17.0",
     "@ionic-native/call-number": "^5.16.0",
     "@ionic-native/core": "^5.16.0",
@@ -43,8 +44,9 @@
     "call-number": "^1.0.1",
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
-    "cordova-ios": "^5.0.1",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-actionsheet": "^2.3.3",
+    "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-background-mode": "^0.7.3",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-dialogs": "^2.0.2",
@@ -98,7 +100,12 @@
       },
       "mx.ferreyra.callnumber": {},
       "cordova-plugin-background-mode": {},
-      "cordova-plugin-local-notification": {}
-    }
+      "cordova-plugin-local-notification": {},
+      "cordova-plugin-app-version": {}
+    },
+    "platforms": [
+      "ios",
+      "android"
+    ]
   }
 }

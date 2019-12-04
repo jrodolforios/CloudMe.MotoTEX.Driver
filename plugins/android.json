@@ -7,49 +7,52 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-ionic-keyboard": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-ionic-webview": {
-      "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-vibration": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-nativeaudio": {
-      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
-    },
-    "uk.co.workingedge.phonegap.plugin.launchnavigator": {
-      "GOOGLE_API_KEY_FOR_ANDROID": "AIzaSyAP_Xy-1QSclKYAvxSmAZO2BuFAWWAlOZQ",
-      "OKHTTP_VERSION": "3.12.0",
-      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
-    },
-    "mx.ferreyra.callnumber": {
+    "cordova-plugin-app-version": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     },
     "cordova-plugin-background-mode": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-ionic-webview": {
+      "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
     "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-nativeaudio": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "mx.ferreyra.callnumber": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": {
+      "GOOGLE_API_KEY_FOR_ANDROID": "AIzaSyAP_Xy-1QSclKYAvxSmAZO2BuFAWWAlOZQ",
+      "OKHTTP_VERSION": "3.12.0",
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   },
@@ -57,10 +60,10 @@
     "cordova-plugin-actionsheet": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     },
-    "cordova-plugin-dialogs": {
+    "cordova-plugin-badge": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     },
-    "cordova-plugin-badge": {
+    "cordova-plugin-dialogs": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   }

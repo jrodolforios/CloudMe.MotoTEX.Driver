@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, Alert } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Alert, AlertController } from 'ionic-angular';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { PassageiroService, FotoService, TaxistaService, FormaPagamentoTaxistaService, FaixaDescontoTaxistaService } from '../../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
@@ -25,7 +25,9 @@ export class CallbackPage implements OnInit {
     private serviceProvider: AppServiceProvider,
     private fotoService: FotoService,
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
-    private faixaDescontoTaxistaService: FaixaDescontoTaxistaService) {
+    private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
+
+    public alertCtrl: AlertController, ) {
   }
 
   async ngOnInit() {
@@ -42,22 +44,44 @@ export class CallbackPage implements OnInit {
                 await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                   if (x.success)
                     x.data.forEach(y => {
-                      this.serviceProvider.formasPagamentoTaxista.push({descricao:'', id: y.idFormaPagamento})
-                    });
-                });
-  
-                await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
-                  if (x.success)
-                    x.data.forEach(y => {
-                      this.serviceProvider.faixasDescontoTaxista.push({descricao:'', id: y.idFaixaDesconto})
+                      this.serviceProvider.formasPagamentoTaxista.push({ descricao: '', id: y.idFormaPagamento })
                     });
                 });
 
-                
-                if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
-                  this.serviceProvider.enableBackground();
-                else
-                  this.serviceProvider.disableBackground();
+                await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+                  if (x.success)
+                    x.data.forEach(y => {
+                      this.serviceProvider.faixasDescontoTaxista.push({ descricao: '', id: y.idFaixaDesconto })
+                    });
+                });
+
+                if (this.serviceProvider.taxistaLogado && !this.serviceProvider.taxistaLogado.disponivel) {
+                  const alert = await this.alertCtrl.create({
+                    title: 'Você está indisponível',
+                    message: 'Estando indisponível, você não receberá chamados de corridas. Deseja alterar seu status para disponível?',
+                    buttons: [
+                      {
+                        text: 'Ficar disponível',
+                        handler: (blah) => {
+                          this.serviceProvider.taxistaLogado.disponivel = true;
+                          this.ficarDisponivel();
+                        }
+                      },
+                      {
+                        text: 'Cancelar',
+                        role: 'cancel',
+                        cssClass: 'secondary',
+                        handler: (blah) => {
+                          this.serviceProvider.taxistaLogado.disponivel = false;
+                          this.ficarDisponivel();
+                        }
+                      }
+                    ]
+                  });
+                  return await alert.present();
+                } else {
+                  this.ficarDisponivel();
+                }
 
                 await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
                   if (foto.success)
@@ -70,6 +94,20 @@ export class CallbackPage implements OnInit {
             this.navCtrl.push("Login");
           }
         });
+      }
+    });
+  }
+
+  ficarDisponivel() {
+    this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
+      id: this.serviceProvider.taxistaLogado.id,
+      disponivel: this.serviceProvider.taxistaLogado.disponivel
+    }).toPromise().then(async x => {
+      if (x.success && x.data) {
+        if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
+          this.serviceProvider.enableBackground();
+        else
+          this.serviceProvider.disableBackground();
       }
     });
   }

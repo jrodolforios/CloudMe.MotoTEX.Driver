@@ -296,8 +296,8 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
     implementation "com.android.support:support-annotations:27.+"
-    implementation "com.squareup.okhttp3:okhttp:3.12.0"
     implementation "com.android.support:support-v4:26.+"
+    implementation "com.squareup.okhttp3:okhttp:3.12.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 

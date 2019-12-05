@@ -58,6 +58,7 @@
 		1C90224B96CF4AD9B0A24B34 /* WE_Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 39CD6758B5E64929A1C37B1E /* WE_Logger.m */; };
 		F04C7F3C7D334FD4975DB7CA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D891D29F079E4874AC5BEF01 /* MapKit.framework */; };
 		340D4D4BC7224F22BE3C88F0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 541E91BD56284F0CB5960616 /* SystemConfiguration.framework */; };
+		AB600667877945148B50F81F /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EB5FC7FF5BC4F6C84961E48 /* AppVersion.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +186,8 @@
 		11CDE917254A416C9D517750 /* WE_Logger.h */ = {isa = PBXFileReference; name = "WE_Logger.h"; path = "uk.co.workingedge.phonegap.plugin.launchnavigator/WE_Logger.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		D891D29F079E4874AC5BEF01 /* MapKit.framework */ = {isa = PBXFileReference; name = "MapKit.framework"; path = "System/Library/Frameworks/MapKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		541E91BD56284F0CB5960616 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		5EB5FC7FF5BC4F6C84961E48 /* AppVersion.m */ = {isa = PBXFileReference; name = "AppVersion.m"; path = "cordova-plugin-app-version/AppVersion.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		A106809ACEBC44ECB4C55E27 /* AppVersion.h */ = {isa = PBXFileReference; name = "AppVersion.h"; path = "cordova-plugin-app-version/AppVersion.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,6 +380,8 @@
 				97DA7991763D420091F75547 /* LN_LaunchNavigator.h */,
 				3D741F1371CA460FA1A5B755 /* LN_Reachability.h */,
 				11CDE917254A416C9D517750 /* WE_Logger.h */,
+				5EB5FC7FF5BC4F6C84961E48 /* AppVersion.m */,
+				A106809ACEBC44ECB4C55E27 /* AppVersion.h */,
 			);
 			name = Plugins;
 			path = "TÔdeTaxi Motorista/Plugins";
@@ -538,6 +543,7 @@
 				F5A27345DAB74E43B2D2E3F8 /* LN_LaunchNavigator.m in Sources */,
 				77D147E5AC93424ABB5B5AC3 /* LN_Reachability.m in Sources */,
 				1C90224B96CF4AD9B0A24B34 /* WE_Logger.m in Sources */,
+				AB600667877945148B50F81F /* AppVersion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

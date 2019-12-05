@@ -8,6 +8,7 @@ import { authConfig } from '../auth/auth.config';
 import { TaxistaService, FotoService, FormaPagamentoTaxistaService, FaixaDescontoTaxistaService } from '../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../providers/app-service/app-service';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 
 
@@ -30,7 +31,8 @@ export class MyApp {
     private nativeAudio: NativeAudio,
     private fotoService: FotoService,
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
-    private faixaDescontoTaxistaService: FaixaDescontoTaxistaService) {
+    private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
+    private appVersion: AppVersion) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -101,7 +103,9 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
 
-      
+      this.appVersion.getVersionNumber().then(x =>{
+        this.serviceProvider.appVersion = x;
+      });
 
       this.statusBar.backgroundColorByHexString('#858585');
       this.statusBar.styleLightContent();

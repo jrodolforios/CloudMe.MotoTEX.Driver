@@ -26,6 +26,7 @@ import { CatalogosService } from '../providers/Catalogos/catalogos.service';
 import { CatalogoSolicitacaoCorrida } from '../providers/Catalogos/catalogo-solicitacao-corrida.service';
 import { CatalogoCorrida } from '../providers/Catalogos/catalogo-corrida.service';
 import { IonicRatingModule } from 'ionic-rating';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
 
@@ -71,6 +72,7 @@ var config = {
     Keyboard,
     BackgroundMode,
     LaunchNavigator,
+    AppVersion,
     InAppBrowser,
     Vibration,
     CatalogosService,

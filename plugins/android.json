@@ -51,6 +51,9 @@
       "GOOGLE_API_KEY_FOR_ANDROID": "AIzaSyAP_Xy-1QSclKYAvxSmAZO2BuFAWWAlOZQ",
       "OKHTTP_VERSION": "3.12.0",
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   },
   "dependent_plugins": {

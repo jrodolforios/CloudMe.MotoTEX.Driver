@@ -13,6 +13,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 })
 export class Setting {
   public taxistaDisponivel: boolean = false;
+  public appVersion: string = '';
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public actionSheetCtrl: ActionSheetController,
@@ -20,6 +21,7 @@ export class Setting {
     private serviceProvider: AppServiceProvider,
     private taxistaService: TaxistaService,
     private iab: InAppBrowser) {
+      this.appVersion = this.serviceProvider.appVersion;
     if (this.serviceProvider && this.serviceProvider.taxistaLogado) {
       this.taxistaService.ApiV1TaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
         if (x.success) {

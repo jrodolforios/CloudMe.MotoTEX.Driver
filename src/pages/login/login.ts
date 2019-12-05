@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { windowWhen } from 'rxjs/operators';
+import { AppServiceProvider } from '../../providers/app-service/app-service';
 
 @IonicPage()
 @Component({
@@ -10,11 +11,13 @@ import { windowWhen } from 'rxjs/operators';
   templateUrl: 'login.html',
 })
 export class Login {
-
+  public appVersion: string = '';
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private oauthService: OAuthService,
+    private serviceProvider: AppServiceProvider,
     private inappBrowser: InAppBrowser) {
+      this.appVersion = this.serviceProvider.appVersion;
   }
 
   async loginAuth(){

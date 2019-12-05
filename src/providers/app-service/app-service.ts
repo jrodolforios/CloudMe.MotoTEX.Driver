@@ -44,6 +44,8 @@ export class AppServiceProvider {
   faixasDescontoTaxista: FaixaDescontoSummary[];
   IdCorridaParaClassificacao: string;
 
+  public appVersion:string = '';
+
   constructor(public http: HttpClient,
     public toastCtrl: ToastController,
     private vibration: Vibration,
@@ -290,6 +292,16 @@ export class AppServiceProvider {
         this.backgroundMode.enable();
 
         this.backgroundMode.on('activate').subscribe(() => {
+          this.backgroundMode.configure({
+            text: "Você está ativo, receberá chamados de corrida",
+            title: "Ativo para receber chamados",
+            ticker: "Você está ativo",
+            resume: true,
+            bigText: true,
+            hidden: false,
+            silent: false
+          });
+
           this.backgroundMode.disableWebViewOptimizations();
 
         });

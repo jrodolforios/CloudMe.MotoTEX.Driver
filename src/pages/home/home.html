@@ -57,6 +57,12 @@
   <ion-toolbar color="primary">
 
     <div class="Trip-det" *ngIf="!global.accept">
+      <ion-fab class="pan-fab left-right-fab" top left mini edge
+        *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
+        <button color="danger" ion-fab mini (click)="callPanic()">
+          <ion-icon name="md-help-buoy" color="light"></ion-icon>
+        </button>
+      </ion-fab>
       <ion-fab top center [ngClass]="{'shake': serviceProvider.solicitacaoCorridaEmQuestao , 'old-clip': global.accept}"
         class="animated infinite" *ngIf="!showDetails">
         <button (click)="activeTrip()" ion-fab
@@ -65,7 +71,8 @@
           <ion-icon name="md-disc" color="light"></ion-icon>
         </button>
       </ion-fab>
-      <ion-fab class="turnoff-fab left-right-fab" top right mini edge *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
+      <ion-fab class="turnoff-fab left-right-fab" top right mini edge
+        *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
         <button color="danger" ion-fab mini (click)="closeAPP()">
           <ion-icon name="md-power" color="light"></ion-icon>
         </button>

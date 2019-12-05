@@ -12,6 +12,7 @@ import { CatalogosService } from '../Catalogos/catalogos.service';
 import { App } from 'ionic-angular';
 import { Subscriber, Subscription } from 'rxjs';
 import { CatalogoCorrida } from '../Catalogos/catalogo-corrida.service';
+import { MessageServiceProvider } from '../message-service/message-service';
 /*
   Generated class for the AppServiceProvider provider.
 
@@ -23,12 +24,13 @@ import { CatalogoCorrida } from '../Catalogos/catalogo-corrida.service';
 })
 export class AppServiceProvider {
 
-  taxistLat: any;
-  Taxistlng: any;
+  TaxistLat: any;
+  TaxistLng: any;
 
   //Para uso na modal
   textoOrigem: string = '';
   textoDestino: string = '';
+  public idUsuarioPassageiro: string = '';
 
   descDistanciaViagem: string = '';
   descTempoViagem: string = '';
@@ -58,7 +60,8 @@ export class AppServiceProvider {
     private signalRService: SignalRserviceServiceProvider,
     private CatalogosService: CatalogosService,
     private app: App,
-    private corridaService: CorridaService) {
+    private corridaService: CorridaService,
+    private messageService: MessageServiceProvider) {
     this.formasPagamentoTaxista = [];
     this.faixasDescontoTaxista = [];
   }
@@ -195,6 +198,9 @@ export class AppServiceProvider {
     this.signalRService.startConnection();
     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
 
+    this.messageService.startConnection();
+    this.messageService.listenMessages(this);
+
     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
 
     this.CatalogosService.solicitacaoCorrida.changesSubject.subscribe(x => {
@@ -315,6 +321,7 @@ export class AppServiceProvider {
   disableBackground() {
     this.CatalogosService.solicitacaoCorrida.stopTrackingChanges();
     this.signalRService.disconnect();
+    this.messageService.disconnect();
     if (this.backgroundMode.isActive && this.backgroundMode.isEnabled) {
       this.backgroundMode.disable();
 

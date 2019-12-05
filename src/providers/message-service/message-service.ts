@@ -1,29 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
-import { TaxistaService } from '../../core/api/to_de_taxi/services';
-import { Platform } from 'ionic-angular';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../app-service/app-service';
-
+import { DetalhesMensagem } from '../../core/api/to_de_taxi/models';
+import { MensagemService } from '../../core/api/to_de_taxi/services';
+import { AlertController } from 'ionic-angular';
 /*
-  Generated class for the SignalRserviceServiceProvider provider.
+  Generated class for the MessageServiceProvider provider.
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
 @Injectable()
-export class SignalRserviceServiceProvider {
-  private hubConnection: signalR.HubConnection
+export class MessageServiceProvider {
+  private hubConnection: signalR.HubConnection;
+  private serviceProvider: AppServiceProvider;
   private _reconnection_timeout = 5000;
   private intentionalTrackingStop = false;
-  private idTaxista: string = ''
-  private serviceProvider: AppServiceProvider
-  constructor(private taxistaService: TaxistaService,
-    private platform: Platform,
-    public geolocation: Geolocation,
-    private oAuthService: OAuthService) {
+  constructor(public http: HttpClient,
+    private oAuthService: OAuthService,
+    private mensagemService: MensagemService,
+    public alertCtrl: AlertController, ) {
+    console.log('Hello MessageServiceProvider Provider');
   }
 
   public startConnection = () => {
@@ -34,7 +33,7 @@ export class SignalRserviceServiceProvider {
         return;
 
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://api.todetaxi.com.br/notifications/localizacao_taxista", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
+        .withUrl("https://api.todetaxi.com.br/notifications/mensagens", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
         .build();
 
       Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
@@ -66,7 +65,7 @@ export class SignalRserviceServiceProvider {
       setTimeout(async () => {
         try {
           await self.startConnection();
-          await self.getCurrentLocation(this.idTaxista, this.serviceProvider);
+          await self.listenMessages(this.serviceProvider);
         } catch (err) {
           console.log(JSON.stringify(err));
         }
@@ -77,33 +76,43 @@ export class SignalRserviceServiceProvider {
     }
   }
 
-
-  public getCurrentLocation = (taxistaId: string, localServiceProvider: AppServiceProvider) => {
-    this.idTaxista = taxistaId;
+  public listenMessages = (localServiceProvider: AppServiceProvider) => {
     this.serviceProvider = localServiceProvider
     try {
       try {
-        this.hubConnection.off("EnviarLocalizacao");
+        this.hubConnection.off("msg_usr");
       }
       catch (err) {
         console.log(JSON.stringify(err));
       }
-      this.hubConnection.on('EnviarLocalizacao', async (data) => {
-        try {
-          var latitude: string = '';
-          var longitude: string = '';
+      this.hubConnection.on('msg_usr', async (data: DetalhesMensagem) => {
+        this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
+          idMensagem: data.idMensagem,
+          idUsuario: this.serviceProvider.taxistaLogado.usuario.id,
+          status: 4
+        });
 
-          this.taxistaService.ApiV1TaxistaInformarLocalizacaoByIdPost({
-            id: this.idTaxista,
-            localizacao: {
-              latitude: this.serviceProvider.TaxistLat,
-              longitude: this.serviceProvider.TaxistLng,
-            }
-          }).toPromise().then(x => {
-            console.log(x.success)
-          });
-        } catch (err) {
-          console.log(JSON.stringify(err));
+        if (data && !data.dataLeitura) {
+          this.showMessage(data);
+        }
+
+      });
+
+      try {
+        this.hubConnection.off("msg_grp_usr");
+      }
+      catch (err) {
+        console.log(JSON.stringify(err));
+      }
+      this.hubConnection.on('msg_grp_usr', async (data: DetalhesMensagem) => {
+        this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
+          idMensagem: data.idMensagem,
+          idUsuario: this.serviceProvider.taxistaLogado.usuario.id,
+          status: 4
+        });
+
+        if (data && !data.dataLeitura) {
+          this.showMessage(data);
         }
       });
     } catch (err) {
@@ -121,4 +130,19 @@ export class SignalRserviceServiceProvider {
     }
   }
 
+  async showMessage(message: DetalhesMensagem) {
+    const alert = await this.alertCtrl.create({
+      title: message.assunto,
+      message: message.corpo,
+      buttons: [
+        {
+          text: 'Fechar',
+          handler: (blah) => {
+
+          }
+        }
+      ]
+    });
+    return await alert.present();
+  }
 }

@@ -27,6 +27,7 @@ import { CatalogoSolicitacaoCorrida } from '../providers/Catalogos/catalogo-soli
 import { CatalogoCorrida } from '../providers/Catalogos/catalogo-corrida.service';
 import { IonicRatingModule } from 'ionic-rating';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { MessageServiceProvider } from '../providers/message-service/message-service';
 
 const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
 
@@ -86,6 +87,7 @@ var config = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppServiceProvider,
     SignalRserviceServiceProvider,
+    MessageServiceProvider,
   ]
 })
 export class AppModule {}

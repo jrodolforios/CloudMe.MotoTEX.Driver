@@ -1,12 +1,12 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, ViewController, ModalController, AlertController, NavParams, Platform, Loading } from 'ionic-angular';
+import { IonicPage, NavController, ViewController, ModalController, AlertController, NavParams, Platform, Loading, DateTime } from 'ionic-angular';
 import { global } from '../../providers/global';
 import { AuthGuard } from '../../auth/auth.guard';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
-import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService, TaxistaService } from '../../core/api/to_de_taxi/services';
+import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService, TaxistaService, EmergenciaService } from '../../core/api/to_de_taxi/services';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CatalogosService } from '../../providers/Catalogos/catalogos.service';
@@ -26,6 +26,8 @@ export class Home {
   directionsDisplay = new google.maps.DirectionsRenderer;
   showDetails;
   zoom = 15;
+  private panicControlDate: Date = new Date();
+  private panicControlTouchNumber: number = 0;
 
   public lat: number;
   public lng: number;
@@ -80,7 +82,8 @@ export class Home {
     private CatalogosService: CatalogosService,
     private solicitacaoCorridaService: SolicitacaoCorridaService,
     private localNotifications: LocalNotifications,
-    private taxistaService: TaxistaService, ) {
+    private taxistaService: TaxistaService,
+    private emergenciaService: EmergenciaService) {
   }
 
   async ionViewDidLoad() {
@@ -151,6 +154,7 @@ export class Home {
         if (x.success)
           this.telefonePassageiro = x.data.usuario.telefone;
         this.nomePassageiro = x.data.usuario.nome;
+        this.serviceProvider.idUsuarioPassageiro = x.data.usuario.id;
       })
     }
     loading.dismiss();
@@ -190,8 +194,36 @@ export class Home {
     }]
     });
     return await alert.present();
+  }
 
+  async callPanic(){
+    if(!this.panicControlDate || (this.panicControlDate.getTime()  + 5000) < (new Date()).getTime()){
+      this.panicControlDate = new Date();
+      this.panicControlTouchNumber = 1;
+    } else if((this.panicControlDate.getTime() + 5000) > (new Date()).getTime()){
+      this.panicControlTouchNumber++;
 
+      if(this.panicControlTouchNumber >= 5){
+        this.panicControlTouchNumber = 0;
+        this.panicControlDate = new Date();
+
+        this.loader = await this.serviceProvider.loading('Aguarde...');
+        await this.loader.present();
+
+        await this.emergenciaService.ApiV1EmergenciaPanicoPost({
+          idTaxista: this.serviceProvider.taxistaLogado.id,
+          latitude: this.serviceProvider.TaxistLat,
+          longitude: this.serviceProvider.TaxistLng
+        }).toPromise().then(x =>{
+          if(!x.success || !x.data)
+            console.log("erro no envio do panico");
+        })
+
+        setTimeout(() => {
+          this.loader.dismiss();
+        }, 5000);
+      }
+    }
   }
 
   async getPassageiro() {
@@ -372,8 +404,8 @@ export class Home {
           this.lng = resp.coords.longitude;
         }
 
-        this.serviceProvider.taxistLat = resp.coords.latitude;
-        this.serviceProvider.Taxistlng = resp.coords.longitude;
+        this.serviceProvider.TaxistLat = resp.coords.latitude;
+        this.serviceProvider.TaxistLng = resp.coords.longitude;
 
         //loader.dismiss();
       });

@@ -31,11 +31,11 @@ export class CallbackPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(loggedIn => {
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin().then(async loggedIn => {
       if (!this.oauthService.hasValidIdToken() && !this.oauthService.hasValidAccessToken()) {
         this.navCtrl.push("Login");
       } else {
-        this.oauthService.loadUserProfile().then(x => {
+        await this.oauthService.loadUserProfile().then(async x => {
           if (x["sub"]) {
             this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
               if (taxista.success) {
@@ -89,6 +89,24 @@ export class CallbackPage implements OnInit {
                 });
               }
             });
+
+            if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
+              || this.serviceProvider.taxistaLogado == undefined) {
+              const alert = await this.alertCtrl.create({
+                title: 'Acesso não permitido',
+                message: 'Você não pode acessar o app',
+                enableBackdropDismiss: false,
+                buttons: [
+                  {
+                    text: 'OK',
+                    handler: (blah) => {
+                      this.navCtrl.push("LogoutPage");
+                    }
+                  }
+                ]
+              });
+              return await alert.present();
+            }
             this.navCtrl.push("Home");
           } else {
             this.navCtrl.push("Login");

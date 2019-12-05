@@ -1,6 +1,6 @@
-<ion-content (click)="dismiss()">
+<ion-content>
   <ion-list no-margin>
-    <ion-item *ngFor="let msg of messages" no-lines>
+    <ion-item *ngFor="let msg of messages" (click)="enviarMensagem(msg.text);dismiss();"no-lines>
       <ion-icon name="md-text" color="secondary" item-start></ion-icon>
       {{msg.text}}
     </ion-item>

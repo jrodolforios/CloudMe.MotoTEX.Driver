@@ -36,6 +36,7 @@ export class CallbackPage implements OnInit {
       } else {
         await this.oauthService.loadUserProfile().then(async x => {
           if (x["sub"]) {
+            try{
             await this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
               if (taxista.success) {
                 this.serviceProvider.taxistaLogado = taxista.data;
@@ -88,24 +89,26 @@ export class CallbackPage implements OnInit {
                 });
               }
             });
-
-            // if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
-            //   || this.serviceProvider.taxistaLogado == undefined) {
-            //   const alert = await this.alertCtrl.create({
-            //     title: 'Acesso não permitido',
-            //     message: 'Você não pode acessar o app',
-            //     enableBackdropDismiss: false,
-            //     buttons: [
-            //       {
-            //         text: 'OK',
-            //         handler: (blah) => {
-            //           this.navCtrl.push("LogoutPage");
-            //         }
-            //       }
-            //     ]
-            //   });
-            //   return await alert.present();
-            // }
+          } catch(err){
+            console.log(JSON.stringify(err));
+          }
+            if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
+              || this.serviceProvider.taxistaLogado == undefined) {
+              const alert = await this.alertCtrl.create({
+                title: 'Acesso não permitido',
+                message: 'Você não pode acessar o app',
+                enableBackdropDismiss: false,
+                buttons: [
+                  {
+                    text: 'OK',
+                    handler: (blah) => {
+                      this.navCtrl.push("LogoutPage");
+                    }
+                  }
+                ]
+              });
+              return await alert.present();
+            }
             this.navCtrl.push("Home");
           } else {
             this.navCtrl.push("Login");

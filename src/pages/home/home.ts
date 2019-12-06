@@ -86,10 +86,45 @@ export class Home {
     private emergenciaService: EmergenciaService) {
   }
 
+  async verificarCorridaEmAndamento() {
+    var corridaEmQuestaoParaProsseguir: CorridaSummary;
+    var idCorridaEmAndamento: string
+    await this.corridaService.ApiV1CorridaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(async x => {
+      if (x.success) {
+        await x.data.forEach(async y => {
+          await x.data.forEach(async y => {
+            if (y.status == 2 || y.status == 3 || y.status == 4) {
+              idCorridaEmAndamento = y.idSolicitacao;
+              corridaEmQuestaoParaProsseguir = y;
+            }
+          })
+          if (idCorridaEmAndamento != undefined && idCorridaEmAndamento != null)
+            await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(idCorridaEmAndamento).toPromise().then(z => {
+              if (z.success) {
+                idCorridaEmAndamento = null;
+                this.serviceProvider.corridaEmQuestao = corridaEmQuestaoParaProsseguir
+                this.serviceProvider.solicitacaoCorridaEmQuestao = z.data
+
+                this.global.accept = true;
+
+                if (this.serviceProvider.corridaEmQuestao.status == 3) {
+                  this.global.running = true;
+                }
+              }
+            })
+        });
+      }
+    });
+  }
+
   async ionViewDidLoad() {
     await this.initMap();
     var loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
+    setTimeout(() => {
+      this.verificarCorridaEmAndamento();
+    }, 5000);
+
 
     if ((this.serviceProvider.solicitacaoCorridaEmQuestao
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
@@ -160,23 +195,23 @@ export class Home {
     loading.dismiss();
   }
 
-  async closeAPP(){
+  async closeAPP() {
     const alert = await this.alertCtrl.create({
       title: 'Parar notificações',
       message: 'Tem certeza que deseja fechar o aplicativo e parar com as notificações de corrida?',
       buttons: [{
         text: 'Sim',
-        handler:  (blah) => {
+        handler: (blah) => {
           this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
             id: this.serviceProvider.taxistaLogado.id,
             disponivel: false
           }).toPromise().then(async x => {
             if (x.success && x.data) {
               this.serviceProvider.taxistaLogado.disponivel = false;
-              
-              if(this.serviceProvider.taxistaLogado.disponivel){
+
+              if (this.serviceProvider.taxistaLogado.disponivel) {
                 this.serviceProvider.enableBackground();
-              } else{
+              } else {
                 this.serviceProvider.disableBackground();
               }
 
@@ -185,25 +220,25 @@ export class Home {
           });
         }
       },
-    {
-      text: 'Não',
-      cssClass: 'secondary',
-      role: 'cancel',
-      handler: (blah) => {
-      }
-    }]
+      {
+        text: 'Não',
+        cssClass: 'secondary',
+        role: 'cancel',
+        handler: (blah) => {
+        }
+      }]
     });
     return await alert.present();
   }
 
-  async callPanic(){
-    if(!this.panicControlDate || (this.panicControlDate.getTime()  + 5000) < (new Date()).getTime()){
+  async callPanic() {
+    if (!this.panicControlDate || (this.panicControlDate.getTime() + 5000) < (new Date()).getTime()) {
       this.panicControlDate = new Date();
       this.panicControlTouchNumber = 1;
-    } else if((this.panicControlDate.getTime() + 5000) > (new Date()).getTime()){
+    } else if ((this.panicControlDate.getTime() + 5000) > (new Date()).getTime()) {
       this.panicControlTouchNumber++;
 
-      if(this.panicControlTouchNumber >= 5){
+      if (this.panicControlTouchNumber >= 5) {
         this.panicControlTouchNumber = 0;
         this.panicControlDate = new Date();
 
@@ -214,8 +249,8 @@ export class Home {
           idTaxista: this.serviceProvider.taxistaLogado.id,
           latitude: this.serviceProvider.TaxistLat,
           longitude: this.serviceProvider.TaxistLng
-        }).toPromise().then(x =>{
-          if(!x.success || !x.data)
+        }).toPromise().then(x => {
+          if (!x.success || !x.data)
             console.log("erro no envio do panico");
         })
 

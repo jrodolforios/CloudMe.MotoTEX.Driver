@@ -86,7 +86,13 @@ export class MessageServiceProvider {
         console.log(JSON.stringify(err));
       }
       this.hubConnection.on('msg_usr', async (data: DetalhesMensagem) => {
-        this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
+        await this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
+          idMensagem: data.idMensagem,
+          idUsuario: this.serviceProvider.taxistaLogado.usuario.id,
+          status: 3
+        });
+
+        await this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
           idMensagem: data.idMensagem,
           idUsuario: this.serviceProvider.taxistaLogado.usuario.id,
           status: 4
@@ -105,7 +111,13 @@ export class MessageServiceProvider {
         console.log(JSON.stringify(err));
       }
       this.hubConnection.on('msg_grp_usr', async (data: DetalhesMensagem) => {
-        this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
+        await this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
+          idMensagem: data.idMensagem,
+          idUsuario: this.serviceProvider.taxistaLogado.usuario.id,
+          status: 3
+        });
+
+        await this.mensagemService.ApiV1MensagemAlterarStatusMsgPost({
           idMensagem: data.idMensagem,
           idUsuario: this.serviceProvider.taxistaLogado.usuario.id,
           status: 4

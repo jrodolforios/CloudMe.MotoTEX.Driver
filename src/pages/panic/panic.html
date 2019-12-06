@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar color="light">
+    <ion-title text-center text-capitalize>PÂNICO Acionado</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="destination" text-center>
+    <h4>Pânico acionado por <span>{{nomeTaxista}}</span>. Tente ajudar utilizando uma das opções abaixo:</h4>
+  </div>
+  <ion-grid class="trip-detail">
+    <ion-row text-center>
+      <ion-col col-4>
+          <h4>Polícia</h4>
+        <ion-fab>
+          <button color="blue" ion-fab (click)="callPolice()">
+            <ion-icon name="md-call" color="light"></ion-icon>
+          </button>
+        </ion-fab>
+      </ion-col>
+      <ion-col class="mid-col" col-4>
+          <h4>Ligar</h4>
+        <ion-fab>
+          <button color="primary" ion-fab (click)="callTaxist()">
+            <ion-icon name="md-call" color="dark"></ion-icon>
+          </button>
+        </ion-fab>
+      </ion-col>
+      <ion-col col-4>
+          <h4>Ir até</h4>
+        <ion-fab>
+          <button color="success" ion-fab (click)="callNavigate()">
+            <ion-icon name="md-navigate" color="light"></ion-icon>
+          </button>
+        </ion-fab>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="map-footer" color="primary">
+  <ion-grid float-right no-padding>
+    <ion-row>
+      <ion-col>
+        <button ion-button full clear text-uppercase color="dark" class="bold" (click)="dismiss();">Fechar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

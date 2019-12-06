@@ -1,0 +1,56 @@
+page-panic {
+    height: 320px !important;
+    width: 90% !important;
+    top: calc((100% - 260px) / 2) !important;
+    left: calc(10% /2) !important;
+    border-radius: 10px !important;
+    .header-md{
+        border-bottom: 1px solid color($colors,grayColor);
+        &::after{
+            display: none;
+        }
+    }
+    .content-md{
+        border-radius: 10px;
+    }
+    .toolbar-md{
+        min-height: 65px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .toolbar-title-md{
+        font-size: 2.3rem;
+    }
+    .destination{
+        padding: 0 25px;
+        h4{
+            margin: 3px 0 !important;
+            font-size: 1.4rem;
+            span{
+                margin-right: 2px;
+                color: color($colors,secondary);
+            }
+        }
+    }
+
+    ion-fab{
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+    .trip-detail{
+        padding-top: 20px;
+        h4{
+            color: color($colors,secondary);
+        }
+    }
+    ion-footer{
+        padding: 5px 3px;
+        .grid{
+            width: 70%;
+            float: right;
+        }
+    }
+}

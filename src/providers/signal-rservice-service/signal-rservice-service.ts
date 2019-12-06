@@ -2,10 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { TaxistaService } from '../../core/api/to_de_taxi/services';
-import { Platform } from 'ionic-angular';
+import { Platform, AlertController, ModalController } from 'ionic-angular';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../app-service/app-service';
+import { EmergenciaSummary, TaxistaSummary } from '../../core/api/to_de_taxi/models';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 
 /*
   Generated class for the SignalRserviceServiceProvider provider.
@@ -22,8 +25,10 @@ export class SignalRserviceServiceProvider {
   private serviceProvider: AppServiceProvider
   constructor(private taxistaService: TaxistaService,
     private platform: Platform,
+    public alertCtrl: AlertController,
     public geolocation: Geolocation,
-    private oAuthService: OAuthService) {
+    private oAuthService: OAuthService,
+    public modalCtrl: ModalController,) {
   }
 
   public startConnection = () => {
@@ -102,6 +107,26 @@ export class SignalRserviceServiceProvider {
           }).toPromise().then(x => {
             console.log(x.success)
           });
+        } catch (err) {
+          console.log(JSON.stringify(err));
+        }
+      });
+
+      try {
+        this.hubConnection.off("panico");
+      }
+      catch (err) {
+        console.log(JSON.stringify(err));
+      }
+      this.hubConnection.on('panico', async (data: EmergenciaSummary) => {
+        try {
+          if (data.idTaxista != this.serviceProvider.taxistaLogado.id) {
+            this.serviceProvider.emergenciaRecebida = data;
+            this.serviceProvider.callNotification();
+            
+            let DestinationModal = this.modalCtrl.create('PanicPage', { userId: 8675309 });
+            DestinationModal.present()
+          }
         } catch (err) {
           console.log(JSON.stringify(err));
         }

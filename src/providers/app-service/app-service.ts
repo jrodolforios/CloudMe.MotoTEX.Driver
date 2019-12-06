@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary, FormaPagamentoSummary, FaixaDescontoSummary } from '../../core/api/to_de_taxi/models';
+import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary, FormaPagamentoSummary, FaixaDescontoSummary, EmergenciaSummary } from '../../core/api/to_de_taxi/models';
 import { ToastController, Platform, LoadingController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
@@ -11,7 +11,6 @@ import { SignalRserviceServiceProvider } from '../signal-rservice-service/signal
 import { CatalogosService } from '../Catalogos/catalogos.service';
 import { App } from 'ionic-angular';
 import { Subscriber, Subscription } from 'rxjs';
-import { CatalogoCorrida } from '../Catalogos/catalogo-corrida.service';
 import { MessageServiceProvider } from '../message-service/message-service';
 /*
   Generated class for the AppServiceProvider provider.
@@ -39,6 +38,7 @@ export class AppServiceProvider {
   solicitacaoCorridaEmQuestao: SolicitacaoCorridaSummary
   corridaEmQuestao: CorridaSummary;
   corridaSubscriber: Subscription;
+  emergenciaRecebida: EmergenciaSummary;
 
   taxistaLogado: TaxistaSummary;
   fotoTaxista: string;
@@ -198,8 +198,8 @@ export class AppServiceProvider {
     this.signalRService.startConnection();
     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
 
-    this.messageService.startConnection();
-    this.messageService.listenMessages(this);
+    // this.messageService.startConnection();
+    // this.messageService.listenMessages(this);
 
     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
 

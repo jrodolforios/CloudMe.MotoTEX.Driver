@@ -26,7 +26,6 @@ export class CallbackPage implements OnInit {
     private fotoService: FotoService,
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
     private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
-
     public alertCtrl: AlertController, ) {
   }
 
@@ -37,7 +36,7 @@ export class CallbackPage implements OnInit {
       } else {
         await this.oauthService.loadUserProfile().then(async x => {
           if (x["sub"]) {
-            this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
+            await this.taxistaService.ApiV1TaxistaConsultaIdTaxistaByIdGet(x["sub"]).toPromise().then(async taxista => {
               if (taxista.success) {
                 this.serviceProvider.taxistaLogado = taxista.data;
 
@@ -90,23 +89,23 @@ export class CallbackPage implements OnInit {
               }
             });
 
-            if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
-              || this.serviceProvider.taxistaLogado == undefined) {
-              const alert = await this.alertCtrl.create({
-                title: 'Acesso não permitido',
-                message: 'Você não pode acessar o app',
-                enableBackdropDismiss: false,
-                buttons: [
-                  {
-                    text: 'OK',
-                    handler: (blah) => {
-                      this.navCtrl.push("LogoutPage");
-                    }
-                  }
-                ]
-              });
-              return await alert.present();
-            }
+            // if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
+            //   || this.serviceProvider.taxistaLogado == undefined) {
+            //   const alert = await this.alertCtrl.create({
+            //     title: 'Acesso não permitido',
+            //     message: 'Você não pode acessar o app',
+            //     enableBackdropDismiss: false,
+            //     buttons: [
+            //       {
+            //         text: 'OK',
+            //         handler: (blah) => {
+            //           this.navCtrl.push("LogoutPage");
+            //         }
+            //       }
+            //     ]
+            //   });
+            //   return await alert.present();
+            // }
             this.navCtrl.push("Home");
           } else {
             this.navCtrl.push("Login");

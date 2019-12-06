@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { MensagemService } from 'src/core/api/to_de_taxi/services';
+import { MensagemService } from '../../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
 
 

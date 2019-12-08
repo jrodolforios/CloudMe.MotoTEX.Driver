@@ -198,8 +198,8 @@ export class AppServiceProvider {
     this.signalRService.startConnection();
     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
 
-    // this.messageService.startConnection();
-    // this.messageService.listenMessages(this);
+     this.messageService.startConnection();
+     this.messageService.listenMessages(this);
 
     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
 

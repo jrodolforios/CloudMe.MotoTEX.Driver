@@ -1,8 +1,11 @@
-export { ResponseIEnumerableContratoSummary } from './models/response-ienumerable-contrato-summary';
-export { ContratoSummary } from './models/contrato-summary';
+export { ResponseIEnumerableContatoSummary } from './models/response-ienumerable-contato-summary';
+export { ContatoSummary } from './models/contato-summary';
 export { Notification } from './models/notification';
 export { ResponseGuid } from './models/response-guid';
 export { ResponseBoolean } from './models/response-boolean';
+export { ResponseContatoSummary } from './models/response-contato-summary';
+export { ResponseIEnumerableContratoSummary } from './models/response-ienumerable-contrato-summary';
+export { ContratoSummary } from './models/contrato-summary';
 export { ResponseContratoSummary } from './models/response-contrato-summary';
 export { ResponseIEnumerableCorridaSummary } from './models/response-ienumerable-corrida-summary';
 export { CorridaSummary } from './models/corrida-summary';

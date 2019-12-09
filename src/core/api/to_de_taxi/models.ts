@@ -47,11 +47,14 @@ export { ResponseGrupoUsuarioSummary } from './models/response-grupo-usuario-sum
 export { ResponseIEnumerableLocalizacaoSummary } from './models/response-ienumerable-localizacao-summary';
 export { LocalizacaoSummary } from './models/localizacao-summary';
 export { ResponseLocalizacaoSummary } from './models/response-localizacao-summary';
-export { ResponseIEnumerableGuid } from './models/response-ienumerable-guid';
+export { Pagination } from './models/pagination';
 export { ResponseIEnumerableDetalhesMensagem } from './models/response-ienumerable-detalhes-mensagem';
 export { DetalhesMensagem } from './models/detalhes-mensagem';
+export { DestinatariosMensagem } from './models/destinatarios-mensagem';
+export { ParametrosEnvio } from './models/parametros-envio';
 export { MensagemSummary } from './models/mensagem-summary';
-export { MensagemMultiUsuarios } from './models/mensagem-multi-usuarios';
+export { ResponseMensagemDestinatarioSummary } from './models/response-mensagem-destinatario-summary';
+export { MensagemDestinatarioSummary } from './models/mensagem-destinatario-summary';
 export { ResponseIEnumerablePassageiroSummary } from './models/response-ienumerable-passageiro-summary';
 export { PassageiroSummary } from './models/passageiro-summary';
 export { UsuarioSummary } from './models/usuario-summary';

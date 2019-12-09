@@ -21,8 +21,8 @@ export class MessageModal {
   }
 
   enviarMensagem(mensage: string){
-    this.mensagemService.ApiV1MensagemEnviarParaUsuarioPost({
-      idUsuario: this.serviceProvider.idUsuarioPassageiro,
+    this.mensagemService.ApiV1MensagemEnviarPost({
+      destinatarios:{idsUsuarios: [this.serviceProvider.idUsuarioPassageiro]},
       mensagem: {
         assunto: "Mensagem de corrida",
         corpo: mensage,

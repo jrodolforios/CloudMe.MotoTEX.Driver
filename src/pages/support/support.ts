@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { ContatoService } from 'src/core/api/to_de_taxi/services';
-import { AppServiceProvider } from 'src/providers/app-service/app-service';
+import { ContatoService } from '../../core/api/to_de_taxi/services';
+import { AppServiceProvider } from '../../providers/app-service/app-service';
 
 /**
  * Generated class for the SupportPage page.

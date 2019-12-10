@@ -46,7 +46,7 @@ export class AppServiceProvider {
   faixasDescontoTaxista: FaixaDescontoSummary[];
   IdCorridaParaClassificacao: string;
 
-  public appVersion:string = '';
+  public appVersion: string = '';
 
   constructor(public http: HttpClient,
     public toastCtrl: ToastController,
@@ -88,10 +88,10 @@ export class AppServiceProvider {
   }
 
   async callNotification() {
-    this.platform.ready().then(x =>{
+    this.platform.ready().then(x => {
       this.vibration.vibrate([2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000]);
       this.nativeAudio.play('todetaximotoristaruncomming').then().catch();
-      
+
       this.localNotifications.schedule({
         id: 999,
         title: 'Chamado em andamento',
@@ -102,7 +102,7 @@ export class AppServiceProvider {
   }
 
   async endNotification() {
-    this.platform.ready().then(x =>{
+    this.platform.ready().then(x => {
       this.localNotifications.cancel(999).catch();
       this.vibration.vibrate(0);
       this.nativeAudio.stop('todetaximotoristaruncomming')
@@ -198,8 +198,8 @@ export class AppServiceProvider {
     this.signalRService.startConnection();
     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
 
-     this.messageService.startConnection();
-     this.messageService.listenMessages(this);
+    this.messageService.startConnection();
+    this.messageService.listenMessages(this);
 
     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
 
@@ -220,8 +220,8 @@ export class AppServiceProvider {
                 faixadescontoExiste = true;
             });
 
-            if(this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
-            faixadescontoExiste = true;
+            if (this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
+              faixadescontoExiste = true;
 
             this.formasPagamentoTaxista.forEach(y => {
               if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
@@ -247,8 +247,8 @@ export class AppServiceProvider {
                   faixadescontoExiste = true;
               })
 
-              if(this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
-              faixadescontoExiste = true;
+              if (this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
+                faixadescontoExiste = true;
 
               this.formasPagamentoTaxista.forEach(y => {
                 if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
@@ -267,19 +267,14 @@ export class AppServiceProvider {
         x.updatedItems.forEach(async x => {
           var corrida: CorridaSummary
           await this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.solicitacaoCorridaEmQuestao.id).toPromise()
-          .then(z =>{
-            if(z.success && z.data)
-            corrida = z.data;
-          });
+            .then(z => {
+              if (z.success && z.data)
+                corrida = z.data;
+            });
 
-          if (x.id == this.solicitacaoCorridaEmQuestao.id && (x.situacao == 2 || x.situacao == 4) && corrida && corrida.idTaxista != this.taxistaLogado.id) {
+          if (x.id == this.solicitacaoCorridaEmQuestao.id && x.situacao == 4) {
             this.endNotification();
             this.solicitacaoCorridaEmQuestao = undefined;
-          } else {
-            if (x.id == this.solicitacaoCorridaEmQuestao.id && x.situacao == 4) {
-              this.endNotification();
-              this.solicitacaoCorridaEmQuestao = undefined;
-            }
           }
         });
       }

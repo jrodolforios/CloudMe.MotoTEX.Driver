@@ -30,7 +30,8 @@ export class CallbackPage implements OnInit {
   }
 
   async ngOnInit() {
-    await this.oauthService.loadDiscoveryDocumentAndTryLogin().then(async loggedIn => {
+    await this.oauthService.loadDiscoveryDocument();
+    await this.oauthService.tryLoginCodeFlow(this.serviceProvider.loginQueryString).then(async loggedIn => {
       if (!this.oauthService.hasValidIdToken() && !this.oauthService.hasValidAccessToken()) {
         this.navCtrl.push("Login");
       } else {

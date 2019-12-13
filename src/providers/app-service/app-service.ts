@@ -30,6 +30,7 @@ export class AppServiceProvider {
   textoOrigem: string = '';
   textoDestino: string = '';
   public idUsuarioPassageiro: string = '';
+  public loginQueryString: string = '';
 
   descDistanciaViagem: string = '';
   descTempoViagem: string = '';

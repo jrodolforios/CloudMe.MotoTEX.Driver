@@ -1,4 +1,4 @@
-package mx.ferreyra.callnumber;
+package com.rohithvaranasi.callnumber;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -32,10 +32,16 @@ public class CFCallNumber extends CordovaPlugin {
     this.callbackContext = callbackContext;
     this.executeArgs = args;
 
-    if (cordova.hasPermission(CALL_PHONE)) {
-      callPhone(executeArgs);
+    if (action.equals("callNumber")) {
+      if (cordova.hasPermission(CALL_PHONE)) {
+        callPhone(executeArgs);
+      } else {
+        getCallPermission(CALL_REQ_CODE);
+      }
+    } else if (action.equals("isCallSupported")) {
+        this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, isTelephonyEnabled()));
     } else {
-      getCallPermission(CALL_REQ_CODE);
+      return false;
     }
 
     return true;

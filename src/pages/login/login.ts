@@ -35,8 +35,11 @@ export class Login {
       if (result.url.indexOf(endUrl) == 0) {
         browser.close();
         var resultEnd: string = result.url.split('#/callback/?')[1]
+        this.serviceProvider.loginQueryString = resultEnd;
 
-        window.location.href = 'http://localhost/#/callback/?' + resultEnd;
+        //window.location.href = 'http://localhost/#/callback/?' + resultEnd;
+
+        this.navCtrl.push("CallbackPage");
       }
     });
 

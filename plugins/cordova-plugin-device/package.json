@@ -2,7 +2,7 @@
   "_args": [
     [
       "cordova-plugin-device@2.0.2",
-      "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver"
+      "D:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-device/-/cordova-plugin-device-2.0.2.tgz",
   "_spec": "2.0.2",
-  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
+  "_where": "D:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Apache Software Foundation"
   },

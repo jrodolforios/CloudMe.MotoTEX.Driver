@@ -2,7 +2,7 @@
   "_args": [
     [
       "cordova-plugin-ionic-webview@4.1.3",
-      "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver"
+      "D:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-ionic-webview/-/cordova-plugin-ionic-webview-4.1.3.tgz",
   "_spec": "4.1.3",
-  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
+  "_where": "D:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Ionic Team"
   },

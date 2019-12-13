@@ -1,16 +1,16 @@
 {
-  "_from": "call-number",
-  "_id": "call-number@1.0.1",
+  "_from": "mx.ferreyra.callnumber",
+  "_id": "mx.ferreyra.callnumber@0.0.2",
   "_inBundle": false,
-  "_integrity": "sha1-v52q5If9alVz+JqjZV++ivA2r9I=",
-  "_location": "/call-number",
+  "_integrity": "sha512-J9FJiMrfWG9Q8AQEz/cgYLcXTTD/Z5+vfq29hn8K7yVWjxkSzr7zFi7Dpn8wcv2iKHBHDJY+U0z8yoAzDugXMw==",
+  "_location": "/mx.ferreyra.callnumber",
   "_phantomChildren": {},
   "_requested": {
     "type": "tag",
     "registry": true,
-    "raw": "call-number",
-    "name": "call-number",
-    "escapedName": "call-number",
+    "raw": "mx.ferreyra.callnumber",
+    "name": "mx.ferreyra.callnumber",
+    "escapedName": "mx.ferreyra.callnumber",
     "rawSpec": "",
     "saveSpec": null,
     "fetchSpec": "latest"
@@ -19,10 +19,10 @@
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/call-number/-/call-number-1.0.1.tgz",
-  "_shasum": "bf9daae487fd6a5573f89aa3655fbe8af036afd2",
-  "_spec": "call-number",
-  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
+  "_resolved": "https://registry.npmjs.org/mx.ferreyra.callnumber/-/mx.ferreyra.callnumber-0.0.2.tgz",
+  "_shasum": "dda64ced1d5a19e801d5c64f17f02bcd0599cb63",
+  "_spec": "mx.ferreyra.callnumber",
+  "_where": "D:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
   "author": "",
   "bugs": {
     "url": "https://github.com/Rohfosho/CordovaCallNumberPlugin/issues"
@@ -48,10 +48,10 @@
     "cordova-android"
   ],
   "license": "Apache 2.0",
-  "name": "call-number",
+  "name": "mx.ferreyra.callnumber",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Rohfosho/CordovaCallNumberPlugin.git"
   },
-  "version": "1.0.1"
+  "version": "0.0.2"
 }

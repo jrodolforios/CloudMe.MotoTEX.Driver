@@ -7,8 +7,8 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/kleeb/cordova-plugin-inappbrowser.git",
-    "rawSpec": "https://github.com/kleeb/cordova-plugin-inappbrowser.git",
+    "raw": "git+https://github.com/kleeb/cordova-plugin-inappbrowser.git",
+    "rawSpec": "git+https://github.com/kleeb/cordova-plugin-inappbrowser.git",
     "saveSpec": "git+https://github.com/kleeb/cordova-plugin-inappbrowser.git",
     "fetchSpec": "https://github.com/kleeb/cordova-plugin-inappbrowser.git",
     "gitCommittish": null
@@ -18,8 +18,8 @@
     "/"
   ],
   "_resolved": "git+https://github.com/kleeb/cordova-plugin-inappbrowser.git#ae0aa22a37f8784257a0200048c6578ef1ab9d9a",
-  "_spec": "https://github.com/kleeb/cordova-plugin-inappbrowser.git",
-  "_where": "D:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
+  "_spec": "git+https://github.com/kleeb/cordova-plugin-inappbrowser.git",
+  "_where": "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Apache Software Foundation"
   },

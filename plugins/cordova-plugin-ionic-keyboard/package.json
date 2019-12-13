@@ -2,7 +2,7 @@
   "_args": [
     [
       "cordova-plugin-ionic-keyboard@2.2.0",
-      "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver"
+      "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver"
     ]
   ],
   "_from": "cordova-plugin-ionic-keyboard@2.2.0",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-ionic-keyboard/-/cordova-plugin-ionic-keyboard-2.2.0.tgz",
   "_spec": "2.2.0",
-  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
+  "_where": "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Apache Software Foundation"
   },

@@ -44,6 +44,7 @@
     "call-number": "^1.0.1",
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-background-mode": "^0.7.3",
@@ -60,6 +61,7 @@
     "ionic-rating": "^2.0.0",
     "ionicons": "^4.6.3",
     "jquery": "^3.4.1",
+    "mx.ferreyra.callnumber": "0.0.2",
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.5.3",
     "starter": "git+https://github.com/manfredsteyer/angular-oauth2-oidc.git",
@@ -100,10 +102,12 @@
       "cordova-plugin-background-mode": {},
       "cordova-plugin-local-notification": {},
       "cordova-plugin-app-version": {},
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "call-number": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

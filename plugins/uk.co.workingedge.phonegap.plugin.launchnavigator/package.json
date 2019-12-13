@@ -1,10 +1,4 @@
 {
-  "_args": [
-    [
-      "uk.co.workingedge.phonegap.plugin.launchnavigator@5.0.4",
-      "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver"
-    ]
-  ],
   "_from": "uk.co.workingedge.phonegap.plugin.launchnavigator@5.0.4",
   "_id": "uk.co.workingedge.phonegap.plugin.launchnavigator@5.0.4",
   "_inBundle": false,
@@ -22,17 +16,20 @@
     "fetchSpec": "5.0.4"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/uk.co.workingedge.phonegap.plugin.launchnavigator/-/uk.co.workingedge.phonegap.plugin.launchnavigator-5.0.4.tgz",
-  "_spec": "5.0.4",
-  "_where": "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver",
+  "_shasum": "fa3ebb98ee46c0f70124cc64a44409f68a51f59b",
+  "_spec": "uk.co.workingedge.phonegap.plugin.launchnavigator@5.0.4",
+  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Dave Alden"
   },
   "bugs": {
     "url": "https://github.com/dpa99c/phonegap-launch-navigator/issues"
   },
+  "bundleDependencies": false,
   "cordova": {
     "id": "uk.co.workingedge.phonegap.plugin.launchnavigator",
     "platforms": [
@@ -42,6 +39,7 @@
     ]
   },
   "cordova_name": "Launch Navigator",
+  "deprecated": false,
   "description": "Cordova/Phonegap plugin to navigate to a destination using native navigation apps on Android, iOS, and Windows",
   "engines": {
     "cordovaDependencies": {

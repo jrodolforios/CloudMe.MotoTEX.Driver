@@ -1,0 +1,61 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "cordova-plugin-nativeaudio": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "mx.ferreyra.callnumber": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-background-mode": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-badge": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    }
+  }
+}

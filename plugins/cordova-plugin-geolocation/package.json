@@ -1,10 +1,4 @@
 {
-  "_args": [
-    [
-      "cordova-plugin-geolocation@4.0.2",
-      "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver"
-    ]
-  ],
   "_from": "cordova-plugin-geolocation@4.0.2",
   "_id": "cordova-plugin-geolocation@4.0.2",
   "_inBundle": false,
@@ -22,17 +16,20 @@
     "fetchSpec": "4.0.2"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-geolocation/-/cordova-plugin-geolocation-4.0.2.tgz",
-  "_spec": "4.0.2",
-  "_where": "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver",
+  "_shasum": "4668a01ae8a49e27c5515f8b81880983e96d7eb3",
+  "_spec": "cordova-plugin-geolocation@4.0.2",
+  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Apache Software Foundation"
   },
   "bugs": {
     "url": "https://github.com/apache/cordova-plugin-geolocation/issues"
   },
+  "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-geolocation",
     "platforms": [
@@ -41,6 +38,7 @@
       "windows"
     ]
   },
+  "deprecated": false,
   "description": "Cordova Geolocation Plugin",
   "devDependencies": {
     "eslint": "^4.0.0",

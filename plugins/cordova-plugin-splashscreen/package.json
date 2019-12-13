@@ -2,7 +2,7 @@
   "_args": [
     [
       "cordova-plugin-splashscreen@5.0.2",
-      "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver"
+      "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver"
     ]
   ],
   "_development": true,
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-splashscreen/-/cordova-plugin-splashscreen-5.0.2.tgz",
   "_spec": "5.0.2",
-  "_where": "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver",
+  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Apache Software Foundation"
   },

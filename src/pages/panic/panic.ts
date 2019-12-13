@@ -32,7 +32,6 @@ export class PanicPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.serviceProvider.endNotification();
     this.emergencia = this.serviceProvider.emergenciaRecebida;
     this.serviceProvider.emergenciaRecebida = undefined;
 
@@ -47,15 +46,18 @@ export class PanicPage implements OnInit {
   }
 
   callPolice(){
+    this.serviceProvider.endNotification();
     this.callNumber.callNumber("190", true);
   }
 
   callTaxist(){
+    this.serviceProvider.endNotification();
     this.callNumber.callNumber(this.taxista.usuario.telefone.replace(/[^0-9]+/g, ''), true);
   }
 
   callNavigate(){
-    var origin: any = { lat: +this.emergencia.latitude, lng: +this.emergencia.longitude }
+    this.serviceProvider.endNotification();
+    var origin: any = { lat: parseFloat(this.emergencia.latitude), lng: parseFloat(this.emergencia.longitude) }
 
     this.launchNavigator.navigate([origin.lat, origin.lng], {
       app: this.launchNavigator.APP.GOOGLE_MAPS

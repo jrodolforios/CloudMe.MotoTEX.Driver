@@ -543,8 +543,13 @@ export class Home {
     DestinationModal.present();
 
   }
-  realizarTratamentoUpdateCorrida(item: CorridaSummary) {
-    if (this.serviceProvider.corridaEmQuestao && this.serviceProvider.corridaEmQuestao.id == item.id) {
+  async realizarTratamentoUpdateCorrida(item: CorridaSummary) {
+    if (item.idTaxista != this.serviceProvider.taxistaLogado.id
+      && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
+      if (this.loader) this.loader.dismiss();
+      await this.showAlertCorridaOutroTaxista();
+      this.ignoreCorrida();
+    } else if (this.serviceProvider.corridaEmQuestao && this.serviceProvider.corridaEmQuestao.id == item.id) {
       if (this.loader) this.loader.dismiss();
 
       this.serviceProvider.corridaEmQuestao = item;
@@ -622,6 +627,9 @@ export class Home {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
+            this.serviceProvider.IdCorridaParaClassificacao = this.serviceProvider.corridaEmQuestao.id;
+            let ratingModal = this.modalCtrl.create('RatingPage');
+            ratingModal.present();
             this.ignoreCorrida();
 
             //TODO: Qualificar corrida;
@@ -697,6 +705,10 @@ export class Home {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
+            this.serviceProvider.IdCorridaParaClassificacao = this.serviceProvider.corridaEmQuestao.id;
+            let ratingModal = this.modalCtrl.create('RatingPage');
+            ratingModal.present();
+
             this.cancelarCorrida();
             this.ignoreCorrida();
           }

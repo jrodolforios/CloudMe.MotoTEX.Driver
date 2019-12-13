@@ -24,11 +24,12 @@ export class MessageModal {
     this.mensagemService.ApiV1MensagemEnviarPost({
       destinatarios:{idsUsuarios: [this.serviceProvider.idUsuarioPassageiro]},
       mensagem: {
+        id: '00000000-0000-0000-0000-000000000000',
         assunto: "Mensagem de corrida",
         corpo: mensage,
         idRemetente: this.serviceProvider.taxistaLogado.usuario.id
       },
-    })
+    }).toPromise().then(x=>{});
   }
 
 // close Modal

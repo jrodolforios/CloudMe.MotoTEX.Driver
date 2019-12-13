@@ -9,6 +9,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "cordova-plugin-app-version.AppVersionPlugin",
+      "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+      "pluginId": "cordova-plugin-app-version",
+      "clobbers": [
+        "cordova.getAppVersion"
+      ]
+    },
+    {
       "id": "cordova-plugin-device.device",
       "file": "plugins/cordova-plugin-device/www/device.js",
       "pluginId": "cordova-plugin-device",
@@ -195,18 +203,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "merges": [
         "launchnavigator"
       ]
-    },
-    {
-      "id": "cordova-plugin-app-version.AppVersionPlugin",
-      "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
-      "pluginId": "cordova-plugin-app-version",
-      "clobbers": [
-        "cordova.getAppVersion"
-      ]
     }
   ];
   module.exports.metadata = {
     "cordova-plugin-actionsheet": "2.3.3",
+    "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-background-mode": "0.7.3",
     "cordova-plugin-badge": "0.8.8",
@@ -222,7 +223,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-vibration": "3.1.1",
     "cordova-plugin-whitelist": "1.3.3",
     "mx.ferreyra.callnumber": "0.0.2",
-    "uk.co.workingedge.phonegap.plugin.launchnavigator": "5.0.4",
-    "cordova-plugin-app-version": "0.1.9"
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": "5.0.4"
   };
 });

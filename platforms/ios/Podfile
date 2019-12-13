@@ -2,7 +2,7 @@
 
 platform :ios, '10.0'
 
-target 'C:\Users\jrodo\Source\Repos\CloudMe.ToDeTaxi.Front.Driver\platforms\ios\TÔdeTaxi Motorista' do
-	project 'C:\Users\jrodo\Source\Repos\CloudMe.ToDeTaxi.Front.Driver\platforms\ios\TÔdeTaxi Motorista.xcodeproj'
+target 'D:\Users\jrodo\Source\Repos\CloudMe.ToDeTaxi.Front.Driver\platforms\ios\TÔdeTaxi Motorista' do
+	project 'D:\Users\jrodo\Source\Repos\CloudMe.ToDeTaxi.Front.Driver\platforms\ios\TÔdeTaxi Motorista.xcodeproj'
 
 end

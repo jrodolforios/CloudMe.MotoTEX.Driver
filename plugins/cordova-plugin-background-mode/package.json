@@ -1,38 +1,35 @@
 {
-  "_args": [
-    [
-      "cordova-plugin-background-mode@0.7.3",
-      "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver"
-    ]
-  ],
-  "_from": "cordova-plugin-background-mode@0.7.3",
+  "_from": "cordova-plugin-background-mode",
   "_id": "cordova-plugin-background-mode@0.7.3",
   "_inBundle": false,
   "_integrity": "sha512-LsU1v7EgTUROaks+tcQ8TnMzVUcU/TwjDVwj2O/4e4aI2q2ldLGsiZorqKqfqvwh2HoIssmY73OwJk91hQi62w==",
   "_location": "/cordova-plugin-background-mode",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "cordova-plugin-background-mode@0.7.3",
+    "raw": "cordova-plugin-background-mode",
     "name": "cordova-plugin-background-mode",
     "escapedName": "cordova-plugin-background-mode",
-    "rawSpec": "0.7.3",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "0.7.3"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-background-mode/-/cordova-plugin-background-mode-0.7.3.tgz",
-  "_spec": "0.7.3",
-  "_where": "/Users/centrodoschoferes/Documents/Sources/CloudMe.ToDeTaxi.Front.Driver",
+  "_shasum": "066f92c99f403b3ed3d6fb91f281a0a7ccbc84ba",
+  "_spec": "cordova-plugin-background-mode",
+  "_where": "C:\\Users\\jrodo\\Source\\Repos\\CloudMe.ToDeTaxi.Front.Driver",
   "author": {
     "name": "Sebastián Katzer"
   },
   "bugs": {
     "url": "https://github.com/katzer/cordova-plugin-background-mode/issues"
   },
+  "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-background-mode",
     "platforms": [
@@ -41,6 +38,7 @@
       "browser"
     ]
   },
+  "deprecated": false,
   "description": "Prevent apps from going to sleep in background.",
   "engines": [
     {

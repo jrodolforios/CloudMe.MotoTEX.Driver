@@ -247,8 +247,8 @@ export class Home {
 
         await this.emergenciaService.ApiV1EmergenciaPanicoPost({
           idTaxista: this.serviceProvider.taxistaLogado.id,
-          latitude: this.serviceProvider.TaxistLat,
-          longitude: this.serviceProvider.TaxistLng
+          latitude: this.serviceProvider.TaxistLng,
+          longitude: this.serviceProvider.TaxistLat
         }).toPromise().then(x => {
           if (!x.success || !x.data)
             console.log("erro no envio do panico");

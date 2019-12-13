@@ -19,7 +19,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 @Injectable()
 export class SignalRserviceServiceProvider {
   private hubConnection: signalR.HubConnection
-  private _reconnection_timeout = 5000;
+  private _reconnection_timeout = 15000;
   private intentionalTrackingStop = false;
   private idTaxista: string = ''
   private serviceProvider: AppServiceProvider

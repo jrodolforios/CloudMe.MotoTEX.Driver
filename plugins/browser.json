@@ -7,9 +7,6 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
@@ -50,6 +47,9 @@
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     },
     "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
+    },
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "com.cloudme.ToDeTaxi"
     }
   },

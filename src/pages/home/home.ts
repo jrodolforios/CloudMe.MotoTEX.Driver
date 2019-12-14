@@ -25,6 +25,7 @@ export class Home {
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
   showDetails;
+  public platformIOS: boolean = false;
   zoom = 15;
   private panicControlDate: Date = new Date();
   private panicControlTouchNumber: number = 0;
@@ -117,7 +118,20 @@ export class Home {
     });
   }
 
+  profileButtonAction(){
+    if(this.platformIOS)
+      this.callPanic();
+    else
+      this.navCtrl.push("Profile");
+  }
+
   async ionViewDidLoad() {
+    try{
+      this.platformIOS = this.platform.is("ios");
+      //this.platformIOS = true;
+    } catch(err){
+      console.log(JSON.stringify(err));
+    }
     await this.initMap();
     var loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
@@ -454,10 +468,13 @@ export class Home {
   }
 
   //show details of trip
-  activeTrip() {
+  async activeTrip() {
     if (this.serviceProvider.solicitacaoCorridaEmQuestao && this.serviceProvider.solicitacaoCorridaEmQuestao != null
       && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0)) {
       this.showDetails = !this.showDetails;
+    } else{
+      var toast = await this.serviceProvider.presentToast("Nenhuma corrida para aceitar no momento.");
+      toast.present();
     }
 
     this.serviceProvider.endNotification();

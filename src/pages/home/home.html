@@ -1,7 +1,7 @@
 <ion-header class="app-header">
   <ion-navbar color="primary" hideBackButton="true">
     <ion-buttons style="order:1;" start>
-      <button class="user-img-btn" [navPush]="'Profile'" ion-button icon-only>
+      <button class="user-img-btn" (click)="profileButtonAction();" ion-button icon-only>
         <img [src]="getProfilePhoto()">
       </button>
     </ion-buttons>
@@ -39,7 +39,7 @@
   </ion-fab>
 
   <ion-fab middle left
-    *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
+    *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel && !platformIOS">
     <button color="dark" ion-fab (click)="callPanic()">
       <ion-icon name="md-help-buoy" color="light"></ion-icon>
     </button>

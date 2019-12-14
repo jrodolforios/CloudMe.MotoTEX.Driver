@@ -84,7 +84,7 @@ var config = {
     CatalogoSolicitacaoCorrida,
     CallNumber,
     Geolocation,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    // {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppServiceProvider,
     SignalRserviceServiceProvider,
     MessageServiceProvider,

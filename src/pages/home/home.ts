@@ -640,6 +640,7 @@ export class Home {
   }
 
   async showCorridaCanceladaPeloUsuario() {
+    this.serviceProvider.IdCorridaParaClassificacao = this.serviceProvider.corridaEmQuestao.id;
     const alert = await this.alertCtrl.create({
       title: 'Corrida cancelada',
       message: 'O passageiro cancelou a corrida.',
@@ -649,7 +650,6 @@ export class Home {
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            this.serviceProvider.IdCorridaParaClassificacao = this.serviceProvider.corridaEmQuestao.id;
             let ratingModal = this.modalCtrl.create('RatingPage');
             ratingModal.present();
             this.ignoreCorrida();

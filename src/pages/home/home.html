@@ -39,7 +39,7 @@
   </ion-fab>
 
   <ion-fab middle left
-    *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel && !platformIOS">
+    *ngIf="serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel && !platformIOS">
     <button color="dark" ion-fab (click)="callPanic()">
       <ion-icon name="md-help-buoy" color="light"></ion-icon>
     </button>

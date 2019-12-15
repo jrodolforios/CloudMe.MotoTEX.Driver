@@ -93,43 +93,108 @@ export class Home {
     await this.corridaService.ApiV1CorridaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(async x => {
       if (x.success) {
         await x.data.forEach(async y => {
-          await x.data.forEach(async y => {
-            if (y.status == 2 || y.status == 3 || y.status == 4) {
-              idCorridaEmAndamento = y.idSolicitacao;
-              corridaEmQuestaoParaProsseguir = y;
+          if (y.status == 2 || y.status == 3 || y.status == 4) {
+            idCorridaEmAndamento = y.idSolicitacao;
+            corridaEmQuestaoParaProsseguir = y;
+          }
+        });
+        if (idCorridaEmAndamento != undefined && idCorridaEmAndamento != null)
+          await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(idCorridaEmAndamento).toPromise().then(async z => {
+            if (z.success) {
+              idCorridaEmAndamento = null;
+              this.serviceProvider.corridaEmQuestao = corridaEmQuestaoParaProsseguir
+              this.serviceProvider.solicitacaoCorridaEmQuestao = z.data
+
+              await this.carregarDadosCorrida();
+              this.global.accept = true;
+              this.showDetails = true;
+              if (this.serviceProvider.corridaEmQuestao.status == 3) {
+                this.global.running = true;
+              }
+
+
             }
           })
-          if (idCorridaEmAndamento != undefined && idCorridaEmAndamento != null)
-            await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(idCorridaEmAndamento).toPromise().then(z => {
-              if (z.success) {
-                idCorridaEmAndamento = null;
-                this.serviceProvider.corridaEmQuestao = corridaEmQuestaoParaProsseguir
-                this.serviceProvider.solicitacaoCorridaEmQuestao = z.data
-
-                this.global.accept = true;
-
-                if (this.serviceProvider.corridaEmQuestao.status == 3) {
-                  this.global.running = true;
-                }
-              }
-            })
-        });
       }
     });
   }
 
-  profileButtonAction(){
-    if(this.platformIOS)
+  profileButtonAction() {
+    if (this.platformIOS)
       this.callPanic();
     else
       this.navCtrl.push("Profile");
   }
 
+  async carregarDadosCorrida() {
+    this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
+      .then(x => {
+        if (x.success)
+          this.descFormaPagamento = x.data.descricao;
+      });
+
+    this.descTituloTipoViagem = this.serviceProvider.getTipoViagem(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento)
+
+    switch (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento) {
+      case 0:
+        this.descTipoViagem = 'Indefinido';
+        break;
+      case 1:
+        if (this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != null
+          && this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != undefined) {
+          this.faixaDescontoService.ApiV1FaixaDescontoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto).toPromise()
+            .then(x => {
+              if (x.success)
+                this.descTipoViagem = x.data.descricao;
+            });
+        } else {
+          this.descTipoViagem = "Sem desconto"
+        }
+        break;
+      case 2:
+        this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
+        break;
+      case 3:
+        this.descTipoViagem = "R$ " + this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
+        break;
+    }
+
+    this.descTempoViagem = this.serviceProvider.formatedTimeHHMM(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
+
+    if (this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano)
+      this.descValorCorrida = "Interurbana"
+    else
+      this.descValorCorrida = "R$" + this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
+
+    this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
+      if (x.success) {
+        this.textoOrigem = x.data.nomePublico;
+        this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
+
+        this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x => {
+          if (x.success) {
+            this.textoDestino = x.data.nomePublico;
+            this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
+
+            this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
+          }
+        })
+      }
+    })
+
+    this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
+      if (x.success)
+        this.telefonePassageiro = x.data.usuario.telefone;
+      this.nomePassageiro = x.data.usuario.nome;
+      this.serviceProvider.idUsuarioPassageiro = x.data.usuario.id;
+    })
+  }
+
   async ionViewDidLoad() {
-    try{
+    try {
       this.platformIOS = this.platform.is("ios");
       //this.platformIOS = true;
-    } catch(err){
+    } catch (err) {
       console.log(JSON.stringify(err));
     }
     await this.initMap();
@@ -144,67 +209,7 @@ export class Home {
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
       && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0))
       || (this.serviceProvider.corridaEmQuestao && this.serviceProvider.corridaEmQuestao.status == 2)) {
-      this.formaPagamentoService.ApiV1FormaPagamentoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFormaPagamento).toPromise()
-        .then(x => {
-          if (x.success)
-            this.descFormaPagamento = x.data.descricao;
-        });
-
-      this.descTituloTipoViagem = this.serviceProvider.getTipoViagem(this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento)
-
-      switch (this.serviceProvider.solicitacaoCorridaEmQuestao.tipoAtendimento) {
-        case 0:
-          this.descTipoViagem = 'Indefinido';
-          break;
-        case 1:
-          if (this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != null
-            && this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto != undefined) {
-            this.faixaDescontoService.ApiV1FaixaDescontoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idFaixaDesconto).toPromise()
-              .then(x => {
-                if (x.success)
-                  this.descTipoViagem = x.data.descricao;
-              });
-          } else {
-            this.descTipoViagem = "Sem desconto"
-          }
-          break;
-        case 2:
-          this.descTipoViagem = this.serviceProvider.formatData(new Date(this.serviceProvider.solicitacaoCorridaEmQuestao.data));
-          break;
-        case 3:
-          this.descTipoViagem = "R$ " + this.serviceProvider.solicitacaoCorridaEmQuestao.valorProposto.toFixed(2);
-          break;
-      }
-
-      this.descTempoViagem = this.serviceProvider.formatedTimeHHMM(this.serviceProvider.solicitacaoCorridaEmQuestao.eta)
-
-      if (this.serviceProvider.solicitacaoCorridaEmQuestao.isInterUrbano)
-        this.descValorCorrida = "Interurbana"
-      else
-        this.descValorCorrida = "R$" + this.serviceProvider.solicitacaoCorridaEmQuestao.valorEstimado.toFixed(2);
-
-      this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem).toPromise().then(x => {
-        if (x.success) {
-          this.textoOrigem = x.data.nomePublico;
-          this.origin = { lat: +x.data.latitude, lng: +x.data.longitude }
-
-          this.localizacaoService.ApiV1LocalizacaoByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idLocalizacaoDestino).toPromise().then(x => {
-            if (x.success) {
-              this.textoDestino = x.data.nomePublico;
-              this.destination = { lat: +x.data.latitude, lng: +x.data.longitude }
-
-              this.calculateDistance(this.origin.lat, this.origin.lng, this.destination.lat, this.destination.lng);
-            }
-          })
-        }
-      })
-
-      this.passageiroService.ApiV1PassageiroByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.idPassageiro).toPromise().then(x => {
-        if (x.success)
-          this.telefonePassageiro = x.data.usuario.telefone;
-        this.nomePassageiro = x.data.usuario.nome;
-        this.serviceProvider.idUsuarioPassageiro = x.data.usuario.id;
-      })
+      await this.carregarDadosCorrida();
     }
     loading.dismiss();
   }
@@ -472,7 +477,7 @@ export class Home {
     if (this.serviceProvider.solicitacaoCorridaEmQuestao && this.serviceProvider.solicitacaoCorridaEmQuestao != null
       && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0)) {
       this.showDetails = !this.showDetails;
-    } else{
+    } else {
       var toast = await this.serviceProvider.presentToast("Nenhuma corrida para aceitar no momento.");
       toast.present();
     }
@@ -589,8 +594,8 @@ export class Home {
       }
 
       if (item.status == 5) {
+        await this.showCorridaCanceladaPeloUsuario();
         this.ignoreCorrida();
-        this.showCorridaCanceladaPeloUsuario();
       }
     }
   }

@@ -12,6 +12,7 @@ import { CatalogosService } from '../Catalogos/catalogos.service';
 import { App } from 'ionic-angular';
 import { Subscriber, Subscription } from 'rxjs';
 import { MessageServiceProvider } from '../message-service/message-service';
+import { global } from '../../providers/global';
 /*
   Generated class for the AppServiceProvider provider.
 
@@ -59,6 +60,7 @@ export class AppServiceProvider {
     private platform: Platform,
     private localNotifications: LocalNotifications,
     private signalRService: SignalRserviceServiceProvider,
+    public global: global,
     private CatalogosService: CatalogosService,
     private app: App,
     private corridaService: CorridaService,
@@ -103,11 +105,15 @@ export class AppServiceProvider {
   }
 
   async endNotification() {
-    this.platform.ready().then(x => {
-      this.localNotifications.cancel(999).catch();
-      this.vibration.vibrate(0);
-      this.nativeAudio.stop('todetaximotoristaruncomming')
-    });
+    try {
+      this.platform.ready().then(x => {
+        this.localNotifications.cancel(999).catch();
+        this.vibration.vibrate(0);
+        this.nativeAudio.stop('todetaximotoristaruncomming')
+      });
+    } catch (err) {
+      console.log(JSON.stringify(err));
+    }
   }
 
   async loading(message: string) {
@@ -195,6 +201,38 @@ export class AppServiceProvider {
     }
   }
 
+  async buscarSOlicitacaoENotificar() {
+    var solicitacaoParaNotificar: SolicitacaoCorridaSummary;
+    await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost().toPromise()
+      .then(x => {
+        if (x.success) {
+          x.data.forEach(y => {
+            solicitacaoParaNotificar = y;
+          })
+        }
+      })
+    if (solicitacaoParaNotificar != null && solicitacaoParaNotificar != undefined) {
+      var faixadescontoExiste = false;
+      var formaPagamentoExiste = false;
+
+      this.faixasDescontoTaxista.forEach(y => {
+        if ((y.id == solicitacaoParaNotificar.idFaixaDesconto && !faixadescontoExiste) || solicitacaoParaNotificar.idFaixaDesconto == null)
+          faixadescontoExiste = true;
+      });
+
+      if (this.faixasDescontoTaxista.length == 0 && solicitacaoParaNotificar.idFaixaDesconto == null)
+        faixadescontoExiste = true;
+
+      this.formasPagamentoTaxista.forEach(y => {
+        if (y.id == solicitacaoParaNotificar.idFormaPagamento && !formaPagamentoExiste)
+          formaPagamentoExiste = true;
+      });
+
+      if (formaPagamentoExiste && faixadescontoExiste)
+        this.notificarCorrida(solicitacaoParaNotificar);
+    }
+  }
+
   enableBackground() {
     this.signalRService.startConnection();
     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
@@ -273,9 +311,21 @@ export class AppServiceProvider {
                 corrida = z.data;
             });
 
-          if (x.id == this.solicitacaoCorridaEmQuestao.id && x.situacao == 4) {
+          if (x.id == this.solicitacaoCorridaEmQuestao.id && (x.situacao == 2 || x.situacao == 4) && corrida && corrida.idTaxista != this.taxistaLogado.id
+            && !this.global.accept && !this.global.running && !this.global.showDetails) {
             this.endNotification();
             this.solicitacaoCorridaEmQuestao = undefined;
+            setTimeout(() => {
+              this.buscarSOlicitacaoENotificar();
+            }, 5000);
+          } else {
+            if (x.id == this.solicitacaoCorridaEmQuestao.id && x.situacao == 4) {
+              this.endNotification();
+              this.solicitacaoCorridaEmQuestao = undefined;
+              setTimeout(() => {
+                this.buscarSOlicitacaoENotificar();
+              }, 5000);
+            }
           }
         });
       }

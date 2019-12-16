@@ -3657,6 +3657,50 @@
         ]
       }
     },
+    "/api/v1/GrupoUsuario/by_name": {
+      "get": {
+        "tags": [
+          "GrupoUsuario"
+        ],
+        "summary": "Obtém um grupo de usuário por nome.\r\n<param name=\"name\">Nome do grupo de usuários</param>",
+        "operationId": "ApiV1GrupoUsuarioBy_nameGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[GrupoUsuarioSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
     "/api/v1/GrupoUsuario/by_user": {
       "get": {
         "tags": [
@@ -4339,7 +4383,8 @@
               1,
               2,
               3,
-              4
+              4,
+              5
             ]
           }
         ],
@@ -5585,6 +5630,43 @@
         ]
       }
     },
+    "/api/v1/SolicitacaoCorrida/recuperar_solicitacoes_em_espera": {
+      "post": {
+        "tags": [
+          "SolicitacaoCorrida"
+        ],
+        "summary": "Recupera Solicitações ainda não atendidas",
+        "operationId": "ApiV1SolicitacaoCorridaRecuperar_solicitacoes_em_esperaPost",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IList[SolicitacaoCorridaSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
     "/api/v1/Tarifa": {
       "get": {
         "tags": [
@@ -6539,6 +6621,50 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario/by_name": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Obtém um usuário por nome.\r\n<param name=\"name\">Nome do usuário</param>",
+        "operationId": "ApiV1UsuarioBy_nameGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[UsuarioSummary]"
             }
           },
           "401": {
@@ -9001,7 +9127,8 @@
             1,
             2,
             3,
-            4
+            4,
+            5
           ],
           "type": "integer"
         }
@@ -9442,6 +9569,34 @@
         "data": {
           "$ref": "#/definitions/SolicitacaoCorridaSummary",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        }
+      }
+    },
+    "Response[IList[SolicitacaoCorridaSummary]]": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SolicitacaoCorridaSummary"
+          }
         },
         "count": {
           "format": "int32",

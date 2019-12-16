@@ -24,7 +24,7 @@ export class Home {
   // map: any;
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
-  showDetails;
+
   public platformIOS: boolean = false;
   zoom = 15;
   private panicControlDate: Date = new Date();
@@ -107,7 +107,7 @@ export class Home {
 
               await this.carregarDadosCorrida();
               this.global.accept = true;
-              this.showDetails = true;
+              this.global.showDetails = true;
               if (this.serviceProvider.corridaEmQuestao.status == 3) {
                 this.global.running = true;
               }
@@ -436,11 +436,15 @@ export class Home {
     this.serviceProvider.corridaEmQuestao = undefined;
     this.serviceProvider.solicitacaoCorridaEmQuestao = undefined;
 
-    this.showDetails = false;
+    this.global.showDetails = false;
     this.global.accept = false;
     this.global.running = false;
 
     this.serviceProvider.discartViagem();
+
+    setTimeout(() => {
+      this.serviceProvider.buscarSOlicitacaoENotificar();
+    }, 5000);
   }
 
   async initMap() {
@@ -476,7 +480,7 @@ export class Home {
   async activeTrip() {
     if (this.serviceProvider.solicitacaoCorridaEmQuestao && this.serviceProvider.solicitacaoCorridaEmQuestao != null
       && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0)) {
-      this.showDetails = !this.showDetails;
+      this.global.showDetails = true;
     } else {
       var toast = await this.serviceProvider.presentToast("Nenhuma corrida para aceitar no momento.");
       toast.present();

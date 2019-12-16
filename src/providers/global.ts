@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 export class global  {
     public accept = false;
     public running = false;
+    public showDetails = false;
     
     public constructor()
      { 

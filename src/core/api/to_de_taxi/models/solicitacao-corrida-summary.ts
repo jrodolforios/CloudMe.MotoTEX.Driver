@@ -1,13 +1,13 @@
 /* tslint:disable */
 export interface SolicitacaoCorridaSummary {
-  tipoAtendimento?: 0 | 1 | 2 | 3;
   id?: string;
+  idPassageiro?: string;
   idLocalizacaoOrigem?: string;
   idLocalizacaoDestino?: string;
   idRota?: string;
   idFormaPagamento?: string;
   idFaixaDesconto?: string;
-  idPassageiro?: string;
+  tipoAtendimento?: 0 | 1 | 2 | 3;
   data?: string;
   eta?: number;
   tempoDisponivel?: number;

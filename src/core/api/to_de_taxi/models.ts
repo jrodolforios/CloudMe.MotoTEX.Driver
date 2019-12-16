@@ -71,6 +71,7 @@ export { ResponseRotaSummary } from './models/response-rota-summary';
 export { ResponseIEnumerableSolicitacaoCorridaSummary } from './models/response-ienumerable-solicitacao-corrida-summary';
 export { SolicitacaoCorridaSummary } from './models/solicitacao-corrida-summary';
 export { ResponseSolicitacaoCorridaSummary } from './models/response-solicitacao-corrida-summary';
+export { ResponseIListSolicitacaoCorridaSummary } from './models/response-ilist-solicitacao-corrida-summary';
 export { ResponseIEnumerableTarifaSummary } from './models/response-ienumerable-tarifa-summary';
 export { TarifaSummary } from './models/tarifa-summary';
 export { ResponseDecimal } from './models/response-decimal';

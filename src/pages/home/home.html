@@ -13,7 +13,7 @@
     </ion-buttons>
   </ion-navbar>
   <div class="shadow"></div>
-  <div class="trip-distention" [ngClass]="{'show-distention': showDetails}">
+  <div class="trip-distention" [ngClass]="{'show-distention': global.showDetails}">
     <ion-item no-lines>
       <ion-icon name="md-disc" color="secondary" item-start></ion-icon>
       {{textoOrigem}}
@@ -60,13 +60,13 @@
 </ion-content>
 
 
-<ion-footer class="app-footer" [ngClass]="{'new-clip': showDetails , 'old-clip': global.accept}">
+<ion-footer class="app-footer" [ngClass]="{'new-clip': global.showDetails , 'old-clip': global.accept}">
   <ion-toolbar color="primary">
 
     <div class="Trip-det" *ngIf="!global.accept">
 
       <ion-fab top center [ngClass]="{'shake': serviceProvider.solicitacaoCorridaEmQuestao , 'old-clip': global.accept}"
-        class="animated infinite" *ngIf="!showDetails">
+        class="animated infinite" *ngIf="!global.showDetails">
         <button (click)="activeTrip()" ion-fab
           [color]="serviceProvider.solicitacaoCorridaEmQuestao ? 'danger' : 'default'"
           [ngClass]="{'blue': !serviceProvider.solicitacaoCorridaEmQuestao}">
@@ -74,12 +74,12 @@
         </button>
       </ion-fab>
       <ion-fab class="turnoff-fab left-right-fab" top right mini edge
-        *ngIf="!showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
+        *ngIf="!global.showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
         <button color="danger" ion-fab mini (click)="closeAPP()">
           <ion-icon name="md-power" color="light"></ion-icon>
         </button>
       </ion-fab>
-      <ion-fab twice top center *ngIf="showDetails">
+      <ion-fab twice top center *ngIf="global.showDetails">
         <ion-row>
           <ion-col col-6>
             <button (click)="presentDestinationModal()" ion-fab color="secondary">
@@ -93,7 +93,7 @@
           </ion-col>
         </ion-row>
       </ion-fab>
-      <div *ngIf="showDetails">
+      <div *ngIf="global.showDetails">
         <ion-grid class="trip-detail">
           <ion-row>
             <ion-col col-6>

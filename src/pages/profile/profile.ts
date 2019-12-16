@@ -182,8 +182,7 @@ export class Profile {
             this.notify = [];
             this.history = [];
             await corridas.forEach(async y => {
-              if ((y.status == 6 || y.status == 5 || y.status == 1) && contadorHistorico <= 30) {
-                contadorHistorico++;
+              if ((y.status == 6 || y.status == 5 || y.status == 1)) {
                 var solicitacaoCorrida: SolicitacaoCorridaSummary
                 await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(y.idSolicitacao).toPromise()
                   .then(z => {
@@ -222,7 +221,8 @@ export class Profile {
                     formaPagamento: formaPagamento
                   });
                 }
-                else if (y.status == 6 || y.status == 5) {
+                else if ((y.status == 6 || y.status == 5)  && contadorHistorico <= 30) {
+                  contadorHistorico++;
                   this.history.push({
                     id: y.id,
                     origem: origem,

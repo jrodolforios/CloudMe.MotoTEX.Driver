@@ -52,11 +52,14 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
+        <edit-config file="*-Info.plist" mode="merge" target="CFBundleDevelopmentRegion">
+            <string>pt_BR</string>
+        </edit-config>
         <config-file parent="NSLocationAlwaysUsageDescription" target="*-Info.plist">
-            <string>Used to get the position from the passenger to improve the location of the start point of tue travell</string>
+            <string>Irá ajudar a buscar onde será a origem da sua viagem</string>
         </config-file>
         <config-file parent="NSLocationWhenInUseUsageDescription" target="*-Info.plist">
-            <string>Used to get the position from the passenger to improve the location of the start point of tue travell</string>
+            <string>Irá ajudar a buscar onde será a origem da sua viagem</string>
         </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />

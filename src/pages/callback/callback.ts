@@ -93,23 +93,23 @@ export class CallbackPage implements OnInit {
           } catch(err){
             console.log(JSON.stringify(err));
           }
-            if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
-              || this.serviceProvider.taxistaLogado == undefined) {
-              const alert = await this.alertCtrl.create({
-                title: 'Acesso não permitido',
-                message: 'Você não pode acessar o app',
-                enableBackdropDismiss: false,
-                buttons: [
-                  {
-                    text: 'OK',
-                    handler: (blah) => {
-                      this.navCtrl.push("LogoutPage");
-                    }
-                  }
-                ]
-              });
-              return await alert.present();
-            }
+            // if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
+            //   || this.serviceProvider.taxistaLogado == undefined) {
+            //   const alert = await this.alertCtrl.create({
+            //     title: 'Acesso não permitido',
+            //     message: 'Você não pode acessar o app',
+            //     enableBackdropDismiss: false,
+            //     buttons: [
+            //       {
+            //         text: 'OK',
+            //         handler: (blah) => {
+            //           this.navCtrl.push("LogoutPage");
+            //         }
+            //       }
+            //     ]
+            //   });
+            //   return await alert.present();
+            // }
             this.navCtrl.push("Home");
           } else {
             this.navCtrl.push("Login");

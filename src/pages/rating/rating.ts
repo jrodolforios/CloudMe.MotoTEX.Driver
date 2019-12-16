@@ -59,8 +59,14 @@ export class RatingPage implements OnInit {
     this.starsCount = event;
   }
 
-  salvarClassificacao() {
+  async salvarClassificacao() {
     this.corridaParaClassificar.avaliacaoPassageiro = this.starsCount;
+    
+    await this.corridaService.ApiV1CorridaByIdGet(this.corridaParaClassificar.id).toPromise().then(x =>{
+      if(x.success){
+        this.corridaParaClassificar = x.data;
+      }
+    });
 
     this.corridaService.ApiV1CorridaPut(this.corridaParaClassificar)
     .toPromise().then(x => console.log(JSON.stringify(x)));

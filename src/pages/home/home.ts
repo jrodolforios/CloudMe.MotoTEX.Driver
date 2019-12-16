@@ -266,8 +266,8 @@ export class Home {
 
         await this.emergenciaService.ApiV1EmergenciaPanicoPost({
           idTaxista: this.serviceProvider.taxistaLogado.id,
-          latitude: this.serviceProvider.TaxistLng,
-          longitude: this.serviceProvider.TaxistLat
+          latitude: this.serviceProvider.TaxistLat,
+          longitude: this.serviceProvider.TaxistLng
         }).toPromise().then(x => {
           if (!x.success || !x.data)
             console.log("erro no envio do panico");
@@ -665,7 +665,7 @@ export class Home {
   async showAlertCorridaOutroTaxista() {
     const alert = await this.alertCtrl.create({
       title: 'Corrida já aceita por outro taxista',
-      message: 'Essa corrida já foi aceita por outro taxista. Aguarde um novo chamado',
+      message: 'Essa corrida já foi direcionada para outro taxista. Aguarde um novo chamado',
       buttons: [
         {
           text: 'Ok',

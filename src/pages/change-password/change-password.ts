@@ -92,10 +92,16 @@ export class ChangePasswordPage {
       await this.oauthService.loadDiscoveryDocumentAndTryLogin();
       if (this.oauthService.hasValidIdToken() || this.oauthService.hasValidAccessToken()) {
 
-        this.oauthService.loadUserProfile().then(x => {
+        this.oauthService.loadUserProfile().then(async x => {
           if (x["sub"]) {
             var id: string = x["sub"];
-            var login: string = x["name"];
+            var login: string = ''
+
+            await this.usuarioService.ApiV1UsuarioByIdGet(id).toPromise().then(x =>{
+              if(x.success)
+                login = x.data.credenciais.login;
+            })
+
             var oldPassword: string = this.form.get("senha").value;
 
             var newPassword: string = this.form.get("novaSenha").value;

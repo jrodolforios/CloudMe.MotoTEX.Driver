@@ -98,7 +98,7 @@ export class Home {
             corridaEmQuestaoParaProsseguir = y;
           }
         });
-        if (idCorridaEmAndamento != undefined && idCorridaEmAndamento != null){
+        if (idCorridaEmAndamento != undefined && idCorridaEmAndamento != null) {
           await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(idCorridaEmAndamento).toPromise().then(async z => {
             if (z.success) {
               idCorridaEmAndamento = null;
@@ -115,8 +115,9 @@ export class Home {
 
             }
           });
-        } else{
-          this.serviceProvider.buscarSOlicitacaoENotificar();
+        } else {
+          if (this.serviceProvider.solicitacaoCorridaEmQuestao == null || this.serviceProvider.solicitacaoCorridaEmQuestao == undefined)
+            this.serviceProvider.buscarSOlicitacaoENotificar();
         }
       }
     });

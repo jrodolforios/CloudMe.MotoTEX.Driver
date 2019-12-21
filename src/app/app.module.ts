@@ -10,7 +10,7 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { global } from '../providers/global';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
 import { OAuthModule } from '../../auth-oidc/src/angular-oauth-oidic.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AgmDirectionModule } from 'agm-direction';
 import { AppServiceProvider } from '../providers/app-service/app-service';
@@ -28,6 +28,7 @@ import { CatalogoCorrida } from '../providers/Catalogos/catalogo-corrida.service
 import { IonicRatingModule } from 'ionic-rating';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { MessageServiceProvider } from '../providers/message-service/message-service';
+import { ErrorInterceptor } from '../core/error-interceptor';
 
 const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
 
@@ -84,6 +85,11 @@ var config = {
     CatalogoSolicitacaoCorrida,
     CallNumber,
     Geolocation,
+    {
+			provide: HTTP_INTERCEPTORS,
+			useClass: ErrorInterceptor,
+			multi: true
+		},
     // {provide: ErrorHandler, useClass: IonicErrorHandler},
     AppServiceProvider,
     SignalRserviceServiceProvider,

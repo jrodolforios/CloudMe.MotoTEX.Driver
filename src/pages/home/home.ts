@@ -98,7 +98,7 @@ export class Home {
             corridaEmQuestaoParaProsseguir = y;
           }
         });
-        if (idCorridaEmAndamento != undefined && idCorridaEmAndamento != null)
+        if (idCorridaEmAndamento != undefined && idCorridaEmAndamento != null){
           await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(idCorridaEmAndamento).toPromise().then(async z => {
             if (z.success) {
               idCorridaEmAndamento = null;
@@ -114,7 +114,10 @@ export class Home {
 
 
             }
-          })
+          });
+        } else{
+          this.serviceProvider.buscarSOlicitacaoENotificar();
+        }
       }
     });
   }
@@ -484,6 +487,8 @@ export class Home {
     } else {
       var toast = await this.serviceProvider.presentToast("Nenhuma corrida para aceitar no momento.");
       toast.present();
+
+      this.serviceProvider.buscarSOlicitacaoENotificar();
     }
 
     this.serviceProvider.endNotification();

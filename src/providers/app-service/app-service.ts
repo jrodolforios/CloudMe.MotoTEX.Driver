@@ -203,14 +203,17 @@ export class AppServiceProvider {
 
   async buscarSOlicitacaoENotificar() {
     var solicitacaoParaNotificar: SolicitacaoCorridaSummary;
-    await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost().toPromise()
-      .then(x => {
-        if (x.success) {
-          x.data.forEach(y => {
-            solicitacaoParaNotificar = y;
-          })
-        }
-      })
+    if (this.taxistaLogado.disponivel)
+      await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost().toPromise()
+        .then(x => {
+          if (x.success) {
+            x.data.forEach(y => {
+              solicitacaoParaNotificar = y;
+            })
+          }
+        });
+
+        
     if (solicitacaoParaNotificar != null && solicitacaoParaNotificar != undefined) {
       var faixadescontoExiste = false;
       var formaPagamentoExiste = false;

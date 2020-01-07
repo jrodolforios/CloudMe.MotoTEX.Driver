@@ -204,7 +204,7 @@ export class AppServiceProvider {
   async buscarSOlicitacaoENotificar() {
     var solicitacaoParaNotificar: SolicitacaoCorridaSummary;
     if (this.taxistaLogado.disponivel)
-      await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost().toPromise()
+      await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost(this.taxistaLogado.id).toPromise()
         .then(x => {
           if (x.success) {
             x.data.forEach(y => {

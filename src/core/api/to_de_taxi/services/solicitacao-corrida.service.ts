@@ -267,12 +267,14 @@ class SolicitacaoCorridaService extends __BaseService {
   }
 
   /**
+   * @param IdTaxista undefined
    * @return Success
    */
-  ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPostResponse(): __Observable<__StrictHttpResponse<ResponseIListSolicitacaoCorridaSummary>> {
+  ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPostResponse(IdTaxista?: string): __Observable<__StrictHttpResponse<ResponseIListSolicitacaoCorridaSummary>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+    if (IdTaxista != null) __params = __params.set('IdTaxista', IdTaxista.toString());
     let req = new HttpRequest<any>(
       'POST',
       this.rootUrl + `/api/v1/SolicitacaoCorrida/recuperar_solicitacoes_em_espera`,
@@ -291,10 +293,11 @@ class SolicitacaoCorridaService extends __BaseService {
     );
   }
   /**
+   * @param IdTaxista undefined
    * @return Success
    */
-  ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost(): __Observable<ResponseIListSolicitacaoCorridaSummary> {
-    return this.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPostResponse().pipe(
+  ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost(IdTaxista?: string): __Observable<ResponseIListSolicitacaoCorridaSummary> {
+    return this.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPostResponse(IdTaxista).pipe(
       __map(_r => _r.body as ResponseIListSolicitacaoCorridaSummary)
     );
   }

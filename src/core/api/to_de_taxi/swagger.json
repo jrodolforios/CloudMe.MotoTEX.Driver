@@ -5643,7 +5643,14 @@
           "application/json",
           "text/json"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "IdTaxista",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6550,6 +6557,43 @@
         ]
       }
     },
+    "/api/v1/Usuario/get_all_admin": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Obtém usuários admnistradores.",
+        "operationId": "ApiV1UsuarioGet_all_adminGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[IEnumerable[UsuarioSummary]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
     "/api/v1/Usuario/{id}": {
       "get": {
         "tags": [
@@ -6639,6 +6683,51 @@
         ]
       }
     },
+    "/api/v1/Usuario/get_admin/{id}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Gets um usuário administrador.\r\n<param name=\"id\">Usuario's ID</param>",
+        "operationId": "ApiV1UsuarioGet_adminByIdGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[UsuarioSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
     "/api/v1/Usuario/by_name": {
       "get": {
         "tags": [
@@ -6665,6 +6754,156 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/Response[UsuarioSummary]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario/post_admin": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Creates a new Usuario.",
+        "operationId": "ApiV1UsuarioPost_adminPost",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "UsuarioSummary",
+            "in": "body",
+            "description": "Usuario's summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Guid]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario/put_admin": {
+      "put": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Modifies an existing Usuario.",
+        "operationId": "ApiV1UsuarioPut_adminPut",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "UsuarioSummary",
+            "in": "body",
+            "description": "Modified Usuario list's properties summary",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UsuarioSummary"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Usuario/delete_admin{id}": {
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Removes an existing Usuario.",
+        "operationId": "ApiV1UsuarioDelete_admin{idDelete",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "DialList's ID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
             }
           },
           "401": {

@@ -142,7 +142,7 @@ export class MessageServiceProvider {
     }
   }
 
-  async showMessage(message: DetalhesMensagem) {
+  public async showMessage(message: DetalhesMensagem) {
     const alert = await this.alertCtrl.create({
       title: message.assunto,
       message: message.corpo,

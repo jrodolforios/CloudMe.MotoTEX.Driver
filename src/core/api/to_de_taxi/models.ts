@@ -1,6 +1,6 @@
 export { ResponseIEnumerableContatoSummary } from './models/response-ienumerable-contato-summary';
-export { ContatoSummary } from './models/contato-summary';
 export { Notification } from './models/notification';
+export { ContatoSummary } from './models/contato-summary';
 export { ResponseGuid } from './models/response-guid';
 export { ResponseBoolean } from './models/response-boolean';
 export { ResponseContatoSummary } from './models/response-contato-summary';
@@ -51,6 +51,7 @@ export { Pagination } from './models/pagination';
 export { ResponseIEnumerableDetalhesMensagem } from './models/response-ienumerable-detalhes-mensagem';
 export { DetalhesMensagem } from './models/detalhes-mensagem';
 export { DestinatariosMensagem } from './models/destinatarios-mensagem';
+export { ResponseListDetalhesMensagem } from './models/response-list-detalhes-mensagem';
 export { ParametrosEnvio } from './models/parametros-envio';
 export { MensagemSummary } from './models/mensagem-summary';
 export { ResponseMensagemDestinatarioSummary } from './models/response-mensagem-destinatario-summary';

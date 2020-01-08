@@ -25,6 +25,7 @@ class PassageiroService extends __BaseService {
   static readonly ApiV1PassageiroByIdDeletePath = '/api/v1/Passageiro/{id}';
   static readonly ApiV1PassageiroConsultaIdPassageiroByIdGetPath = '/api/v1/Passageiro/consulta_id_passageiro/{id}';
   static readonly ApiV1PassageiroChecarLoginEmUsoGetPath = '/api/v1/Passageiro/checar_login_em_uso';
+  static readonly ApiV1PassageiroEmailEmUsoGetPath = '/api/v1/Passageiro/email_em_uso';
   static readonly ApiV1PassageiroInformarLocalizacaoByIdPostPath = '/api/v1/Passageiro/informar_localizacao/{id}';
   static readonly ApiV1PassageiroClassificacaoPassageiroByIdGetPath = '/api/v1/Passageiro/classificacao_passageiro/{id}';
 
@@ -280,6 +281,42 @@ class PassageiroService extends __BaseService {
    */
   ApiV1PassageiroChecarLoginEmUsoGet(login?: string): __Observable<ResponseBoolean> {
     return this.ApiV1PassageiroChecarLoginEmUsoGetResponse(login).pipe(
+      __map(_r => _r.body as ResponseBoolean)
+    );
+  }
+
+  /**
+   * @param email undefined
+   * @return Success
+   */
+  ApiV1PassageiroEmailEmUsoGetResponse(email?: string): __Observable<__StrictHttpResponse<ResponseBoolean>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (email != null) __params = __params.set('email', email.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/v1/Passageiro/email_em_uso`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResponseBoolean>;
+      })
+    );
+  }
+  /**
+   * @param email undefined
+   * @return Success
+   */
+  ApiV1PassageiroEmailEmUsoGet(email?: string): __Observable<ResponseBoolean> {
+    return this.ApiV1PassageiroEmailEmUsoGetResponse(email).pipe(
       __map(_r => _r.body as ResponseBoolean)
     );
   }

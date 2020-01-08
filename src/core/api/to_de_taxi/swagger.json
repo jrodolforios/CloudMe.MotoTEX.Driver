@@ -4169,6 +4169,50 @@
         ]
       }
     },
+    "/api/v1/Mensagem/obter_enviadas_marcar_idas": {
+      "post": {
+        "tags": [
+          "Mensagem"
+        ],
+        "operationId": "ApiV1MensagemObter_enviadas_marcar_idasPost",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "id_usuario",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[List[DetalhesMensagem]]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
     "/api/v1/Mensagem/obter_recebidas": {
       "post": {
         "tags": [
@@ -4701,6 +4745,50 @@
             "name": "login",
             "in": "query",
             "description": "Id from taxist",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Response[Boolean]"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "oauth2": [
+              "demo_api"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/v1/Passageiro/email_em_uso": {
+      "get": {
+        "tags": [
+          "Passageiro"
+        ],
+        "summary": "Verificar email em uso",
+        "operationId": "ApiV1PassageiroEmail_em_usoGet",
+        "consumes": [],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
             "required": false,
             "type": "string"
           }
@@ -6557,13 +6645,13 @@
         ]
       }
     },
-    "/api/v1/Usuario/get_all_admin": {
+    "/api/v1/Usuario/admins": {
       "get": {
         "tags": [
           "Usuario"
         ],
-        "summary": "Obtém usuários admnistradores.",
-        "operationId": "ApiV1UsuarioGet_all_adminGet",
+        "summary": "Gets all admin.",
+        "operationId": "ApiV1UsuarioAdminsGet",
         "consumes": [],
         "produces": [
           "text/plain",
@@ -6683,13 +6771,13 @@
         ]
       }
     },
-    "/api/v1/Usuario/get_admin/{id}": {
+    "/api/v1/Usuario/login_disponivel": {
       "get": {
         "tags": [
           "Usuario"
         ],
-        "summary": "Gets um usuário administrador.\r\n<param name=\"id\">Usuario's ID</param>",
-        "operationId": "ApiV1UsuarioGet_adminByIdGet",
+        "summary": "Verifica se um login está disponível.\r\n<param name=\"login\">Login a ser testado</param>",
+        "operationId": "ApiV1UsuarioLogin_disponivelGet",
         "consumes": [],
         "produces": [
           "text/plain",
@@ -6698,205 +6786,10 @@
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "uuid"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Response[UsuarioSummary]"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "demo_api"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/v1/Usuario/by_name": {
-      "get": {
-        "tags": [
-          "Usuario"
-        ],
-        "summary": "Obtém um usuário por nome.\r\n<param name=\"name\">Nome do usuário</param>",
-        "operationId": "ApiV1UsuarioBy_nameGet",
-        "consumes": [],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "name": "name",
+            "name": "login",
             "in": "query",
             "required": false,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Response[UsuarioSummary]"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "demo_api"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/v1/Usuario/post_admin": {
-      "post": {
-        "tags": [
-          "Usuario"
-        ],
-        "summary": "Creates a new Usuario.",
-        "operationId": "ApiV1UsuarioPost_adminPost",
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "name": "UsuarioSummary",
-            "in": "body",
-            "description": "Usuario's summary",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/UsuarioSummary"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Response[Guid]"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "demo_api"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/v1/Usuario/put_admin": {
-      "put": {
-        "tags": [
-          "Usuario"
-        ],
-        "summary": "Modifies an existing Usuario.",
-        "operationId": "ApiV1UsuarioPut_adminPut",
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "name": "UsuarioSummary",
-            "in": "body",
-            "description": "Modified Usuario list's properties summary",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/UsuarioSummary"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Response[Boolean]"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "oauth2": [
-              "demo_api"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/v1/Usuario/delete_admin{id}": {
-      "delete": {
-        "tags": [
-          "Usuario"
-        ],
-        "summary": "Removes an existing Usuario.",
-        "operationId": "ApiV1UsuarioDelete_admin{idDelete",
-        "consumes": [],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "DialList's ID",
-            "required": true,
-            "type": "string",
-            "format": "uuid"
           }
         ],
         "responses": {
@@ -7894,6 +7787,17 @@
     "Response[IEnumerable[ContatoSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -7906,16 +7810,91 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Notification": {
+      "type": "object",
+      "properties": {
+        "property": {
+          "type": "string",
+          "readOnly": true
         },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "message": {
+          "type": "string",
+          "readOnly": true
         }
       }
     },
@@ -7948,22 +7927,20 @@
         }
       }
     },
-    "Notification": {
-      "type": "object",
-      "properties": {
-        "property": {
-          "type": "string",
-          "readOnly": true
-        },
-        "message": {
-          "type": "string",
-          "readOnly": true
-        }
-      }
-    },
     "Response[Guid]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "format": "uuid",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
@@ -7974,6 +7951,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[Boolean]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -7984,12 +8039,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[Boolean]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "boolean"
@@ -7999,6 +8049,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[ContatoSummary]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8009,12 +8137,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[ContatoSummary]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "$ref": "#/definitions/ContatoSummary",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)"
@@ -8024,6 +8147,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[IEnumerable[ContratoSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8034,12 +8235,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[IEnumerable[ContratoSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8052,16 +8248,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8083,15 +8341,6 @@
     "Response[ContratoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/ContratoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8102,12 +8351,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/ContratoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[CorridaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8120,16 +8462,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8215,15 +8619,6 @@
     "Response[CorridaSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/CorridaSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8234,12 +8629,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/CorridaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[Int32]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "format": "int32",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
@@ -8250,6 +8738,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[List[CorridaSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8260,12 +8826,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[List[CorridaSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8278,6 +8839,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[IEnumerable[CorVeiculoSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8288,12 +8927,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[IEnumerable[CorVeiculoSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8306,16 +8940,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8334,15 +9030,6 @@
     "Response[CorVeiculoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/CorVeiculoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8353,12 +9040,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/CorVeiculoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[EmergenciaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8371,16 +9151,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8416,15 +9258,6 @@
     "Response[EmergenciaSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/EmergenciaSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8435,12 +9268,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/EmergenciaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[EnderecoSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8453,16 +9379,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8503,15 +9491,6 @@
     "Response[EnderecoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/EnderecoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8522,12 +9501,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/EnderecoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[FaixaDescontoSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8540,16 +9612,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8572,15 +9706,6 @@
     "Response[FaixaDescontoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/FaixaDescontoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8591,12 +9716,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/FaixaDescontoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[FaixaDescontoTaxistaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8609,16 +9827,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8642,15 +9922,6 @@
     "Response[FaixaDescontoTaxistaSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/FaixaDescontoTaxistaSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8661,12 +9932,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/FaixaDescontoTaxistaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[List[FaixaDescontoTaxistaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8679,6 +10043,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[IEnumerable[FavoritoSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8689,12 +10131,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[IEnumerable[FavoritoSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8707,16 +10144,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8744,15 +10243,6 @@
     "Response[FavoritoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/FavoritoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8763,12 +10253,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/FavoritoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[FormaPagamentoSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8781,16 +10364,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8809,15 +10454,6 @@
     "Response[FormaPagamentoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/FormaPagamentoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8828,12 +10464,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/FormaPagamentoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[FormaPagamentoTaxistaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8846,16 +10575,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8879,15 +10670,6 @@
     "Response[FormaPagamentoTaxistaSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/FormaPagamentoTaxistaSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8898,12 +10680,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/FormaPagamentoTaxistaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[List[FormaPagamentoTaxistaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8916,6 +10791,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[IEnumerable[FotoSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8926,12 +10879,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[IEnumerable[FotoSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -8944,16 +10892,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -8979,15 +10989,6 @@
     "Response[FotoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/FotoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -8998,6 +10999,88 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/FotoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9040,6 +11123,17 @@
     "Response[IEnumerable[GrupoUsuarioSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9052,16 +11146,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9083,15 +11239,6 @@
     "Response[GrupoUsuarioSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/GrupoUsuarioSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9102,12 +11249,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/GrupoUsuarioSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[LocalizacaoSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9120,16 +11360,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9161,15 +11463,6 @@
     "Response[LocalizacaoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/LocalizacaoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9180,6 +11473,88 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/LocalizacaoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9199,6 +11574,17 @@
     "Response[IEnumerable[DetalhesMensagem]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9211,16 +11597,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9277,6 +11725,107 @@
         }
       }
     },
+    "Response[List[DetalhesMensagem]]": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
+        "data": {
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DetalhesMensagem"
+          }
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
     "ParametrosEnvio": {
       "type": "object",
       "properties": {
@@ -9310,15 +11859,6 @@
     "Response[MensagemDestinatarioSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/MensagemDestinatarioSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9329,6 +11869,88 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/MensagemDestinatarioSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9376,6 +11998,17 @@
     "Response[IEnumerable[PassageiroSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9388,16 +12021,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9484,15 +12179,6 @@
     "Response[PassageiroSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/PassageiroSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9503,12 +12189,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/PassageiroSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[PontoTaxiSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9521,16 +12300,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9552,15 +12393,6 @@
     "Response[PontoTaxiSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/PontoTaxiSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9571,12 +12403,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/PontoTaxiSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[TaxistaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9589,16 +12514,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9638,6 +12625,17 @@
     "Response[IEnumerable[RotaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9650,16 +12648,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9675,15 +12735,6 @@
     "Response[RotaSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/RotaSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9694,12 +12745,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/RotaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[SolicitacaoCorridaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9712,16 +12856,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9805,15 +13011,6 @@
     "Response[SolicitacaoCorridaSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/SolicitacaoCorridaSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9824,12 +13021,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/SolicitacaoCorridaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IList[SolicitacaoCorridaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9842,6 +13132,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[IEnumerable[TarifaSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9852,12 +13220,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[IEnumerable[TarifaSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9870,16 +13233,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -9911,6 +13336,17 @@
     "Response[Decimal]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "format": "double",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
@@ -9921,6 +13357,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[TarifaSummary]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9931,12 +13445,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[TarifaSummary]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "$ref": "#/definitions/TarifaSummary",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)"
@@ -9946,6 +13455,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[TaxistaSummary]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9956,12 +13543,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[TaxistaSummary]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "$ref": "#/definitions/TaxistaSummary",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)"
@@ -9971,6 +13553,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[IEnumerable[VeiculoTaxistaSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -9981,12 +13641,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[IEnumerable[VeiculoTaxistaSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -9999,16 +13654,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -10035,6 +13752,17 @@
     "Response[IEnumerable[UsuarioSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -10047,6 +13775,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[UsuarioSummary]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -10057,12 +13863,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[UsuarioSummary]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "$ref": "#/definitions/UsuarioSummary",
           "description": "Dados vinculados à resposta da operação (de qualquer formato)"
@@ -10072,6 +13873,84 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "Response[IEnumerable[UsuarioGrupoUsuarioSummary]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -10082,12 +13961,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "Response[IEnumerable[UsuarioGrupoUsuarioSummary]]": {
-      "type": "object",
-      "properties": {
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -10100,16 +13974,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -10133,15 +14069,6 @@
     "Response[UsuarioGrupoUsuarioSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/UsuarioGrupoUsuarioSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -10152,12 +14079,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/UsuarioGrupoUsuarioSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[VeiculoSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -10170,16 +14190,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -10218,15 +14300,6 @@
     "Response[VeiculoSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/VeiculoSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -10237,12 +14310,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/VeiculoSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[IEnumerable[MarcaVeiculo]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -10255,6 +14421,103 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "MarcaVeiculo": {
+      "type": "object",
+      "properties": {
+        "codigo": {
+          "type": "string",
+          "readOnly": true
+        },
+        "nome": {
+          "type": "string",
+          "readOnly": true
+        },
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[IEnumerable[ModeloVeiculo]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -10265,23 +14528,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "MarcaVeiculo": {
-      "type": "object",
-      "properties": {
-        "codigo": {
-          "type": "string"
         },
-        "nome": {
-          "type": "string"
-        }
-      }
-    },
-    "Response[IEnumerable[ModeloVeiculo]]": {
-      "type": "object",
-      "properties": {
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -10294,6 +14541,103 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
+        }
+      }
+    },
+    "ModeloVeiculo": {
+      "type": "object",
+      "properties": {
+        "codigo": {
+          "type": "string",
+          "readOnly": true
+        },
+        "nome": {
+          "type": "string",
+          "readOnly": true
+        },
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Response[IEnumerable[AnoVersao]]": {
+      "type": "object",
+      "properties": {
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -10304,23 +14648,7 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
-        }
-      }
-    },
-    "ModeloVeiculo": {
-      "type": "object",
-      "properties": {
-        "codigo": {
-          "type": "string"
         },
-        "nome": {
-          "type": "string"
-        }
-      }
-    },
-    "Response[IEnumerable[AnoVersao]]": {
-      "type": "object",
-      "properties": {
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -10333,16 +14661,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
@@ -10350,9 +14740,17 @@
       "type": "object",
       "properties": {
         "codigo": {
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "nome": {
+          "type": "string",
+          "readOnly": true
+        },
+        "label": {
+          "type": "string"
+        },
+        "value": {
           "type": "string"
         },
         "ano": {
@@ -10366,15 +14764,6 @@
     "Response[VeiculoTaxistaSummary]": {
       "type": "object",
       "properties": {
-        "data": {
-          "$ref": "#/definitions/VeiculoTaxistaSummary",
-          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
-        },
-        "count": {
-          "format": "int32",
-          "description": "Utilizado para paginação de resultados",
-          "type": "integer"
-        },
         "success": {
           "description": "Indica se a operação foi bem sucedida",
           "type": "boolean"
@@ -10385,12 +14774,105 @@
           "items": {
             "$ref": "#/definitions/Notification"
           }
+        },
+        "data": {
+          "$ref": "#/definitions/VeiculoTaxistaSummary",
+          "description": "Dados vinculados à resposta da operação (de qualquer formato)"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Utilizado para paginação de resultados",
+          "type": "integer"
+        },
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     },
     "Response[List[VeiculoTaxistaSummary]]": {
       "type": "object",
       "properties": {
+        "success": {
+          "description": "Indica se a operação foi bem sucedida",
+          "type": "boolean"
+        },
+        "notifications": {
+          "description": "Notificações do domínio.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Notification"
+          }
+        },
         "data": {
           "description": "Dados vinculados à resposta da operação (de qualquer formato)",
           "type": "array",
@@ -10403,16 +14885,78 @@
           "description": "Utilizado para paginação de resultados",
           "type": "integer"
         },
-        "success": {
-          "description": "Indica se a operação foi bem sucedida",
-          "type": "boolean"
-        },
-        "notifications": {
-          "description": "Notificações do domínio.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Notification"
-          }
+        "responseCode": {
+          "format": "int32",
+          "description": "Código HTTP correspondente",
+          "enum": [
+            100,
+            101,
+            102,
+            103,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            226,
+            300,
+            300,
+            301,
+            301,
+            302,
+            302,
+            303,
+            303,
+            304,
+            305,
+            306,
+            307,
+            307,
+            308,
+            400,
+            401,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            421,
+            422,
+            423,
+            424,
+            426,
+            428,
+            429,
+            431,
+            451,
+            500,
+            501,
+            502,
+            503,
+            504,
+            505,
+            506,
+            507,
+            508,
+            510,
+            511
+          ],
+          "type": "integer"
         }
       }
     }

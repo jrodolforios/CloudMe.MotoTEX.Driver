@@ -9,6 +9,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { ResponseIEnumerableDetalhesMensagem } from '../models/response-ienumerable-detalhes-mensagem';
 import { Pagination } from '../models/pagination';
+import { ResponseListDetalhesMensagem } from '../models/response-list-detalhes-mensagem';
 import { ResponseInt32 } from '../models/response-int-32';
 import { ParametrosEnvio } from '../models/parametros-envio';
 import { ResponseMensagemDestinatarioSummary } from '../models/response-mensagem-destinatario-summary';
@@ -18,6 +19,7 @@ import { ResponseBoolean } from '../models/response-boolean';
 })
 class MensagemService extends __BaseService {
   static readonly ApiV1MensagemObterEnviadasPostPath = '/api/v1/Mensagem/obter_enviadas';
+  static readonly ApiV1MensagemObterEnviadasMarcarIdasPostPath = '/api/v1/Mensagem/obter_enviadas_marcar_idas';
   static readonly ApiV1MensagemObterRecebidasPostPath = '/api/v1/Mensagem/obter_recebidas';
   static readonly ApiV1MensagemEnviarPostPath = '/api/v1/Mensagem/enviar';
   static readonly ApiV1MensagemReciboGetPath = '/api/v1/Mensagem/recibo';
@@ -84,6 +86,42 @@ class MensagemService extends __BaseService {
   ApiV1MensagemObterEnviadasPost(params: MensagemService.ApiV1MensagemObterEnviadasPostParams): __Observable<ResponseIEnumerableDetalhesMensagem> {
     return this.ApiV1MensagemObterEnviadasPostResponse(params).pipe(
       __map(_r => _r.body as ResponseIEnumerableDetalhesMensagem)
+    );
+  }
+
+  /**
+   * @param id_usuario undefined
+   * @return Success
+   */
+  ApiV1MensagemObterEnviadasMarcarIdasPostResponse(idUsuario?: string): __Observable<__StrictHttpResponse<ResponseListDetalhesMensagem>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    if (idUsuario != null) __params = __params.set('id_usuario', idUsuario.toString());
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/v1/Mensagem/obter_enviadas_marcar_idas`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResponseListDetalhesMensagem>;
+      })
+    );
+  }
+  /**
+   * @param id_usuario undefined
+   * @return Success
+   */
+  ApiV1MensagemObterEnviadasMarcarIdasPost(idUsuario?: string): __Observable<ResponseListDetalhesMensagem> {
+    return this.ApiV1MensagemObterEnviadasMarcarIdasPostResponse(idUsuario).pipe(
+      __map(_r => _r.body as ResponseListDetalhesMensagem)
     );
   }
 

@@ -20,14 +20,10 @@ class UsuarioService extends __BaseService {
   static readonly ApiV1UsuarioGetPath = '/api/v1/Usuario';
   static readonly ApiV1UsuarioPutPath = '/api/v1/Usuario';
   static readonly ApiV1UsuarioPostPath = '/api/v1/Usuario';
-  static readonly ApiV1UsuarioGetAllAdminGetPath = '/api/v1/Usuario/get_all_admin';
+  static readonly ApiV1UsuarioAdminsGetPath = '/api/v1/Usuario/admins';
   static readonly ApiV1UsuarioByIdGetPath = '/api/v1/Usuario/{id}';
   static readonly ApiV1UsuarioByIdDeletePath = '/api/v1/Usuario/{id}';
-  static readonly ApiV1UsuarioGetAdminByIdGetPath = '/api/v1/Usuario/get_admin/{id}';
-  static readonly ApiV1UsuarioByNameGetPath = '/api/v1/Usuario/by_name';
-  static readonly ApiV1UsuarioPostAdminPostPath = '/api/v1/Usuario/post_admin';
-  static readonly ApiV1UsuarioPutAdminPutPath = '/api/v1/Usuario/put_admin';
-  static readonly ApiV1UsuarioDeleteAdminIdDeletePath = '/api/v1/Usuario/delete_admin{id}';
+  static readonly ApiV1UsuarioLoginDisponivelGetPath = '/api/v1/Usuario/login_disponivel';
   static readonly ApiV1UsuarioAlteraCredenciaisByIdPostPath = '/api/v1/Usuario/altera_credenciais/{id}';
   static readonly ApiV1UsuarioBloquearByIdPostPath = '/api/v1/Usuario/bloquear/{id}';
 
@@ -146,13 +142,13 @@ class UsuarioService extends __BaseService {
   /**
    * @return Success
    */
-  ApiV1UsuarioGetAllAdminGetResponse(): __Observable<__StrictHttpResponse<ResponseIEnumerableUsuarioSummary>> {
+  ApiV1UsuarioAdminsGetResponse(): __Observable<__StrictHttpResponse<ResponseIEnumerableUsuarioSummary>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/v1/Usuario/get_all_admin`,
+      this.rootUrl + `/api/v1/Usuario/admins`,
       __body,
       {
         headers: __headers,
@@ -170,8 +166,8 @@ class UsuarioService extends __BaseService {
   /**
    * @return Success
    */
-  ApiV1UsuarioGetAllAdminGet(): __Observable<ResponseIEnumerableUsuarioSummary> {
-    return this.ApiV1UsuarioGetAllAdminGetResponse().pipe(
+  ApiV1UsuarioAdminsGet(): __Observable<ResponseIEnumerableUsuarioSummary> {
+    return this.ApiV1UsuarioAdminsGetResponse().pipe(
       __map(_r => _r.body as ResponseIEnumerableUsuarioSummary)
     );
   }
@@ -249,125 +245,17 @@ class UsuarioService extends __BaseService {
   }
 
   /**
-   * @param id undefined
+   * @param login undefined
    * @return Success
    */
-  ApiV1UsuarioGetAdminByIdGetResponse(id: string): __Observable<__StrictHttpResponse<ResponseUsuarioSummary>> {
+  ApiV1UsuarioLoginDisponivelGetResponse(login?: string): __Observable<__StrictHttpResponse<ResponseBoolean>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
-
+    if (login != null) __params = __params.set('login', login.toString());
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/v1/Usuario/get_admin/${id}`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<ResponseUsuarioSummary>;
-      })
-    );
-  }
-  /**
-   * @param id undefined
-   * @return Success
-   */
-  ApiV1UsuarioGetAdminByIdGet(id: string): __Observable<ResponseUsuarioSummary> {
-    return this.ApiV1UsuarioGetAdminByIdGetResponse(id).pipe(
-      __map(_r => _r.body as ResponseUsuarioSummary)
-    );
-  }
-
-  /**
-   * @param name undefined
-   * @return Success
-   */
-  ApiV1UsuarioByNameGetResponse(name?: string): __Observable<__StrictHttpResponse<ResponseUsuarioSummary>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-    if (name != null) __params = __params.set('name', name.toString());
-    let req = new HttpRequest<any>(
-      'GET',
-      this.rootUrl + `/api/v1/Usuario/by_name`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<ResponseUsuarioSummary>;
-      })
-    );
-  }
-  /**
-   * @param name undefined
-   * @return Success
-   */
-  ApiV1UsuarioByNameGet(name?: string): __Observable<ResponseUsuarioSummary> {
-    return this.ApiV1UsuarioByNameGetResponse(name).pipe(
-      __map(_r => _r.body as ResponseUsuarioSummary)
-    );
-  }
-
-  /**
-   * @param UsuarioSummary Usuario's summary
-   * @return Success
-   */
-  ApiV1UsuarioPostAdminPostResponse(UsuarioSummary?: UsuarioSummary): __Observable<__StrictHttpResponse<ResponseGuid>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-    __body = UsuarioSummary;
-    let req = new HttpRequest<any>(
-      'POST',
-      this.rootUrl + `/api/v1/Usuario/post_admin`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<ResponseGuid>;
-      })
-    );
-  }
-  /**
-   * @param UsuarioSummary Usuario's summary
-   * @return Success
-   */
-  ApiV1UsuarioPostAdminPost(UsuarioSummary?: UsuarioSummary): __Observable<ResponseGuid> {
-    return this.ApiV1UsuarioPostAdminPostResponse(UsuarioSummary).pipe(
-      __map(_r => _r.body as ResponseGuid)
-    );
-  }
-
-  /**
-   * @param UsuarioSummary Modified Usuario list's properties summary
-   * @return Success
-   */
-  ApiV1UsuarioPutAdminPutResponse(UsuarioSummary?: UsuarioSummary): __Observable<__StrictHttpResponse<ResponseBoolean>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-    __body = UsuarioSummary;
-    let req = new HttpRequest<any>(
-      'PUT',
-      this.rootUrl + `/api/v1/Usuario/put_admin`,
+      this.rootUrl + `/api/v1/Usuario/login_disponivel`,
       __body,
       {
         headers: __headers,
@@ -383,47 +271,11 @@ class UsuarioService extends __BaseService {
     );
   }
   /**
-   * @param UsuarioSummary Modified Usuario list's properties summary
+   * @param login undefined
    * @return Success
    */
-  ApiV1UsuarioPutAdminPut(UsuarioSummary?: UsuarioSummary): __Observable<ResponseBoolean> {
-    return this.ApiV1UsuarioPutAdminPutResponse(UsuarioSummary).pipe(
-      __map(_r => _r.body as ResponseBoolean)
-    );
-  }
-
-  /**
-   * @param id DialList's ID
-   * @return Success
-   */
-  ApiV1UsuarioDeleteAdminIdDeleteResponse(id: string): __Observable<__StrictHttpResponse<ResponseBoolean>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-
-    let req = new HttpRequest<any>(
-      'DELETE',
-      this.rootUrl + `/api/v1/Usuario/delete_admin${id}`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<ResponseBoolean>;
-      })
-    );
-  }
-  /**
-   * @param id DialList's ID
-   * @return Success
-   */
-  ApiV1UsuarioDeleteAdminIdDelete(id: string): __Observable<ResponseBoolean> {
-    return this.ApiV1UsuarioDeleteAdminIdDeleteResponse(id).pipe(
+  ApiV1UsuarioLoginDisponivelGet(login?: string): __Observable<ResponseBoolean> {
+    return this.ApiV1UsuarioLoginDisponivelGetResponse(login).pipe(
       __map(_r => _r.body as ResponseBoolean)
     );
   }

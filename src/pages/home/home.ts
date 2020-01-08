@@ -6,12 +6,13 @@ import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
-import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService, TaxistaService, EmergenciaService } from '../../core/api/to_de_taxi/services';
+import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService, TaxistaService, EmergenciaService, MensagemService } from '../../core/api/to_de_taxi/services';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CatalogosService } from '../../providers/Catalogos/catalogos.service';
 import { CorridaSummary } from '../../core/api/to_de_taxi/models';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { MessageServiceProvider } from '../../providers/message-service/message-service';
 declare var google;
 
 @IonicPage()
@@ -84,7 +85,9 @@ export class Home {
     private solicitacaoCorridaService: SolicitacaoCorridaService,
     private localNotifications: LocalNotifications,
     private taxistaService: TaxistaService,
-    private emergenciaService: EmergenciaService) {
+    private emergenciaService: EmergenciaService,
+    private mensagemService: MensagemService,
+    private messageServiceProvider: MessageServiceProvider) {
   }
 
   async verificarCorridaEmAndamento() {
@@ -205,6 +208,15 @@ export class Home {
     var loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
     setTimeout(() => {
+      this.mensagemService.ApiV1MensagemObterEnviadasMarcarIdasPost(this.serviceProvider.taxistaLogado.usuario.id).toPromise().then(x =>{
+        if(x.success){
+          x.data.forEach(y =>{
+            this.messageServiceProvider.showMessage(y);
+          });
+
+        }
+      });
+
       this.verificarCorridaEmAndamento();
     }, 5000);
 

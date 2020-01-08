@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { Notification } from './notification';
-import { TaxistaSummary } from './taxista-summary';
-export interface ResponseTaxistaSummary {
+import { DetalhesMensagem } from './detalhes-mensagem';
+export interface ResponseListDetalhesMensagem {
 
   /**
    * Indica se a operação foi bem sucedida
@@ -16,7 +16,7 @@ export interface ResponseTaxistaSummary {
   /**
    * Dados vinculados à resposta da operação (de qualquer formato)
    */
-  data?: TaxistaSummary;
+  data?: Array<DetalhesMensagem>;
 
   /**
    * Utilizado para paginação de resultados

@@ -109,10 +109,9 @@ export class MyApp {
         this.serviceProvider.appVersion = x;
       });
 
-      this.statusBar.backgroundColorByHexString('#858585');
+      this.statusBar.backgroundColorByHexString('#0E4B67');
       this.statusBar.styleLightContent();
 
-      this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
 

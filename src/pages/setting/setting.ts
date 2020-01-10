@@ -69,12 +69,13 @@ export class Setting {
           handler: () => {
             this.navCtrl.push("PaymentChooserPage");
           }
-        }, {
-          text: 'Faixas de desconto',
-          handler: () => {
-            this.navCtrl.push("DiscountOptionsPage");
-          }
         }
+        // , {
+        //   text: 'Faixas de desconto',
+        //   handler: () => {
+        //     this.navCtrl.push("DiscountOptionsPage");
+        //   }
+        // }
       ]
     });
     actionSheet.present();

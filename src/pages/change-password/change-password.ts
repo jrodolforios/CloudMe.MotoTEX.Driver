@@ -122,7 +122,7 @@ export class ChangePasswordPage {
               if (x.success) {
                 const alert = await this.alertCtrl.create({
                   title: 'Senha alterada',
-                  message: 'Agora você já pode usar a nova senha para logar no TôDeTaxi',
+                  message: 'Agora você já pode usar a nova senha para logar no MotoTEX',
                   buttons: [{
                     text: 'Ok',
                     role: 'cancel',

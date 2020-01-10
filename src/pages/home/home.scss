@@ -30,9 +30,10 @@
 }
 
 .app-footer{
+    border-top: solid #0E4B67 8px;
     &.new-clip{
         .toolbar-md{
-            clip-path: ellipse(110% 100% at 50% 100%) !important;
+            // clip-path: ellipse(110% 100% at 50% 100%) !important;
         }
         .Trip-det{
             margin-bottom: 0 !important;
@@ -40,7 +41,7 @@
     }
     &.old-clip{
         .toolbar-md{
-            clip-path: ellipse(62% 100% at 50% 100%) !important;
+            // clip-path: ellipse(62% 100% at 50% 100%) !important;
         }
     }
 }
@@ -57,7 +58,16 @@
     }
 }
 
+ion-header{
+    border-bottom:  none !important;
+}
+
+ion-navbar{
+    border-bottom: solid #0E4B67 8px;
+}
+
 .trip-distention{
+
     width: 90%;
     margin: 0 auto;
     margin-top: -10px;
@@ -120,10 +130,15 @@
 }
 
 .blue{
-    background-color: rgb(0, 62, 179);
+    background-color: gray;
+}
+
+.colorWhite{
+    color: white !important;
 }
 
 .trip-detail{
+    color: white;
     padding-top: 50px;
     padding-bottom: 0;
     h4{

@@ -15,7 +15,13 @@
     color:white;
 }
 
+.forgetBtn{
+    color: #0E4B67 !important;
+}
+
 .login-form{
+    background-color: white !important;
+    border-top: solid #0E4B67 8px;
     position: fixed;
     text-align: center;
     bottom: 0;
@@ -25,7 +31,7 @@
     min-height: 250px;
     max-height: 385px;
     overflow-y: scroll !important;
-    clip-path: ellipse(110% 80% at 50% 82%);
+    // clip-path: ellipse(110% 80% at 50% 82%);
     background-color: color($colors,primary);
     .list-md{
         margin-bottom: 50px;
@@ -49,7 +55,7 @@
         }
     }                                                                                                                  
     h4{
-        color: color($colors,light);
+        color: color($colors,secondary);
         text-transform: uppercase;
         margin-top: 0;
         margin-bottom: 10px;

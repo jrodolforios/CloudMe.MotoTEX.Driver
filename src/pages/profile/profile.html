@@ -1,6 +1,6 @@
 <ion-header class="app-header">
   <ion-navbar>
-    <ion-title></ion-title>
+    <ion-title>Histórico/Agendamentos</ion-title>
     <!-- <ion-buttons end>
       <button (click)="changeData()" ion-button icon-only>
         <ion-icon name="md-create" color="secondary"></ion-icon>
@@ -33,11 +33,11 @@
     </ion-item>
 
     <ion-segment color="primary" [(ngModel)]="tabs">
-      <ion-segment-button color="primary" value="Histórico">
-        Histórico
+      <ion-segment-button color="light" value="Histórico">
+        <span class="colorWhite"> Histórico</span>
       </ion-segment-button>
-      <ion-segment-button color="primary" value="Agendamentos">
-        Agendamentos
+      <ion-segment-button color="light" value="Agendamentos">
+        <span class="colorWhite"> Agendamentos</span>
       </ion-segment-button>
     </ion-segment>
 
@@ -50,19 +50,19 @@
             <ion-row>
               <ion-col col-7>
                 <ion-item no-padding no-lines>
-                  <ion-icon name="md-disc" color="dark" item-start></ion-icon>
-                  {{item.origem}}
+                  <ion-icon name="md-disc" color="light" item-start></ion-icon>
+                  <span class="colorWhite">  {{item.origem}} </span>
                 </ion-item>
                 <ion-item no-padding no-lines>
-                  <ion-icon name="md-pin" color="dark" item-start></ion-icon>
-                  {{item.destino}}
+                  <ion-icon name="md-pin" color="light" item-start></ion-icon>
+                  <span class="colorWhite"> {{item.destino}}</span>
                 </ion-item>
                 <div class="line"></div>
               </ion-col>
               <ion-col col-5>
                 <div class="status" text-right item-end>
                   <h4>{{item.status}}</h4>
-                  <p no-margin>{{item.data}}</p>
+                  <p no-margin class="colorWhite">{{item.data}}</p>
                 </div>
               </ion-col>
             </ion-row>
@@ -81,18 +81,18 @@
             <ion-row>
               <ion-col col-7>
                 <ion-item no-padding no-lines>
-                  <ion-icon name="md-disc" color="dark" item-start></ion-icon>
-                  {{item.origem}}
+                  <ion-icon name="md-disc" color="light" item-start></ion-icon>
+                  <span class="colorWhite">{{item.origem}}</span>
                 </ion-item>
                 <ion-item no-padding no-lines>
-                  <ion-icon name="md-pin" color="dark" item-start></ion-icon>
-                  {{item.destino}}
+                  <ion-icon name="md-pin" color="light" item-start></ion-icon>
+                  <span class="colorWhite">{{item.destino}}</span>
                 </ion-item>
                 <div class="line"></div>
               </ion-col>
               <ion-col col-5>
                 <div class="status" text-right item-end>
-                  <p>{{item.data}}</p>
+                  <p class="colorWhite">{{item.data}}</p>
                 </div>
               </ion-col>
             </ion-row>

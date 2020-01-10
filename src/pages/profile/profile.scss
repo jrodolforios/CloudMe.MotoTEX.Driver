@@ -20,10 +20,28 @@ page-profile {
     }
 }
 
+.colorWhite{
+    color: white !important;
+}
+
+ion-navbar{
+    border-bottom: none !important;
+    background-color: #0E4B67 !important;
+}
+.toolbar-title-md {
+
+    color: white !important;
+}
+
+.back-button{
+    color: white !important;
+}
+
 .profile-head{
+    // border-bottom: solid #0E4B67 8px;
     z-index: 3;
     background-color: color($colors,dark);
-    clip-path: ellipse(98% 100% at 50% 0%);
+    // clip-path: ellipse(98% 100% at 50% 0%);
     img{
         width: 100%;
         height: 400px;
@@ -69,11 +87,14 @@ page-profile {
         display: block;
     }
     .trip-distention{
+        color: white !important;
         width: 100%;
         margin-top: 0;
         opacity: 1;
         visibility: visible;
         background-color: color($colors,secondary);
+
+        
         .line{
             top: 29px;
             left: 16px;

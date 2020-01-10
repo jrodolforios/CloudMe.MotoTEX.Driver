@@ -5,7 +5,7 @@
         <img [src]="getProfilePhoto()">
       </button>
     </ion-buttons>
-    <ion-title text-capitalize>TÔdeTAXI</ion-title>
+    <ion-title text-capitalize>MotoTEX</ion-title>
     <ion-buttons end>
       <button ion-button icon-only [navPush]="'Setting'">
         <ion-icon name="md-settings" color="white"></ion-icon>
@@ -70,19 +70,19 @@
         <button (click)="activeTrip()" ion-fab
           [color]="serviceProvider.solicitacaoCorridaEmQuestao ? 'danger' : 'default'"
           [ngClass]="{'blue': !serviceProvider.solicitacaoCorridaEmQuestao}">
-          <ion-icon name="md-disc" color="light"></ion-icon>
+          <ion-icon name="radio-button-off" color="light"></ion-icon>
         </button>
       </ion-fab>
       <ion-fab class="turnoff-fab left-right-fab" top right mini edge
         *ngIf="!global.showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
-        <button color="danger" ion-fab mini (click)="closeAPP()">
+        <button color="orange" ion-fab mini (click)="closeAPP()">
           <ion-icon name="md-power" color="light"></ion-icon>
         </button>
       </ion-fab>
       <ion-fab twice top center *ngIf="global.showDetails">
         <ion-row>
           <ion-col col-6>
-            <button (click)="presentDestinationModal()" ion-fab color="secondary">
+            <button (click)="presentDestinationModal()" ion-fab color="success">
               <ion-icon name="md-checkmark" color="light"></ion-icon>
             </button>
           </ion-col>
@@ -98,15 +98,15 @@
           <ion-row>
             <ion-col col-6>
               <h4>{{descTituloTipoViagem}}</h4>
-              <ion-item no-padding no-lines>
+              <ion-item class="colorWhite" no-padding no-lines>
                 {{descTipoViagem}}
               </ion-item>
             </ion-col>
             <ion-col style="direction: rtl" col-6>
               <h4>Forma de pagamento</h4>
               <ion-item no-padding no-lines>
-                <ion-icon name="md-card" color="secondary" item-start></ion-icon>
-                {{descFormaPagamento}}
+                <ion-icon  name="md-card" color="light" item-start></ion-icon>
+                <span class="colorWhite"> {{descFormaPagamento}}</span>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -141,7 +141,7 @@
             </ion-fab>
           </ion-col>
           <ion-col col-12>
-            <p><b>Buscar Passageiro</b></p>
+            <p class="colorWhite"><b>Buscar Passageiro</b></p>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -158,7 +158,7 @@
             </ion-fab>
           </ion-col>
           <ion-col col-12>
-            <p><b>Levar passageiro até o destino</b></p>
+            <p class="colorWhite"><b>Levar passageiro até o destino</b></p>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -177,7 +177,7 @@
 
   <div class="accept-trip" *ngIf="global.accept && !global.running">
     <ion-fab class="message-fab left-right-fab" top left mini edge>
-      <button (click)="presentMessageModal()" color="dark" ion-fab mini>
+      <button (click)="presentMessageModal()" color="light" ion-fab mini>
         <ion-icon name="md-text" color="secondary"></ion-icon>
       </button>
     </ion-fab>
@@ -187,7 +187,7 @@
       </button>
     </ion-fab>
     <ion-fab class="phone-fab left-right-fab" top right mini edge>
-      <button color="dark" ion-fab mini (click)="callPassageiro()">
+      <button color="light" ion-fab mini (click)="callPassageiro()">
         <ion-icon name="md-call" color="secondary"></ion-icon>
       </button>
     </ion-fab>

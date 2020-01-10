@@ -16,11 +16,12 @@ ion-app{
 }
 
 .app-header{
+    border-bottom: solid #0E4B67 8px;
     &::after{
         display: none;
     }
     .toolbar-md{
-        clip-path: ellipse(65% 100% at 50% 0%);
+        // clip-path: ellipse(65% 100% at 50% 0%);
         align-items: flex-start;
         padding-top: 13px;
         ion-title{
@@ -42,7 +43,7 @@ ion-app{
     height: $toolbar-md-height;
     left: 0;
     top: 2px;
-    clip-path: ellipse(65% 100% at 50% 0%);
+    // clip-path: ellipse(65% 100% at 50% 0%);
 }
 
 .app-content{
@@ -58,7 +59,7 @@ ion-app{
     }
     .toolbar-md{
         min-height: 65px;
-        clip-path: ellipse(62% 100% at 50% 100%);
+        // clip-path: ellipse(62% 100% at 50% 100%);
         align-items: flex-start;
         padding-top: 13px;
         padding-bottom: 0;
@@ -74,7 +75,7 @@ ion-app{
     height: 65px;
     left: 0;
     bottom: 5px;
-    clip-path: ellipse(62% 100% at 50% 100%);
+    // clip-path: ellipse(62% 100% at 50% 100%);
 }
 
 ion-backdrop{

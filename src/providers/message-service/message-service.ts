@@ -33,7 +33,7 @@ export class MessageServiceProvider {
         return;
 
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://api.todetaxi.com.br/notifications/mensagens", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
+        .withUrl("https://api.mototex.cloudme.com.br/notifications/mensagens", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
         .build();
 
       Object.defineProperty(WebSocket, 'OPEN', { value: 1, });

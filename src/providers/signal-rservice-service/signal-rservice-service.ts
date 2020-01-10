@@ -39,7 +39,7 @@ export class SignalRserviceServiceProvider {
         return;
 
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://api.todetaxi.com.br/notifications/localizacao_taxista", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
+        .withUrl("https://api.mototex.cloudme.com.br/notifications/localizacao_taxista", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
         .build();
 
       Object.defineProperty(WebSocket, 'OPEN', { value: 1, });

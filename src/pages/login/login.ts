@@ -26,7 +26,7 @@ export class Login {
     await this.oauthService.createLoginUrl().then(x => {
       loginUrl = x;
     });
-    loginUrl = "https://auth.todetaxi.com.br/connect/authorize?" + loginUrl.split('?')[1];
+    loginUrl = "https://auth.mototex.cloudme.com.br/connect/authorize?" + loginUrl.split('?')[1];
     var startUrl = loginUrl;
     // scope, state, allow_signup also available 
     var browser = this.inappBrowser.create(startUrl, '_blank', 'location=yes');

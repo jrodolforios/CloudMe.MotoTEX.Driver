@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.cloudme.ToDeTaxi" version="1.0.16" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.cloudme.mototextaxista" version="1.0.16" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>TÔdeTaxi Motorista</name>
-    <description>APP motorista do TÔdeTaxi</description>
+    <description>APP mototaxista do MotoTEX</description>
     <author email="contato@cloudme.com.br" href="http://www.cloudme.com.br">CloudMe Solutions</author>
     <content src="index.html" />
     <access origin="*" />

@@ -29,7 +29,7 @@ export class LogoutPage implements OnInit {
     await this.oauthService.createLoginUrl().then(x => {
       loginUrl = x;
     });
-    loginUrl = "https://auth.todetaxi.com.br/connect/authorize?" + loginUrl.split('?')[1];
+    loginUrl = "https://auth.mototec.cloudme.com.br/connect/authorize?" + loginUrl.split('?')[1];
     var startUrl = loginUrl;
     // scope, state, allow_signup also available 
     var browser = this.inappBrowser.create(startUrl, '_blank', 

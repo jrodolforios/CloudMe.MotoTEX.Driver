@@ -35,7 +35,7 @@ export interface CatalogApiInterface<T> {
 	delete(id: string): Promise<boolean>;
 }
 
-const baseEndpointUrl: string = 'https://api.todetaxi.com.br/notifications';
+const baseEndpointUrl: string = 'https://api.mototex.cloudme.com.br/notifications';
 // baseEndpointUrl = 'http://localhost:5002/notifications';
 
 export class ApiCatalog<T> extends Catalog<T>

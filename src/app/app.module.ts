@@ -30,7 +30,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { MessageServiceProvider } from '../providers/message-service/message-service';
 import { ErrorInterceptor } from '../core/error-interceptor';
 
-const toDeTaxiAPIBaseURL = 'https://api.todetaxi.com.br';
+const mototextaxistaAPIBaseURL = 'https://api.mototex.cloudme.com.br';
 
 var config = {
   backButtonText: '',
@@ -45,14 +45,14 @@ var config = {
     MyApp,
   ],
   imports: [
-    ApiModule.forRoot({rootUrl: toDeTaxiAPIBaseURL}),
+    ApiModule.forRoot({rootUrl: mototextaxistaAPIBaseURL}),
     BrowserModule,
     IonicRatingModule,
     IonicModule.forRoot(MyApp,config),
     HttpClientModule,
     OAuthModule.forRoot({
 			resourceServer: {
-				allowedUrls: ['https://api.todetaxi.com.br'],
+				allowedUrls: ['https://api.mototex.cloudme.com.br'],
 				sendAccessToken: true
 			}
 		}),

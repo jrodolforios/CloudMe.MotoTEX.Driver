@@ -93,7 +93,7 @@ export class AppServiceProvider {
   async callNotification() {
     this.platform.ready().then(x => {
       this.vibration.vibrate([2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000]);
-      this.nativeAudio.play('todetaximotoristaruncomming').then().catch();
+      this.nativeAudio.play('mototextaxistamotoristaruncomming').then().catch();
 
       this.localNotifications.schedule({
         id: 999,
@@ -109,7 +109,7 @@ export class AppServiceProvider {
       this.platform.ready().then(x => {
         this.localNotifications.cancel(999).catch();
         this.vibration.vibrate(0);
-        this.nativeAudio.stop('todetaximotoristaruncomming')
+        this.nativeAudio.stop('mototextaxistamotoristaruncomming')
       });
     } catch (err) {
       console.log(JSON.stringify(err));

@@ -48,7 +48,7 @@ export class Setting {
   }
 
   showPrivacyPolicy(){
-    this.iab.create('https://www.todetaxi.com.br/privacy_policy.html', '_blank', { location: "yes" });
+    this.iab.create('https://www.mototex.cloudme.com.br/privacy_policy.html', '_blank', { location: "yes" });
   }
 
   alterarSenha() {

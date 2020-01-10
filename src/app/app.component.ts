@@ -46,8 +46,8 @@ export class MyApp {
 
   private async configureWithNewConfigApi() {
     this.platform.ready().then(async x =>{
-      await this.nativeAudio.unload('todetaximotoristaruncomming').then().catch(err => { });
-      await this.nativeAudio.preloadComplex('todetaximotoristaruncomming', 'assets/sounds/simple_beep.mp3', 1, 1, 0)
+      await this.nativeAudio.unload('mototextaxistamotoristaruncomming').then().catch(err => { });
+      await this.nativeAudio.preloadComplex('mototextaxistamotoristaruncomming', 'assets/sounds/simple_beep.mp3', 1, 1, 0)
         .then().catch(err => { });
     });
 

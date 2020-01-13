@@ -45,6 +45,9 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
+        <edit-config file="*-Info.plist" mode="merge" target="UIBackgroundModes">
+            <string>remote-notification</string>
+        </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="CFBundleDevelopmentRegion">
             <string>pt_BR</string>
         </edit-config>

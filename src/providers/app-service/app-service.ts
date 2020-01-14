@@ -348,6 +348,8 @@ export class AppServiceProvider {
         });
 
         this.backgroundMode.enable();
+        this.backgroundMode.disableBatteryOptimizations();
+        this.backgroundMode.disableWebViewOptimizations();
 
         this.backgroundMode.on('activate').subscribe(() => {
           this.backgroundMode.configure({
@@ -359,8 +361,6 @@ export class AppServiceProvider {
             hidden: false,
             silent: false
           });
-
-          this.backgroundMode.disableWebViewOptimizations();
 
         });
       }

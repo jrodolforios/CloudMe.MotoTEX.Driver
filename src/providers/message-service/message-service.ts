@@ -16,7 +16,7 @@ import { AlertController } from 'ionic-angular';
 export class MessageServiceProvider {
   private hubConnection: signalR.HubConnection;
   private serviceProvider: AppServiceProvider;
-  private _reconnection_timeout = 5000;
+  private _reconnection_timeout = 15000;
   private intentionalTrackingStop = false;
   constructor(public http: HttpClient,
     private oAuthService: OAuthService,
@@ -65,7 +65,7 @@ export class MessageServiceProvider {
       setTimeout(async () => {
         try {
           await self.startConnection();
-          await self.listenMessages(this.serviceProvider);
+          await self.listenMessages(self.serviceProvider);
         } catch (err) {
           console.log(JSON.stringify(err));
         }
@@ -78,6 +78,7 @@ export class MessageServiceProvider {
 
   public listenMessages = (localServiceProvider: AppServiceProvider) => {
     this.serviceProvider = localServiceProvider
+    var mensagemAnterior: string = '';
     try {
       try {
         this.hubConnection.off("msg_usr");
@@ -99,7 +100,10 @@ export class MessageServiceProvider {
         });
 
         if (data && !data.dataLeitura) {
-          this.showMessage(data);
+          if (mensagemAnterior != data.idMensagem) {
+            mensagemAnterior = data.idMensagem;
+            this.showMessage(data);
+          }
         }
 
       });

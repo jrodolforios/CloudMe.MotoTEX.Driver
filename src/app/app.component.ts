@@ -44,7 +44,9 @@ export class MyApp {
 
   }
 
-  private async configureWithNewConfigApi() {
+  private async configureWithNewConfigApi() {    		
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
     this.platform.ready().then(async x =>{
       await this.nativeAudio.unload('mototextaxistamotoristaruncomming').then().catch(err => { });
       await this.nativeAudio.preloadComplex('mototextaxistamotoristaruncomming', 'assets/sounds/simple_beep.mp3', 1, 1, 0)
@@ -98,6 +100,8 @@ export class MyApp {
     } else {
       this.nav.push('Login')
     }
+
+    loading.dismiss();
   }
 
   initializeApp() {

@@ -22,6 +22,7 @@ export class Setting {
     private taxistaService: TaxistaService,
     private iab: InAppBrowser) {
       this.appVersion = this.serviceProvider.appVersion;
+      this.taxistaDisponivel = this.serviceProvider.taxistaLogado.disponivel;
     if (this.serviceProvider && this.serviceProvider.taxistaLogado) {
       this.taxistaService.ApiV1TaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
         if (x.success) {

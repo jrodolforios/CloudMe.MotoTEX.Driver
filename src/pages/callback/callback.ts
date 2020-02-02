@@ -94,23 +94,6 @@ export class CallbackPage implements OnInit {
             } catch (err) {
               console.log(JSON.stringify(err));
             }
-            // if (!this.serviceProvider.taxistaLogado || this.serviceProvider.taxistaLogado == null
-            //   || this.serviceProvider.taxistaLogado == undefined) {
-            //   const alert = await this.alertCtrl.create({
-            //     title: 'Acesso não permitido',
-            //     message: 'Você não pode acessar o app',
-            //     enableBackdropDismiss: false,
-            //     buttons: [
-            //       {
-            //         text: 'OK',
-            //         handler: (blah) => {
-            //           this.navCtrl.push("LogoutPage");
-            //         }
-            //       }
-            //     ]
-            //   });
-            //   return await alert.present();
-            // }
             var direcionadoParaSelecaoVeiculo: boolean = false;
             await this.veiculoTaxistaService.ApiV1VeiculoTaxistaConsultaVeiculosDeTaxistasByIdGet(this.serviceProvider.taxistaLogado.id)
               .toPromise().then(async x => {
@@ -122,24 +105,13 @@ export class CallbackPage implements OnInit {
                   });
 
                   if (!algumAtivo) {
-                    const alert = await this.alertCtrl.create({
-                      title: 'Nenhum veículo ativo',
-                      message: 'Parece que você não selecionou nenhum veículo para ficar disponível, tente selecionar um.',
-                      enableBackdropDismiss: false,
-                      buttons: [
-                        {
-                          text: 'Ir para seleção',
-                          handler: (blah) => {
-                            direcionadoParaSelecaoVeiculo = true;
-                            this.navCtrl.push("CheckDisponibilityPage");
-                          }
-                        }
-                      ]
-                    });
-                    return await alert.present();
+                    x.data.forEach(y =>{
+                      y.ativo = true;
+                      this.veiculoTaxistaService.ApiV1VeiculoTaxistaPut(y).toPromise().then(z => JSON.stringify(z));
+                    })
                   }
                 }
-              });
+              }).catch(err => console.log(JSON.stringify(err)));
               
             if (!direcionadoParaSelecaoVeiculo)
               this.navCtrl.push("Home");
@@ -147,6 +119,22 @@ export class CallbackPage implements OnInit {
             this.navCtrl.push("Login");
           }
         });
+      }
+    }).catch(async err => {
+      if (err == "Token has expired") {
+        const alert = await this.alertCtrl.create({
+          title: 'Data e hora incorretos',
+          message: 'Seu smartphone não está com as configurações de horário corretas, verifique e ajuste a data e hora e também o horário de verão. Horario atual de seu dispositivo: ' + this.serviceProvider.formatData(new Date()),
+          buttons: [
+            {
+              text: 'OK',
+              handler: (blah) => {
+                this.navCtrl.push("Login");
+              }
+            },
+          ]
+        });
+        return await alert.present();
       }
     });
   }

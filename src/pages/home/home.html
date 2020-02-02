@@ -74,11 +74,17 @@
         </button>
       </ion-fab>
       <ion-fab class="turnoff-fab left-right-fab" top right mini edge
-        *ngIf="!global.showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
-        <button color="orange" ion-fab mini (click)="closeAPP()">
-          <ion-icon name="md-power" color="light"></ion-icon>
+      *ngIf="!global.showDetails && !(serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel)">
+        <button color="danger" ion-fab mini (click)="closeAPP(true)">
+          <ion-icon name="log-out" color="light"></ion-icon>
         </button>
       </ion-fab>
+      <ion-fab class="turnoff-fab left-right-fab" top right mini edge
+      *ngIf="!global.showDetails && serviceProvider.taxistaLogado && serviceProvider.taxistaLogado.disponivel">
+      <button color="success" ion-fab mini (click)="closeAPP(false)">
+        <ion-icon name="log-in" color="light"></ion-icon>
+      </button>
+    </ion-fab>
       <ion-fab twice top center *ngIf="global.showDetails">
         <ion-row>
           <ion-col col-6>

@@ -69,7 +69,7 @@ export class ChangePasswordPage {
     //            ^                                    ^   
     specialChar = format.test(pass);
 
-    invalid = invalid || !specialChar || !lowerCase || !upperCase || !numeric
+    invalid = invalid || !lowerCase || !numeric || pass.length < 8
 
     return invalid;
   }
@@ -78,7 +78,7 @@ export class ChangePasswordPage {
     if (this.checkPasswords()) {
       const alert = await this.alertCtrl.create({
         title: 'Senha digitada tem que ser mais segura :/',
-        message: 'As senhas precisam ser digitadas iguais para conseguirmos continuar com seu cadastro. Também deve haver pelomenos uma letra maiúscula, um caracter especial e um número.',
+        message: 'A senha deve ser igual nos dois campos e deve contar 8 caracteres e deve conter letras e números',
         buttons: [{
           text: 'Ok',
           role: 'cancel',

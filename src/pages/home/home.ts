@@ -198,6 +198,7 @@ export class Home {
   }
 
   async ionViewDidLoad() {
+    var self = this;
     try {
       this.platformIOS = this.platform.is("ios");
       //this.platformIOS = true;
@@ -208,16 +209,15 @@ export class Home {
     var loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
     setTimeout(() => {
-      this.mensagemService.ApiV1MensagemObterEnviadasMarcarIdasPost(this.serviceProvider.taxistaLogado.usuario.id).toPromise().then(x =>{
-        if(x.success){
-          x.data.forEach(y =>{
-            this.messageServiceProvider.showMessage(y);
+      self.mensagemService.ApiV1MensagemObterEnviadasMarcarIdasPost(this.serviceProvider.taxistaLogado.usuario.id).toPromise().then(x => {
+        if (x.success) {
+          x.data.forEach(y => {
+            self.messageServiceProvider.showMessage(y);
           });
-
         }
       });
 
-      this.verificarCorridaEmAndamento();
+      self.verificarCorridaEmAndamento();
     }, 5000);
 
 
@@ -230,29 +230,17 @@ export class Home {
     loading.dismiss();
   }
 
-  async closeAPP() {
+  async closeAPP(disponivel: boolean) {
+    var textoAtivo: string = 'Tem certeza que deseja fechar o aplicativo e parar com as notificações de corrida?';
+    if (disponivel)
+      textoAtivo = 'Deseja ficar ativo para receber notificações de corridas?';
     const alert = await this.alertCtrl.create({
-      title: 'Parar notificações',
-      message: 'Tem certeza que deseja fechar o aplicativo e parar com as notificações de corrida?',
+      title: disponivel ? 'Ficar ativo' : 'Ficar inativo',
+      message: textoAtivo,
       buttons: [{
         text: 'Sim',
         handler: (blah) => {
-          this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
-            id: this.serviceProvider.taxistaLogado.id,
-            disponivel: false
-          }).toPromise().then(async x => {
-            if (x.success && x.data) {
-              this.serviceProvider.taxistaLogado.disponivel = false;
-
-              if (this.serviceProvider.taxistaLogado.disponivel) {
-                this.serviceProvider.enableBackground();
-              } else {
-                this.serviceProvider.disableBackground();
-              }
-
-              this.platform.exitApp();
-            }
-          });
+          this.ficarDisponivel(disponivel);
         }
       },
       {
@@ -264,6 +252,26 @@ export class Home {
       }]
     });
     return await alert.present();
+  }
+
+  async ficarDisponivel(disponivel: boolean){
+    const loading = await this.serviceProvider.loading("Aguarde...");
+    loading.present();
+    await this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
+      id: this.serviceProvider.taxistaLogado.id,
+      disponivel: disponivel
+    }).toPromise().then(async x => {
+      if (x.success && x.data) {
+        this.serviceProvider.taxistaLogado.disponivel = disponivel;
+
+        if (this.serviceProvider.taxistaLogado.disponivel) {
+          this.serviceProvider.enableBackground();
+        } else {
+          this.serviceProvider.disableBackground();
+        }
+      }
+    });
+    loading.dismiss();
   }
 
   async callPanic() {

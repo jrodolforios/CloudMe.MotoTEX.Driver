@@ -92,11 +92,12 @@ export class AppServiceProvider {
 
   async callNotification() {
     this.platform.ready().then(x => {
+      this.backgroundMode.moveToForeground();
       this.vibration.vibrate([2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000]);
       this.nativeAudio.play('mototextaxistamotoristaruncomming').then().catch();
 
       this.localNotifications.schedule({
-        id: 999,
+        id: 6832168431,
         title: 'Chamado em andamento',
         text: 'Toque para ver o chamado em andamento',
         //data: { secret: key }
@@ -107,7 +108,7 @@ export class AppServiceProvider {
   async endNotification() {
     try {
       this.platform.ready().then(x => {
-        this.localNotifications.cancel(999).catch();
+        this.localNotifications.cancel(6832168431).catch();
         this.vibration.vibrate(0);
         this.nativeAudio.stop('mototextaxistamotoristaruncomming')
       });

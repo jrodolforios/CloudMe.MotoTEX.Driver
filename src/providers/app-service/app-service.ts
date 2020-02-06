@@ -13,6 +13,7 @@ import { App } from 'ionic-angular';
 import { Subscriber, Subscription } from 'rxjs';
 import { MessageServiceProvider } from '../message-service/message-service';
 import { global } from '../../providers/global';
+import { SolicitacaoServiceProvider } from '../solicitacao-service/solicitacao-service';
 /*
   Generated class for the AppServiceProvider provider.
 
@@ -32,6 +33,7 @@ export class AppServiceProvider {
   textoDestino: string = '';
   public idUsuarioPassageiro: string = '';
   public loginQueryString: string = '';
+  filaSolicitacoes: SolicitacaoCorridaSummary[] = [];
 
   descDistanciaViagem: string = '';
   descTempoViagem: string = '';
@@ -64,7 +66,8 @@ export class AppServiceProvider {
     private CatalogosService: CatalogosService,
     private app: App,
     private corridaService: CorridaService,
-    private messageService: MessageServiceProvider) {
+    private messageService: MessageServiceProvider,
+    private solicitacaoServiceProvider: SolicitacaoServiceProvider) {
     this.formasPagamentoTaxista = [];
     this.faixasDescontoTaxista = [];
   }
@@ -81,7 +84,7 @@ export class AppServiceProvider {
     this.solicitacaoCorridaEmQuestao = undefined;
   }
 
-  private async notificarCorrida(corridaSummary: CorridaSummary) {
+  public  async notificarCorrida(corridaSummary: CorridaSummary) {
     this.solicitacaoCorridaEmQuestao = corridaSummary;
 
     if (this.solicitacaoCorridaEmQuestao && this.solicitacaoCorridaEmQuestao != null && (this.solicitacaoCorridaEmQuestao.situacao == 1 || this.solicitacaoCorridaEmQuestao.situacao == 0)) {
@@ -202,41 +205,6 @@ export class AppServiceProvider {
     }
   }
 
-  async buscarSOlicitacaoENotificar() {
-    var solicitacaoParaNotificar: SolicitacaoCorridaSummary;
-    if (this.taxistaLogado.disponivel)
-      await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaRecuperarSolicitacoesEmEsperaPost(this.taxistaLogado.id).toPromise()
-        .then(x => {
-          if (x.success) {
-            x.data.forEach(y => {
-              solicitacaoParaNotificar = y;
-            })
-          }
-        });
-
-        
-    if (solicitacaoParaNotificar != null && solicitacaoParaNotificar != undefined) {
-      var faixadescontoExiste = false;
-      var formaPagamentoExiste = false;
-
-      this.faixasDescontoTaxista.forEach(y => {
-        if ((y.id == solicitacaoParaNotificar.idFaixaDesconto && !faixadescontoExiste) || solicitacaoParaNotificar.idFaixaDesconto == null)
-          faixadescontoExiste = true;
-      });
-
-      if (this.faixasDescontoTaxista.length == 0 && solicitacaoParaNotificar.idFaixaDesconto == null)
-        faixadescontoExiste = true;
-
-      this.formasPagamentoTaxista.forEach(y => {
-        if (y.id == solicitacaoParaNotificar.idFormaPagamento && !formaPagamentoExiste)
-          formaPagamentoExiste = true;
-      });
-
-      if (formaPagamentoExiste && faixadescontoExiste)
-        this.notificarCorrida(solicitacaoParaNotificar);
-    }
-  }
-
   enableBackground() {
     this.signalRService.startConnection();
     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
@@ -244,69 +212,14 @@ export class AppServiceProvider {
     this.messageService.startConnection();
     this.messageService.listenMessages(this);
 
+    this.solicitacaoServiceProvider.startConnection();
+    this.solicitacaoServiceProvider.watchSolicitacoes(this.taxistaLogado.id, this);
+
     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
-
+    
     this.CatalogosService.solicitacaoCorrida.changesSubject.subscribe(x => {
-      var faixadescontoExiste = false;
-      var formaPagamentoExiste = false;
-      var idAdded: string = '';
-      var idUpdated: string = '';
-      if (!this.solicitacaoCorridaEmQuestao) {
-        var solicitacaoCorridaParaNotificar: SolicitacaoCorridaSummary;
-        x.addedItems.forEach(x => {
-          faixadescontoExiste = false;
-          formaPagamentoExiste = false;
-          if (idAdded != x.id) {
-            idAdded = x.id;
-            this.faixasDescontoTaxista.forEach(y => {
-              if ((y.id == x.idFaixaDesconto && !faixadescontoExiste) || x.idFaixaDesconto == null)
-                faixadescontoExiste = true;
-            });
 
-            if (this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
-              faixadescontoExiste = true;
-
-            this.formasPagamentoTaxista.forEach(y => {
-              if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
-                formaPagamentoExiste = true;
-            });
-
-            if (formaPagamentoExiste && faixadescontoExiste)
-              solicitacaoCorridaParaNotificar = x;
-          }
-        });
-
-        faixadescontoExiste = false;
-        formaPagamentoExiste = false;
-
-        x.updatedItems.forEach(x => {
-          faixadescontoExiste = false;
-          formaPagamentoExiste = false;
-          if (idUpdated != x.id) {
-            idUpdated = x.id;
-            if (x.situacao == 1) {
-              this.faixasDescontoTaxista.forEach(y => {
-                if ((y.id == x.idFaixaDesconto && !faixadescontoExiste) || x.idFaixaDesconto == null)
-                  faixadescontoExiste = true;
-              })
-
-              if (this.faixasDescontoTaxista.length == 0 && x.idFaixaDesconto == null)
-                faixadescontoExiste = true;
-
-              this.formasPagamentoTaxista.forEach(y => {
-                if (y.id == x.idFormaPagamento && !formaPagamentoExiste)
-                  formaPagamentoExiste = true;
-              })
-
-              if (formaPagamentoExiste && faixadescontoExiste && solicitacaoCorridaParaNotificar && solicitacaoCorridaParaNotificar.situacao != 4)
-                solicitacaoCorridaParaNotificar = x;
-            }
-          }
-        });
-
-        this.notificarCorrida(solicitacaoCorridaParaNotificar);
-      }
-      else if (this.solicitacaoCorridaEmQuestao) {
+      if (this.solicitacaoCorridaEmQuestao) {
         x.updatedItems.forEach(async x => {
           var corrida: CorridaSummary
           await this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.solicitacaoCorridaEmQuestao.id).toPromise()
@@ -319,16 +232,12 @@ export class AppServiceProvider {
             && !this.global.accept && !this.global.running && !this.global.showDetails) {
             this.endNotification();
             this.solicitacaoCorridaEmQuestao = undefined;
-            setTimeout(() => {
-              this.buscarSOlicitacaoENotificar();
-            }, 5000);
+            this.verificarFilaENotificar();
           } else {
             if (x.id == this.solicitacaoCorridaEmQuestao.id && x.situacao == 4) {
               this.endNotification();
               this.solicitacaoCorridaEmQuestao = undefined;
-              setTimeout(() => {
-                this.buscarSOlicitacaoENotificar();
-              }, 5000);
+              this.verificarFilaENotificar();
             }
           }
         });
@@ -349,10 +258,11 @@ export class AppServiceProvider {
         });
 
         this.backgroundMode.enable();
-        this.backgroundMode.disableBatteryOptimizations();
-        this.backgroundMode.disableWebViewOptimizations();
 
         this.backgroundMode.on('activate').subscribe(() => {
+          this.backgroundMode.disableBatteryOptimizations();
+          this.backgroundMode.disableWebViewOptimizations();
+          
           this.backgroundMode.configure({
             text: "Você está ativo, receberá chamados de corrida",
             title: "Ativo para receber chamados",
@@ -368,10 +278,26 @@ export class AppServiceProvider {
     });
   }
 
+  async verificarFilaENotificar(){
+    var solicitacao = this.filaSolicitacoes.shift();
+    await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(solicitacao.id).toPromise()
+    .then(x =>{
+      if(x.success){
+        solicitacao = x.data;
+      }
+    });
+    if(solicitacao.situacao != 4 && solicitacao.situacao != 2){
+      this.notificarCorrida(solicitacao);
+    } else if(this.filaSolicitacoes.length > 0) {
+      await this.verificarFilaENotificar();
+    }
+  }
+
   disableBackground() {
     this.CatalogosService.solicitacaoCorrida.stopTrackingChanges();
     this.signalRService.disconnect();
     this.messageService.disconnect();
+    this.solicitacaoServiceProvider.disconnect();
     if (this.backgroundMode.isActive && this.backgroundMode.isEnabled) {
       this.backgroundMode.disable();
 

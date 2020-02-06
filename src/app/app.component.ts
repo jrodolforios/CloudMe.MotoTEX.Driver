@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, NavController } from 'ionic-angular';
+import { Nav, Platform, NavController, Toast, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
@@ -9,8 +9,8 @@ import { TaxistaService, FotoService, FormaPagamentoTaxistaService, FaixaDescont
 import { AppServiceProvider } from '../providers/app-service/app-service';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
-
-
+import { Subscription } from 'rxjs';
+import { Network } from '@ionic-native/network/ngx';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,7 +21,10 @@ export class MyApp {
   rootPage: any = 'Login';
 
   pages: Array<any>;
-
+  private disconnectSubscription: Subscription;
+  private connectSubscription: Subscription;
+  private ToatNetwork: Toast;
+  
   constructor(public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
@@ -32,7 +35,9 @@ export class MyApp {
     private fotoService: FotoService,
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
     private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
-    private appVersion: AppVersion) {
+    private appVersion: AppVersion,
+    private network: Network,
+    public toastCtrl: ToastController,) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -43,6 +48,11 @@ export class MyApp {
     ];
 
   }
+
+  public ngOnDestroy() {
+    this.connectSubscription.unsubscribe();
+    this.disconnectSubscription.unsubscribe();
+ }
 
   private async configureWithNewConfigApi() {    		
     const loading = await this.serviceProvider.loading("Aguarde...");
@@ -106,8 +116,26 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+
+      this.disconnectSubscription = this.network.onDisconnect().subscribe(async() => {
+        if(this.ToatNetwork){
+          this.ToatNetwork.dismiss();
+          this.ToatNetwork = undefined;
+        }
+        this.ToatNetwork = await this.toastCtrl.create({
+          message: "DESCONECTADO: Você está offline, verifique sua conexão.",
+        });
+        this.ToatNetwork.present();
+        
+      });
+      this.connectSubscription = this.network.onConnect().subscribe(async() => {
+        setTimeout(async () => {
+          if(this.ToatNetwork){
+            this.ToatNetwork.dismiss();
+            this.ToatNetwork = undefined;
+          }
+        }, 3000);
+      });
 
       this.appVersion.getVersionNumber().then(x =>{
         this.serviceProvider.appVersion = x;

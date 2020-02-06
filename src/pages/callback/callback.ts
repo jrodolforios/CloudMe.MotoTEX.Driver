@@ -139,18 +139,32 @@ export class CallbackPage implements OnInit {
     });
   }
 
-  async ficarDisponivel() {
-    await this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
-      id: this.serviceProvider.taxistaLogado.id,
-      disponivel: this.serviceProvider.taxistaLogado.disponivel
-    }).toPromise().then(async x => {
-      if (x.success && x.data) {
-        if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
-          this.serviceProvider.enableBackground();
-        else
-          this.serviceProvider.disableBackground();
+  async ficarDisponivel(tentativas: number = 0) {
+
+    try {
+      await this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
+        id: this.serviceProvider.taxistaLogado.id,
+        disponivel: this.serviceProvider.taxistaLogado.disponivel
+      }).toPromise().then(async x => {
+        if (x.success && x.data) {
+          if (this.serviceProvider.taxistaLogado && this.serviceProvider.taxistaLogado.disponivel)
+            this.serviceProvider.enableBackground();
+          else
+            this.serviceProvider.disableBackground();
+        }
+      });
+    }
+    catch (err) {
+      tentativas++;
+      if (tentativas > 3) {
+        this.serviceProvider.taxistaLogado.disponivel = false;
+        this.serviceProvider.disableBackground();
+      } else {
+        setTimeout(() => {
+          this.ficarDisponivel(tentativas);
+        }, 15000);
       }
-    });
+    }
   }
 
 }

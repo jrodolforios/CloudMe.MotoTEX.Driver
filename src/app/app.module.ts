@@ -29,6 +29,8 @@ import { IonicRatingModule } from 'ionic-rating';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { MessageServiceProvider } from '../providers/message-service/message-service';
 import { ErrorInterceptor } from '../core/error-interceptor';
+import { SolicitacaoServiceProvider } from '../providers/solicitacao-service/solicitacao-service';
+import { Network } from '@ionic-native/network/ngx';
 
 const mototextaxistaAPIBaseURL = 'https://api.mototex.cloudme.com.br';
 
@@ -94,6 +96,8 @@ var config = {
     AppServiceProvider,
     SignalRserviceServiceProvider,
     MessageServiceProvider,
+    SolicitacaoServiceProvider,
+    Network
   ]
 })
 export class AppModule {}

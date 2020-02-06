@@ -119,8 +119,9 @@ export class Home {
             }
           });
         } else {
-          if (this.serviceProvider.solicitacaoCorridaEmQuestao == null || this.serviceProvider.solicitacaoCorridaEmQuestao == undefined)
-            this.serviceProvider.buscarSOlicitacaoENotificar();
+          if (this.serviceProvider.solicitacaoCorridaEmQuestao == null || this.serviceProvider.solicitacaoCorridaEmQuestao == undefined) {
+            this.serviceProvider.verificarFilaENotificar();
+          }
         }
       }
     });
@@ -205,15 +206,32 @@ export class Home {
     } catch (err) {
       console.log(JSON.stringify(err));
     }
-    await this.initMap();
+    this.initMap();
     var loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
-    setTimeout(() => {
-      self.mensagemService.ApiV1MensagemObterEnviadasMarcarIdasPost(this.serviceProvider.taxistaLogado.usuario.id).toPromise().then(x => {
+    setTimeout(async () => {
+      if(!this.serviceProvider.taxistaLogado || !this.serviceProvider.taxistaLogado.ativo){
+        const alert = await this.alertCtrl.create({
+            title: 'Acesso não permitido',
+            message: 'Você não pode acessar o app. Verifique se está logando essas credenciais no App correto.',
+            enableBackdropDismiss: false,
+            buttons: [
+              {
+                text: 'OK',
+                handler: (blah) => {
+                  this.navCtrl.push("LogoutPage");
+                }
+              }
+            ]
+          });
+          return await alert.present();
+    }
+      self.mensagemService.ApiV1MensagemObterEnviadasMarcarIdasPost(self.serviceProvider.taxistaLogado.usuario.id).toPromise().then(x => {
         if (x.success) {
           x.data.forEach(y => {
             self.messageServiceProvider.showMessage(y);
           });
+
         }
       });
 
@@ -225,7 +243,7 @@ export class Home {
       && this.serviceProvider.solicitacaoCorridaEmQuestao != null
       && (this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 1 || this.serviceProvider.solicitacaoCorridaEmQuestao.situacao == 0))
       || (this.serviceProvider.corridaEmQuestao && this.serviceProvider.corridaEmQuestao.status == 2)) {
-      await this.carregarDadosCorrida();
+      this.carregarDadosCorrida();
     }
     loading.dismiss();
   }
@@ -254,7 +272,7 @@ export class Home {
     return await alert.present();
   }
 
-  async ficarDisponivel(disponivel: boolean){
+  async ficarDisponivel(disponivel: boolean) {
     const loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
     await this.taxistaService.ApiV1TaxistaMarcarTaxistaDisponivelByIdGet({
@@ -467,12 +485,12 @@ export class Home {
     this.serviceProvider.discartViagem();
 
     setTimeout(() => {
-      this.serviceProvider.buscarSOlicitacaoENotificar();
+      this.serviceProvider.verificarFilaENotificar();
     }, 5000);
   }
 
   async initMap() {
-    await this.platform.ready().then(() => {
+     this.platform.ready().then(() => {
       //use the geolocation 
       this.geolocation.watchPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: false }).subscribe(resp => {
         const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
@@ -509,7 +527,7 @@ export class Home {
       var toast = await this.serviceProvider.presentToast("Nenhuma corrida para aceitar no momento.");
       toast.present();
 
-      this.serviceProvider.buscarSOlicitacaoENotificar();
+      this.serviceProvider.verificarFilaENotificar();
     }
 
     this.serviceProvider.endNotification();
@@ -526,7 +544,6 @@ export class Home {
     let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
     DestinationModal.onDidDismiss(async () => {
       if (this.global.accept == false) {
-        if (!this.global.accept) {
           this.ignoreCorrida();
           await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
             id: '00000000-0000-0000-0000-000000000000',
@@ -536,7 +553,6 @@ export class Home {
           }).toPromise().then(x => {
             console.log(JSON.stringify(x));
           });
-        }
       } else {
         this.loader = await this.serviceProvider.loading('Aguarde...');
         await this.loader.present();
@@ -633,6 +649,7 @@ export class Home {
     if (item.idTaxista == this.serviceProvider.taxistaLogado.id
       && item.idSolicitacao == this.serviceProvider.solicitacaoCorridaEmQuestao.id) {
       if (this.loader) this.loader.dismiss();
+      this.serviceProvider.filaSolicitacoes.length = 0;
 
       this.serviceProvider.corridaEmQuestao = item;
 

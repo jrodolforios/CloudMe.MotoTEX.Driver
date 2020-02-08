@@ -28,6 +28,7 @@
     "@ionic-native/background-mode": "^5.17.0",
     "@ionic-native/call-number": "^5.16.0",
     "@ionic-native/core": "^5.16.0",
+    "@ionic-native/firebase": "^5.20.0",
     "@ionic-native/geolocation": "^5.16.0",
     "@ionic-native/in-app-browser": "^5.16.0",
     "@ionic-native/keyboard": "^5.16.0",
@@ -47,11 +48,14 @@
     "cordova-browser": "^6.0.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-actionsheet": "^2.3.3",
+    "cordova-plugin-androidx": "^1.0.2",
+    "cordova-plugin-androidx-adapter": "^1.1.0",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-background-mode": "git+https://bitbucket.org/TheBosZ/cordova-plugin-run-in-background.git",
     "cordova-plugin-background-mode-fixed": "^0.7.8",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-dialogs": "^2.0.2",
+    "cordova-plugin-firebasex": "^7.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-inappbrowser": "git+https://github.com/kleeb/cordova-plugin-inappbrowser.git",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
@@ -107,7 +111,8 @@
       "cordova-plugin-inappbrowser": {},
       "call-number": {},
       "cordova-plugin-background-mode": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-firebasex": {}
     },
     "platforms": [
       "ios",

@@ -31,6 +31,7 @@ import { MessageServiceProvider } from '../providers/message-service/message-ser
 import { ErrorInterceptor } from '../core/error-interceptor';
 import { SolicitacaoServiceProvider } from '../providers/solicitacao-service/solicitacao-service';
 import { Network } from '@ionic-native/network/ngx';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 const mototextaxistaAPIBaseURL = 'https://api.mototex.cloudme.com.br';
 
@@ -80,6 +81,7 @@ var config = {
     InAppBrowser,
     Vibration,
     CatalogosService,
+    Firebase,
     OAuthService,
     NativeAudio,
     global,

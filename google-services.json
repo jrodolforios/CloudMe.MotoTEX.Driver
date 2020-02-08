@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "769167146632",
+    "firebase_url": "https://mototex-a8a7d.firebaseio.com",
+    "project_id": "mototex-a8a7d",
+    "storage_bucket": "mototex-a8a7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769167146632:android:b44bc932a687724909a93d",
+        "android_client_info": {
+          "package_name": "com.cloudme.mototextaxista"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769167146632-fgb9q5eal0cq9os27cipif311s2d8ehi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC12k-aJf4lFEyIVcOfYKOppRY_V9JSTMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769167146632-fgb9q5eal0cq9os27cipif311s2d8ehi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

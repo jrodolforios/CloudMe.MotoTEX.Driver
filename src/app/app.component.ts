@@ -11,6 +11,7 @@ import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { Subscription } from 'rxjs';
 import { Network } from '@ionic-native/network/ngx';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +25,7 @@ export class MyApp {
   private disconnectSubscription: Subscription;
   private connectSubscription: Subscription;
   private ToatNetwork: Toast;
-  
+
   constructor(public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
@@ -37,7 +38,8 @@ export class MyApp {
     private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
     private appVersion: AppVersion,
     private network: Network,
-    public toastCtrl: ToastController,) {
+    public toastCtrl: ToastController,
+    private firebase: Firebase) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -52,12 +54,12 @@ export class MyApp {
   public ngOnDestroy() {
     this.connectSubscription.unsubscribe();
     this.disconnectSubscription.unsubscribe();
- }
+  }
 
-  private async configureWithNewConfigApi() {    		
+  private async configureWithNewConfigApi() {
     const loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
-    this.platform.ready().then(async x =>{
+    this.platform.ready().then(async x => {
       await this.nativeAudio.unload('mototextaxistamotoristaruncomming').then().catch(err => { });
       await this.nativeAudio.preloadComplex('mototextaxistamotoristaruncomming', 'assets/sounds/simple_beep.mp3', 1, 1, 0)
         .then().catch(err => { });
@@ -77,22 +79,22 @@ export class MyApp {
             if (taxista.success) {
               this.serviceProvider.taxistaLogado = taxista.data;
 
-              await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto =>{
-                if(foto.success)
-                this.serviceProvider.fotoTaxista = foto.data.dados;
+              await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
+                if (foto.success)
+                  this.serviceProvider.fotoTaxista = foto.data.dados;
               });
 
               await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                 if (x.success)
                   x.data.forEach(y => {
-                    this.serviceProvider.formasPagamentoTaxista.push({descricao:'', id: y.idFormaPagamento})
+                    this.serviceProvider.formasPagamentoTaxista.push({ descricao: '', id: y.idFormaPagamento })
                   });
               });
 
               await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                 if (x.success)
                   x.data.forEach(y => {
-                    this.serviceProvider.faixasDescontoTaxista.push({descricao:'', id: y.idFaixaDesconto})
+                    this.serviceProvider.faixasDescontoTaxista.push({ descricao: '', id: y.idFaixaDesconto })
                   });
               });
 
@@ -116,9 +118,18 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.firebase.getToken()
+        .then(token => console.log(`The token is ${token}`)) // save the token server-side and use it to push notifications to this device
+        .catch(error => console.error('Error getting token', error));
 
-      this.disconnectSubscription = this.network.onDisconnect().subscribe(async() => {
-        if(this.ToatNetwork){
+      this.firebase.onNotificationOpen()
+        .subscribe(data => console.log(`User opened a notification ${data}`));
+
+      this.firebase.onTokenRefresh()
+        .subscribe((token: string) => console.log(`Got a new token ${token}`));
+
+      this.disconnectSubscription = this.network.onDisconnect().subscribe(async () => {
+        if (this.ToatNetwork) {
           this.ToatNetwork.dismiss();
           this.ToatNetwork = undefined;
         }
@@ -126,18 +137,18 @@ export class MyApp {
           message: "DESCONECTADO: Você está offline, verifique sua conexão.",
         });
         this.ToatNetwork.present();
-        
+
       });
-      this.connectSubscription = this.network.onConnect().subscribe(async() => {
+      this.connectSubscription = this.network.onConnect().subscribe(async () => {
         setTimeout(async () => {
-          if(this.ToatNetwork){
+          if (this.ToatNetwork) {
             this.ToatNetwork.dismiss();
             this.ToatNetwork = undefined;
           }
         }, 3000);
       });
 
-      this.appVersion.getVersionNumber().then(x =>{
+      this.appVersion.getVersionNumber().then(x => {
         this.serviceProvider.appVersion = x;
       });
 

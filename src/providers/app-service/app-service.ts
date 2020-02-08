@@ -95,9 +95,12 @@ export class AppServiceProvider {
 
   async callNotification() {
     this.platform.ready().then(x => {
-      this.backgroundMode.moveToForeground();
       this.vibration.vibrate([2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000]);
       this.nativeAudio.play('mototextaxistamotoristaruncomming').then().catch();
+
+      setTimeout(() => {
+        this.backgroundMode.moveToForeground();
+      }, 1000);
 
       this.localNotifications.schedule({
         id: 6832168431,

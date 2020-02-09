@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Alert, AlertController } from 'ion
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { PassageiroService, FotoService, TaxistaService, FormaPagamentoTaxistaService, FaixaDescontoTaxistaService, VeiculoTaxistaService } from '../../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 /**
  * Generated class for the CallbackPage page.
@@ -27,7 +28,8 @@ export class CallbackPage implements OnInit {
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
     private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
     private veiculoTaxistaService: VeiculoTaxistaService,
-    public alertCtrl: AlertController, ) {
+    public alertCtrl: AlertController, 
+    public imageCompress: NgxImageCompressService ) {
   }
 
   async ngOnInit() {
@@ -43,14 +45,14 @@ export class CallbackPage implements OnInit {
                 if (taxista.success) {
                   this.serviceProvider.taxistaLogado = taxista.data;
 
-                  await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+                  this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                     if (x.success)
                       x.data.forEach(y => {
                         this.serviceProvider.formasPagamentoTaxista.push({ descricao: '', id: y.idFormaPagamento })
                       });
                   });
 
-                  await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+                  this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                     if (x.success)
                       x.data.forEach(y => {
                         this.serviceProvider.faixasDescontoTaxista.push({ descricao: '', id: y.idFaixaDesconto })
@@ -85,9 +87,12 @@ export class CallbackPage implements OnInit {
                     this.ficarDisponivel();
                   }
 
-                  await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
-                    if (foto.success)
-                      this.serviceProvider.fotoTaxista = foto.data.dados;
+                  this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
+                    if (foto.success) {
+                      this.imageCompress.compressFile(atob(foto.data.dados), 1, 30, 20).then(compressed => {
+                        this.serviceProvider.fotoTaxista = compressed;
+                      });
+                    }
                   });
                 }
               });

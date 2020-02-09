@@ -169,7 +169,7 @@ export class Profile {
       this.email = this.serviceProvider.taxistaLogado.usuario.email;
       this.telefone = this.serviceProvider.taxistaLogado.usuario.telefone;
       try {
-        this.fotoPerfil = atob(this.serviceProvider.fotoTaxista);
+        this.fotoPerfil = this.serviceProvider.fotoTaxista;
       } catch (err) {
         console.log(JSON.stringify(err));
       }

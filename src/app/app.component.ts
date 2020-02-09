@@ -12,6 +12,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { Subscription } from 'rxjs';
 import { Network } from '@ionic-native/network/ngx';
 import { Firebase } from '@ionic-native/firebase/ngx';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   templateUrl: 'app.html'
@@ -39,7 +40,8 @@ export class MyApp {
     private appVersion: AppVersion,
     private network: Network,
     public toastCtrl: ToastController,
-    private firebase: Firebase) {
+    private firebase: Firebase,
+    public imageCompress: NgxImageCompressService) {
     this.initializeApp();
 
     this.configureWithNewConfigApi();
@@ -79,19 +81,22 @@ export class MyApp {
             if (taxista.success) {
               this.serviceProvider.taxistaLogado = taxista.data;
 
-              await this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
-                if (foto.success)
-                  this.serviceProvider.fotoTaxista = foto.data.dados;
+              this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
+                if (foto.success) {
+                  this.imageCompress.compressFile(atob(foto.data.dados), 1, 20,10 ).then(compressed =>{
+                    this.serviceProvider.fotoTaxista = compressed;
+                  });
+                }
               });
 
-              await this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+              this.formaPagamentoTaxistaService.ApiV1FormaPagamentoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                 if (x.success)
                   x.data.forEach(y => {
                     this.serviceProvider.formasPagamentoTaxista.push({ descricao: '', id: y.idFormaPagamento })
                   });
               });
 
-              await this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
+              this.faixaDescontoTaxistaService.ApiV1FaixaDescontoTaxistaConsultaIdTaxistaByIdGet(this.serviceProvider.taxistaLogado.id).toPromise().then(x => {
                 if (x.success)
                   x.data.forEach(y => {
                     this.serviceProvider.faixasDescontoTaxista.push({ descricao: '', id: y.idFaixaDesconto })

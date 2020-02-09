@@ -32,7 +32,7 @@ import { ErrorInterceptor } from '../core/error-interceptor';
 import { SolicitacaoServiceProvider } from '../providers/solicitacao-service/solicitacao-service';
 import { Network } from '@ionic-native/network/ngx';
 import { Firebase } from '@ionic-native/firebase/ngx';
-
+import {NgxImageCompressService} from 'ngx-image-compress';
 const mototextaxistaAPIBaseURL = 'https://api.mototex.cloudme.com.br';
 
 var config = {
@@ -83,6 +83,7 @@ var config = {
     CatalogosService,
     Firebase,
     OAuthService,
+    NgxImageCompressService,
     NativeAudio,
     global,
     CatalogoCorrida,

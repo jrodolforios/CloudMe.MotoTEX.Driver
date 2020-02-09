@@ -448,7 +448,7 @@ export class Home {
   getProfilePhoto() {
     try {
       if (this.serviceProvider && this.serviceProvider.taxistaLogado && this.serviceProvider.fotoTaxista)
-        return atob(this.serviceProvider.fotoTaxista);
+        return this.serviceProvider.fotoTaxista;
       else
         return 'assets/img/user.png';
     } catch (e) {

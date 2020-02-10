@@ -6,13 +6,14 @@ import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { MouseEvent, MapsAPILoader, } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../../providers/app-service/app-service';
-import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService, TaxistaService, EmergenciaService, MensagemService } from '../../core/api/to_de_taxi/services';
+import { FormaPagamentoService, FaixaDescontoService, LocalizacaoService, CorridaService, PassageiroService, SolicitacaoCorridaService, TaxistaService, EmergenciaService, MensagemService, UsuarioService } from '../../core/api/to_de_taxi/services';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CatalogosService } from '../../providers/Catalogos/catalogos.service';
 import { CorridaSummary } from '../../core/api/to_de_taxi/models';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { MessageServiceProvider } from '../../providers/message-service/message-service';
+import { Firebase } from '@ionic-native/firebase/ngx';
 declare var google;
 
 @IonicPage()
@@ -70,7 +71,7 @@ export class Home {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public global: global,
-    private mapsAPILoader: MapsAPILoader,
+    private usuarioService: UsuarioService,
     public geolocation: Geolocation,
     private platform: Platform,
     private serviceProvider: AppServiceProvider,
@@ -87,7 +88,8 @@ export class Home {
     private taxistaService: TaxistaService,
     private emergenciaService: EmergenciaService,
     private mensagemService: MensagemService,
-    private messageServiceProvider: MessageServiceProvider) {
+    private messageServiceProvider: MessageServiceProvider,
+    private firebase: Firebase, ) {
   }
 
   async verificarCorridaEmAndamento() {
@@ -210,22 +212,39 @@ export class Home {
     var loading = await this.serviceProvider.loading("Aguarde...");
     loading.present();
     setTimeout(async () => {
-      if(!this.serviceProvider.taxistaLogado || !this.serviceProvider.taxistaLogado.ativo){
+      if (!this.serviceProvider.taxistaLogado || !this.serviceProvider.taxistaLogado.ativo) {
         const alert = await this.alertCtrl.create({
-            title: 'Acesso não permitido',
-            message: 'Você não pode acessar o app. Verifique se está logando essas credenciais no App correto.',
-            enableBackdropDismiss: false,
-            buttons: [
-              {
-                text: 'OK',
-                handler: (blah) => {
-                  this.navCtrl.push("LogoutPage");
-                }
+          title: 'Acesso não permitido',
+          message: 'Você não pode acessar o app. Verifique se está logando essas credenciais no App correto.',
+          enableBackdropDismiss: false,
+          buttons: [
+            {
+              text: 'OK',
+              handler: (blah) => {
+                this.navCtrl.push("LogoutPage");
               }
-            ]
+            }
+          ]
+        });
+        return await alert.present();
+      }
+
+      localStorage.setItem("IdUsuario", this.serviceProvider.taxistaLogado.usuario.id);
+      this.firebase.getToken()
+        .then(token => {
+          self.usuarioService.ApiV1UsuarioInformarDeviceTokenByIdPost({ id: localStorage.getItem("IdUsuario"), token: token })
+            .toPromise().then(x => {
+            });
+
+        }).catch(error => console.error('Error getting token', error));
+
+        this.firebase.onTokenRefresh()
+        .subscribe((token: string) =>{
+          self.usuarioService.ApiV1UsuarioInformarDeviceTokenByIdPost({ id: localStorage.getItem("IdUsuario"), token: token })
+          .toPromise().then(x => {
           });
-          return await alert.present();
-    }
+        });
+
       self.mensagemService.ApiV1MensagemObterEnviadasMarcarIdasPost(self.serviceProvider.taxistaLogado.usuario.id).toPromise().then(x => {
         if (x.success) {
           x.data.forEach(y => {
@@ -490,7 +509,7 @@ export class Home {
   }
 
   async initMap() {
-     this.platform.ready().then(() => {
+    this.platform.ready().then(() => {
       //use the geolocation 
       this.geolocation.watchPosition({ maximumAge: 10000, timeout: 10000, enableHighAccuracy: false }).subscribe(resp => {
         const latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
@@ -544,15 +563,15 @@ export class Home {
     let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
     DestinationModal.onDidDismiss(async () => {
       if (this.global.accept == false) {
-          this.ignoreCorrida();
-          await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
-            id: '00000000-0000-0000-0000-000000000000',
-            acao: 3,
-            idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
-            idTaxista: this.serviceProvider.taxistaLogado.id
-          }).toPromise().then(x => {
-            console.log(JSON.stringify(x));
-          });
+        this.ignoreCorrida();
+        await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
+          id: '00000000-0000-0000-0000-000000000000',
+          acao: 3,
+          idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
+          idTaxista: this.serviceProvider.taxistaLogado.id
+        }).toPromise().then(x => {
+          console.log(JSON.stringify(x));
+        });
       } else {
         this.loader = await this.serviceProvider.loading('Aguarde...');
         await this.loader.present();

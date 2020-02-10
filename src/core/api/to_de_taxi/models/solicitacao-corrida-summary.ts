@@ -15,4 +15,10 @@ export interface SolicitacaoCorridaSummary {
   valorProposto?: number;
   isInterUrbano?: boolean;
   situacao?: 0 | 1 | 2 | 3 | 4;
+  statusMonitoramento?: 0 | 1 | 2 | 3 | 4;
+  idxFaixaBusca?: number;
+  latitudeOrigem?: string;
+  longitudeOrigem?: string;
+  latitudeDestino?: string;
+  longitudeDestino?: string;
 }

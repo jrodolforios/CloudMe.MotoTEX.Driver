@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
 import { JwksValidationHandler } from '../../auth-oidc/src/token-validation/jwks-validation-handler'
 import { authConfig } from '../auth/auth.config';
-import { TaxistaService, FotoService, FormaPagamentoTaxistaService, FaixaDescontoTaxistaService } from '../core/api/to_de_taxi/services';
+import { TaxistaService, FotoService, FormaPagamentoTaxistaService, FaixaDescontoTaxistaService, UsuarioService } from '../core/api/to_de_taxi/services';
 import { AppServiceProvider } from '../providers/app-service/app-service';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
@@ -122,16 +122,13 @@ export class MyApp {
   }
 
   initializeApp() {
+    const self = this;
     this.platform.ready().then(() => {
-      this.firebase.getToken()
-        .then(token => console.log(`The token is ${token}`)) // save the token server-side and use it to push notifications to this device
-        .catch(error => console.error('Error getting token', error));
 
       this.firebase.onNotificationOpen()
-        .subscribe(data => console.log(`User opened a notification ${data}`));
-
-      this.firebase.onTokenRefresh()
-        .subscribe((token: string) => console.log(`Got a new token ${token}`));
+        .subscribe(data => {
+          alert(JSON.stringify(data));
+        });
 
       this.disconnectSubscription = this.network.onDisconnect().subscribe(async () => {
         if (this.ToatNetwork) {

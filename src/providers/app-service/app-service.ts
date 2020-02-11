@@ -49,6 +49,7 @@ export class AppServiceProvider {
   formasPagamentoTaxista: FormaPagamentoSummary[];
   faixasDescontoTaxista: FaixaDescontoSummary[];
   IdCorridaParaClassificacao: string;
+  notificacaoFirebase: string;
 
   public appVersion: string = '';
 

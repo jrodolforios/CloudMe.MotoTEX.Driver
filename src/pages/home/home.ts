@@ -245,6 +245,7 @@ export class Home {
           });
         });
 
+
       self.mensagemService.ApiV1MensagemObterEnviadasMarcarIdasPost(self.serviceProvider.taxistaLogado.usuario.id).toPromise().then(x => {
         if (x.success) {
           x.data.forEach(y => {

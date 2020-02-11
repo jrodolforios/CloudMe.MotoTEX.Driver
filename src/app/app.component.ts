@@ -122,13 +122,13 @@ export class MyApp {
   }
 
   initializeApp() {
-    const self = this;
-    this.platform.ready().then(() => {
+    const localS = localStorage;
+    // this.firebase.onNotificationOpen()
+    // .subscribe(data => {
+    //   this.serviceProvider.notificacaoFirebase = JSON.stringify(data);
+    // });
 
-      this.firebase.onNotificationOpen()
-        .subscribe(data => {
-          alert(JSON.stringify(data));
-        });
+    this.platform.ready().then(() => {
 
       this.disconnectSubscription = this.network.onDisconnect().subscribe(async () => {
         if (this.ToatNetwork) {

@@ -27,6 +27,7 @@ export class AppServiceProvider {
 
   TaxistLat: any;
   TaxistLng: any;
+  TaxistAngl: number;
 
   //Para uso na modal
   textoOrigem: string = '';

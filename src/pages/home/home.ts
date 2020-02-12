@@ -34,6 +34,7 @@ export class Home {
 
   public lat: number;
   public lng: number;
+  public angulo: number;
   private loader: any;
 
   public descTipoViagem: string = '';
@@ -422,7 +423,7 @@ export class Home {
   }
 
   callPassageiro() {
-    this.callNumber.callNumber(this.telefonePassageiro.replace(/[^0-9]+/g, ''), true);
+    this.callNumber.callNumber("0" + this.telefonePassageiro.replace(/[^0-9]+/g, ''), true);
   }
 
   async calculateDistance(origin_lat: any, origin_lng: any, dest_lat: any, dest_lng: any) {
@@ -522,10 +523,12 @@ export class Home {
         if (!this.serviceProvider.solicitacaoCorridaEmQuestao || this.global.accept) {
           this.lat = resp.coords.latitude;
           this.lng = resp.coords.longitude;
+          this.angulo = resp.coords.heading;
         }
 
         this.serviceProvider.TaxistLat = resp.coords.latitude;
         this.serviceProvider.TaxistLng = resp.coords.longitude;
+        this.serviceProvider.TaxistAngl = resp.coords.heading;
 
         //loader.dismiss();
       });

@@ -103,6 +103,7 @@ export class SignalRserviceServiceProvider {
             localizacao: {
               latitude: this.serviceProvider.TaxistLat,
               longitude: this.serviceProvider.TaxistLng,
+              angulo: this.serviceProvider.TaxistAngl
             }
           }).toPromise().then(x => {
             console.log(x.success)

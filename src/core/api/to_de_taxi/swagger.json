@@ -12920,6 +12920,10 @@
         "latitude": {
           "type": "string"
         },
+        "angulo": {
+          "format": "double",
+          "type": "number"
+        },
         "nomePublico": {
           "type": "string"
         }
@@ -16460,7 +16464,7 @@
   "securityDefinitions": {
     "oauth2": {
       "flow": "implicit",
-      "authorizationUrl": "http://localhost:5000/connect/authorize",
+      "authorizationUrl": "https://auth.mototex.cloudme.com.br/connect/authorize",
       "scopes": {
         "mototexapi": "mototexapi"
       },

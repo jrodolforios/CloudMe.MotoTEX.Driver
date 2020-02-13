@@ -40,7 +40,7 @@ var config = {
   backButtonIcon: 'md-arrow-back',
   pageTransition: 'md',
   mode:'md',
-  //locationStrategy: 'path'
+  navExitApp: false,
 };
 
 @NgModule({

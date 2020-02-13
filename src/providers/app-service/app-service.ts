@@ -89,6 +89,15 @@ export class AppServiceProvider {
   public  async notificarCorrida(corridaSummary: CorridaSummary) {
     this.solicitacaoCorridaEmQuestao = corridaSummary;
 
+    await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
+      id: '00000000-0000-0000-0000-000000000000',
+      acao: 0,
+      idSolicitacao: this.solicitacaoCorridaEmQuestao.id,
+      idTaxista: this.taxistaLogado.id
+    }).toPromise().then(x => {
+      console.log(JSON.stringify(x));
+    });
+
     if (this.solicitacaoCorridaEmQuestao && this.solicitacaoCorridaEmQuestao != null && (this.solicitacaoCorridaEmQuestao.situacao == 1 || this.solicitacaoCorridaEmQuestao.situacao == 0)) {
       this.callNotification();
       this.app.getRootNav().setRoot('Home');

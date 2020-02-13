@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, NavController, Toast, ToastController } from 'ionic-angular';
+import { Nav, Platform, NavController, Toast, ToastController, AlertController, Alert } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { OAuthService } from '../../auth-oidc/src/oauth-service';
@@ -26,6 +26,8 @@ export class MyApp {
   private disconnectSubscription: Subscription;
   private connectSubscription: Subscription;
   private ToatNetwork: Toast;
+  private showedAlert: boolean;
+  private confirmAlert: Alert;
 
   constructor(public platform: Platform,
     public statusBar: StatusBar,
@@ -37,6 +39,7 @@ export class MyApp {
     private fotoService: FotoService,
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
     private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
+    public alertCtrl: AlertController,
     private appVersion: AppVersion,
     private network: Network,
     public toastCtrl: ToastController,
@@ -129,6 +132,20 @@ export class MyApp {
     // });
 
     this.platform.ready().then(() => {
+      this.showedAlert = false;
+
+      this.platform.registerBackButtonAction(() => {
+        if (!this.nav.canGoBack()) {
+            if (!this.showedAlert) {
+                this.confirmExitApp();
+            } else {
+                this.showedAlert = false;
+                this.confirmAlert.dismiss();
+            }
+        }
+
+        this.nav.pop();
+    });
 
       this.disconnectSubscription = this.network.onDisconnect().subscribe(async () => {
         if (this.ToatNetwork) {
@@ -161,6 +178,30 @@ export class MyApp {
     });
 
   }
+
+  confirmExitApp() {
+    this.showedAlert = true;
+    this.confirmAlert = this.alertCtrl.create({
+        title: "Sair",
+        message: "Tem certeza que deseja sair do APP?",
+        buttons: [
+            {
+                text: 'Cancelar',
+                handler: () => {
+                    this.showedAlert = false;
+                    return;
+                }
+            },
+            {
+                text: 'Aceitar',
+                handler: () => {
+                    this.platform.exitApp();
+                }
+            }
+        ]
+    });
+    this.confirmAlert.present();
+}
 
   openPage(page) {
     // Reset the content nav to have just this page

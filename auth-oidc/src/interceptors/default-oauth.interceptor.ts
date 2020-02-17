@@ -54,7 +54,7 @@ export class DefaultOAuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    const sendAccessToken = this.moduleConfig.resourceServer.sendAccessToken;
+    const sendAccessToken = this.moduleConfig.resourceServer.sendAccessToken && this.oAuthService.getAccessToken() != null && this.oAuthService.getAccessToken() != undefined;
 
     if (!sendAccessToken) {
       return next

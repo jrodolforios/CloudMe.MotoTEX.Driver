@@ -12,6 +12,7 @@ import { ResponseBoolean } from '../models/response-boolean';
 import { UsuarioSummary } from '../models/usuario-summary';
 import { ResponseGuid } from '../models/response-guid';
 import { ResponseUsuarioSummary } from '../models/response-usuario-summary';
+import { ResponseDateTime } from '../models/response-date-time';
 import { CredenciaisUsuario } from '../models/credenciais-usuario';
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ class UsuarioService extends __BaseService {
   static readonly ApiV1UsuarioByIdGetPath = '/api/v1/Usuario/{id}';
   static readonly ApiV1UsuarioByIdDeletePath = '/api/v1/Usuario/{id}';
   static readonly ApiV1UsuarioLoginDisponivelGetPath = '/api/v1/Usuario/login_disponivel';
+  static readonly ApiV1UsuarioGetDataHoraGetPath = '/api/v1/Usuario/get_data_hora';
   static readonly ApiV1UsuarioAlteraCredenciaisByIdPostPath = '/api/v1/Usuario/altera_credenciais/{id}';
   static readonly ApiV1UsuarioBloquearByIdPostPath = '/api/v1/Usuario/bloquear/{id}';
   static readonly ApiV1UsuarioInformarDeviceTokenByIdPostPath = '/api/v1/Usuario/informar_device_token/{id}';
@@ -278,6 +280,39 @@ class UsuarioService extends __BaseService {
   ApiV1UsuarioLoginDisponivelGet(login?: string): __Observable<ResponseBoolean> {
     return this.ApiV1UsuarioLoginDisponivelGetResponse(login).pipe(
       __map(_r => _r.body as ResponseBoolean)
+    );
+  }
+
+  /**
+   * @return Success
+   */
+  ApiV1UsuarioGetDataHoraGetResponse(): __Observable<__StrictHttpResponse<ResponseDateTime>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/v1/Usuario/get_data_hora`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<ResponseDateTime>;
+      })
+    );
+  }
+  /**
+   * @return Success
+   */
+  ApiV1UsuarioGetDataHoraGet(): __Observable<ResponseDateTime> {
+    return this.ApiV1UsuarioGetDataHoraGetResponse().pipe(
+      __map(_r => _r.body as ResponseDateTime)
     );
   }
 

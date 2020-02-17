@@ -90,6 +90,7 @@ export { ResponseIEnumerableVeiculoTaxistaSummary } from './models/response-ienu
 export { VeiculoTaxistaSummary } from './models/veiculo-taxista-summary';
 export { ResponseIEnumerableUsuarioSummary } from './models/response-ienumerable-usuario-summary';
 export { ResponseUsuarioSummary } from './models/response-usuario-summary';
+export { ResponseDateTime } from './models/response-date-time';
 export { ResponseIEnumerableUsuarioGrupoUsuarioSummary } from './models/response-ienumerable-usuario-grupo-usuario-summary';
 export { UsuarioGrupoUsuarioSummary } from './models/usuario-grupo-usuario-summary';
 export { ResponseUsuarioGrupoUsuarioSummary } from './models/response-usuario-grupo-usuario-summary';

@@ -27,6 +27,7 @@ import { b64DecodeUnicode, base64UrlEncode } from './base64-helper';
 import { AuthConfig } from './auth.config';
 import { WebHttpUrlEncodingCodec } from './encoder';
 import { CryptoHandler } from './token-validation/crypto-handler';
+import { UsuarioService } from '../../src/core/api/to_de_taxi/services/usuario.service';
 
 /**
  * Service for logging in and logging out with
@@ -89,6 +90,7 @@ export class OAuthService extends AuthConfig implements OnDestroy {
         @Optional() protected config: AuthConfig,
         protected urlHelper: UrlHelperService,
         protected logger: OAuthLogger,
+        private usuarioService: UsuarioService,
         @Optional() protected crypto: CryptoHandler,
     ) {
         super();
@@ -1724,7 +1726,7 @@ export class OAuthService extends AuthConfig implements OnDestroy {
     /**
      * @ignore
      */
-    public processIdToken(
+    public async processIdToken(
         idToken: string,
         accessToken: string,
         skipNonceCheck = false
@@ -1806,7 +1808,14 @@ export class OAuthService extends AuthConfig implements OnDestroy {
             return Promise.reject(err);
         }
 
-        const now = Date.now();
+        var dateNow: Date;
+        await this.usuarioService.ApiV1UsuarioGetDataHoraGet().toPromise()
+            .then(x => {
+                dateNow = new Date(x.data);
+            });
+
+        const now = dateNow.getTime();
+
         const issuedAtMSec = claims.iat * 1000;
         const expiresAtMSec = claims.exp * 1000;
         const clockSkewInMSec = (this.clockSkewInSec || 600) * 1000;
@@ -1825,41 +1834,15 @@ export class OAuthService extends AuthConfig implements OnDestroy {
             return Promise.reject(err);
         }
 
-        const validationParams: ValidationParams = {
-            accessToken: accessToken,
+        const result: ParsedIdToken = {
             idToken: idToken,
-            jwks: this.jwks,
             idTokenClaims: claims,
+            idTokenClaimsJson: claimsJson,
             idTokenHeader: header,
-            loadKeys: () => this.loadJwks()
+            idTokenHeaderJson: headerJson,
+            idTokenExpiresAt: expiresAtMSec
         };
-
-
-        return this.checkAtHash(validationParams)
-            .then(atHashValid => {
-                if (
-                    !this.disableAtHashCheck &&
-                    this.requestAccessToken &&
-                    !atHashValid
-                ) {
-                    const err = 'Wrong at_hash';
-                    this.logger.warn(err);
-                    return Promise.reject(err);
-                }
-
-                return this.checkSignature(validationParams).then(_ => {
-                    const result: ParsedIdToken = {
-                        idToken: idToken,
-                        idTokenClaims: claims,
-                        idTokenClaimsJson: claimsJson,
-                        idTokenHeader: header,
-                        idTokenHeaderJson: headerJson,
-                        idTokenExpiresAt: expiresAtMSec
-                    };
-                    return result;
-                });
-
-            });
+        return result;
     }
 
     /**

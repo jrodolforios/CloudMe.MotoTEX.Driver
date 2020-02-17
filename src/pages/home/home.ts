@@ -239,11 +239,11 @@ export class Home {
 
         }).catch(error => console.error('Error getting token', error));
 
-        this.firebase.onTokenRefresh()
-        .subscribe((token: string) =>{
+      this.firebase.onTokenRefresh()
+        .subscribe((token: string) => {
           self.usuarioService.ApiV1UsuarioInformarDeviceTokenByIdPost({ id: localStorage.getItem("IdUsuario"), token: token })
-          .toPromise().then(x => {
-          });
+            .toPromise().then(x => {
+            });
         });
 
 
@@ -557,81 +557,71 @@ export class Home {
   }
 
   //present destination trip
-  presentDestinationModal() {
+  async presentDestinationModal() {
     this.serviceProvider.textoDestino = this.textoDestino;
     this.serviceProvider.textoOrigem = this.textoOrigem;
     this.serviceProvider.descDistanciaViagem = this.descDistanciaViagem;
     this.serviceProvider.descTempoViagem = this.descTempoViagem;
     this.serviceProvider.descValorCorrida = this.descValorCorrida;
 
-    let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
-    DestinationModal.onDidDismiss(async () => {
-      if (this.global.accept == false) {
-        this.ignoreCorrida();
-        await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
-          id: '00000000-0000-0000-0000-000000000000',
-          acao: 3,
-          idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
-          idTaxista: this.serviceProvider.taxistaLogado.id
-        }).toPromise().then(x => {
-          console.log(JSON.stringify(x));
-        });
-      } else {
-        this.loader = await this.serviceProvider.loading('Aguarde...');
-        await this.loader.present();
+    this.global.accept = true;
 
-        this.CatalogosService.corrida.startTrackingChanges()
-        this.serviceProvider.corridaSubscriber = this.CatalogosService.corrida.changesSubject.subscribe(async x => {
-          var idAdded: string = '';
-          var idUpdated: string = '';
+    this.loader = await this.serviceProvider.loading('Aguarde...');
+    await this.loader.present();
 
-          await x.addedItems.forEach(async item => {
-            if (idAdded != item.id) {
-              idAdded = item.id;
-              await this.realizarTratamentoAddCorrida(item);
-            }
-          });
+    this.CatalogosService.corrida.startTrackingChanges()
+    this.serviceProvider.corridaSubscriber = this.CatalogosService.corrida.changesSubject.subscribe(async x => {
+      var idAdded: string = '';
+      var idUpdated: string = '';
 
-          this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
-            .toPromise().then(x => {
-              if (x.success && x.data) {
-                this.realizarTratamentoUpdateCorrida(x.data);
-              }
-            })
+      await x.addedItems.forEach(async item => {
+        if (idAdded != item.id) {
+          idAdded = item.id;
+          await this.realizarTratamentoAddCorrida(item);
+        }
+      });
 
-          // await x.updatedItems.forEach(async item => {
-          //   if (idUpdated != item.id) {
-          //     idUpdated = item.id;
-          //     await this.realizarTratamentoUpdateCorrida(item, loader);
-          //   }
-          // })
-        });
+      this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
+        .toPromise().then(x => {
+          if (x.success && x.data) {
+            this.realizarTratamentoUpdateCorrida(x.data);
+          }
+        })
 
-        setTimeout(() => {
-          if (!this.serviceProvider.corridaEmQuestao)
-            this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
-              .toPromise().then(x => {
-                if (x.success && x.data) {
-                  this.realizarTratamentoAddCorrida(x.data);
-                  this.realizarTratamentoUpdateCorrida(x.data);
-                }
-              })
-        }, 5000);
-
-        await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
-          id: '00000000-0000-0000-0000-000000000000',
-          acao: 2,
-          idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
-          idTaxista: this.serviceProvider.taxistaLogado.id
-        }).toPromise().then(async x => {
-          if (!x.success || !x.data)
-            this.ignoreCorrida();
-          console.log(JSON.stringify(x));
-        });
-
-      }
+      // await x.updatedItems.forEach(async item => {
+      //   if (idUpdated != item.id) {
+      //     idUpdated = item.id;
+      //     await this.realizarTratamentoUpdateCorrida(item, loader);
+      //   }
+      // })
     });
-    DestinationModal.present();
+
+    setTimeout(() => {
+      if (!this.serviceProvider.corridaEmQuestao)
+        this.corridaService.ApiV1CorridaConsultaIdSolicitacaoCorridaByIdGet(this.serviceProvider.solicitacaoCorridaEmQuestao.id)
+          .toPromise().then(x => {
+            if (x.success && x.data) {
+              this.realizarTratamentoAddCorrida(x.data);
+              this.realizarTratamentoUpdateCorrida(x.data);
+            }
+          })
+    }, 5000);
+
+    await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
+      id: '00000000-0000-0000-0000-000000000000',
+      acao: 2,
+      idSolicitacao: this.serviceProvider.solicitacaoCorridaEmQuestao.id,
+      idTaxista: this.serviceProvider.taxistaLogado.id
+    }).toPromise().then(async x => {
+      if (!x.success || !x.data)
+        this.ignoreCorrida();
+      console.log(JSON.stringify(x));
+    });
+
+    //let DestinationModal = this.modalCtrl.create('DestinationModal', { userId: 8675309 });
+    // DestinationModal.onDidDismiss(async () => {
+    // });
+    //DestinationModal.present();
 
   }
   async realizarTratamentoUpdateCorrida(item: CorridaSummary) {

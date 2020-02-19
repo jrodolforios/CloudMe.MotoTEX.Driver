@@ -18,6 +18,7 @@ import { ApiModule } from '../core/api/to_de_taxi/api.module';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
@@ -82,6 +83,7 @@ var config = {
     Vibration,
     CatalogosService,
     Firebase,
+    TextToSpeech,
     OAuthService,
     NgxImageCompressService,
     NativeAudio,

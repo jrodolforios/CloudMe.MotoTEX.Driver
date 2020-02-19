@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary, FormaPagamentoSummary, FaixaDescontoSummary, EmergenciaSummary } from '../../core/api/to_de_taxi/models';
+import { TaxistaSummary, SolicitacaoCorridaSummary, CorridaSummary, FormaPagamentoSummary, FaixaDescontoSummary, EmergenciaSummary, LocalizacaoSummary } from '../../core/api/to_de_taxi/models';
 import { ToastController, Platform, LoadingController } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
-import { SolicitacaoCorridaService, CorridaService } from '../../core/api/to_de_taxi/services';
+import { SolicitacaoCorridaService, CorridaService, LocalizacaoService } from '../../core/api/to_de_taxi/services';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SignalRserviceServiceProvider } from '../signal-rservice-service/signal-rservice-service';
@@ -14,6 +14,7 @@ import { Subscriber, Subscription } from 'rxjs';
 import { MessageServiceProvider } from '../message-service/message-service';
 import { global } from '../../providers/global';
 import { SolicitacaoServiceProvider } from '../solicitacao-service/solicitacao-service';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 /*
   Generated class for the AppServiceProvider provider.
 
@@ -66,9 +67,11 @@ export class AppServiceProvider {
     private signalRService: SignalRserviceServiceProvider,
     public global: global,
     private CatalogosService: CatalogosService,
+    private tts: TextToSpeech,
     private app: App,
     private corridaService: CorridaService,
     private messageService: MessageServiceProvider,
+    private localizacaoService: LocalizacaoService,
     private solicitacaoServiceProvider: SolicitacaoServiceProvider) {
     this.formasPagamentoTaxista = [];
     this.faixasDescontoTaxista = [];
@@ -86,7 +89,7 @@ export class AppServiceProvider {
     this.solicitacaoCorridaEmQuestao = undefined;
   }
 
-  public  async notificarCorrida(corridaSummary: CorridaSummary) {
+  public async notificarCorrida(corridaSummary: CorridaSummary) {
     this.solicitacaoCorridaEmQuestao = corridaSummary;
 
     await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaAcaoTaxistaByIdPost({
@@ -106,28 +109,78 @@ export class AppServiceProvider {
 
   async callNotification() {
     this.platform.ready().then(x => {
-      this.vibration.vibrate([2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000, 1000, 2000]);
-      this.nativeAudio.play('mototextaxistamotoristaruncomming').then().catch();
-
-      setTimeout(() => {
-        this.backgroundMode.moveToForeground();
-      }, 1000);
-
       this.localNotifications.schedule({
         id: 6832168431,
         title: 'Chamado em andamento',
         text: 'Toque para ver o chamado em andamento',
-        //data: { secret: key }
       });
+
+      this.vibration.vibrate([2000, 1000, 2000, 1000, 2000]);
+      this.nativeAudio.play('mototextaxistamotoristaruncomming').then(async audio => {
+        var origem: LocalizacaoSummary;
+        var destino: LocalizacaoSummary;
+        var texto: string;
+        await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.solicitacaoCorridaEmQuestao.idLocalizacaoOrigem)
+          .toPromise().then(loca => {
+            if (loca.success && loca.data)
+              origem = loca.data;
+          })
+
+        await this.localizacaoService.ApiV1LocalizacaoByIdGet(this.solicitacaoCorridaEmQuestao.idLocalizacaoDestino)
+          .toPromise().then(loca => {
+            if (loca.success && loca.data)
+              destino = loca.data;
+          })
+
+        var distanciaMototaxista: number = this.getDistanceFromLatLonInM(+origem.latitude, +origem.longitude, +this.TaxistLat, +this.TaxistLng);
+        var distanciaTrajeto: number = this.getDistanceFromLatLonInM(+origem.latitude, +origem.longitude, +destino.latitude, +destino.longitude);
+
+        texto = "Solicitação de corrida próximo a você."
+
+        if (distanciaTrajeto > 1000)
+          texto += " O trajeto tem um total de " + (distanciaTrajeto / 1000).toFixed(1) + " quilômetros"
+        else
+          texto += " O trajeto tem um total de " + distanciaTrajeto.toFixed(0) + " metros"
+
+        texto += " com um valor de " + this.solicitacaoCorridaEmQuestao.valorEstimado + " reais."
+
+        texto += " Abra o APP para aceitar."
+
+        this.tts.speak({ text: texto, locale: "pt-BR", rate: 1.4 });
+      }).catch(err => console.log(JSON.stringify(err)));
+
+      setTimeout(() => {
+        this.backgroundMode.moveToForeground();
+      }, 1000);
     });
+  }
+
+  getDistanceFromLatLonInM(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2 - lat1);  // deg2rad below
+    var dLon = this.deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d * 1000;
+  }
+
+  deg2rad(deg) {
+    return deg * (Math.PI / 180)
   }
 
   async endNotification() {
     try {
       this.platform.ready().then(x => {
-        this.localNotifications.cancel(6832168431).catch();
+        this.localNotifications.cancel(6832168431).catch(err => console.log(JSON.stringify(err)));
+
+        this.nativeAudio.stop('mototextaxistamotoristaruncomming').catch(err => console.log(JSON.stringify(err)))
+        this.tts.stop();
         this.vibration.vibrate(0);
-        this.nativeAudio.stop('mototextaxistamotoristaruncomming')
       });
     } catch (err) {
       console.log(JSON.stringify(err));
@@ -230,7 +283,7 @@ export class AppServiceProvider {
     this.solicitacaoServiceProvider.watchSolicitacoes(this.taxistaLogado.id, this);
 
     this.CatalogosService.solicitacaoCorrida.startTrackingChanges();
-    
+
     this.CatalogosService.solicitacaoCorrida.changesSubject.subscribe(x => {
 
       if (this.solicitacaoCorridaEmQuestao) {
@@ -276,7 +329,7 @@ export class AppServiceProvider {
         this.backgroundMode.on('activate').subscribe(() => {
           this.backgroundMode.disableBatteryOptimizations();
           this.backgroundMode.disableWebViewOptimizations();
-          
+
           this.backgroundMode.configure({
             text: "Você está ativo, receberá chamados de corrida",
             title: "Ativo para receber chamados",
@@ -292,17 +345,17 @@ export class AppServiceProvider {
     });
   }
 
-  async verificarFilaENotificar(){
+  async verificarFilaENotificar() {
     var solicitacao = this.filaSolicitacoes.shift();
     await this.solicitacaoCorridaService.ApiV1SolicitacaoCorridaByIdGet(solicitacao.id).toPromise()
-    .then(x =>{
-      if(x.success){
-        solicitacao = x.data;
-      }
-    });
-    if(solicitacao.situacao != 4 && solicitacao.situacao != 2){
+      .then(x => {
+        if (x.success) {
+          solicitacao = x.data;
+        }
+      });
+    if (solicitacao.situacao != 4 && solicitacao.situacao != 2) {
       this.notificarCorrida(solicitacao);
-    } else if(this.filaSolicitacoes.length > 0) {
+    } else if (this.filaSolicitacoes.length > 0) {
       await this.verificarFilaENotificar();
     }
   }

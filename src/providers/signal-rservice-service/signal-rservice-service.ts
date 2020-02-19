@@ -6,9 +6,7 @@ import { Platform, AlertController, ModalController } from 'ionic-angular';
 import { OAuthService } from '../../../auth-oidc/src/oauth-service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppServiceProvider } from '../app-service/app-service';
-import { EmergenciaSummary, TaxistaSummary } from '../../core/api/to_de_taxi/models';
-import { CallNumber } from '@ionic-native/call-number/ngx';
-import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
+import { EmergenciaSummary } from '../../core/api/to_de_taxi/models';
 
 /*
   Generated class for the SignalRserviceServiceProvider provider.
@@ -16,6 +14,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
+
 @Injectable()
 export class SignalRserviceServiceProvider {
   private hubConnection: signalR.HubConnection
@@ -28,7 +27,7 @@ export class SignalRserviceServiceProvider {
     public alertCtrl: AlertController,
     public geolocation: Geolocation,
     private oAuthService: OAuthService,
-    public modalCtrl: ModalController,) {
+    public modalCtrl: ModalController) {
   }
 
   public startConnection = () => {
@@ -95,8 +94,6 @@ export class SignalRserviceServiceProvider {
       }
       this.hubConnection.on('EnviarLocalizacao', async (data) => {
         try {
-          var latitude: string = '';
-          var longitude: string = '';
 
           this.taxistaService.ApiV1TaxistaInformarLocalizacaoByIdPost({
             id: this.idTaxista,

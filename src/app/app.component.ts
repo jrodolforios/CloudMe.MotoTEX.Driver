@@ -125,14 +125,15 @@ export class MyApp {
   }
 
   initializeApp() {
-    const localS = localStorage;
-    // this.firebase.onNotificationOpen()
-    // .subscribe(data => {
-    //   this.serviceProvider.notificacaoFirebase = JSON.stringify(data);
-    // });
 
     this.platform.ready().then(() => {
       this.showedAlert = false;
+
+      const localS = localStorage;
+      this.firebase.onNotificationOpen()
+      .subscribe(async data => {
+        
+      });
 
       this.platform.registerBackButtonAction(() => {
         if (!this.nav.canGoBack()) {

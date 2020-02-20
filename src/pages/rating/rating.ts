@@ -61,15 +61,9 @@ export class RatingPage implements OnInit {
 
   async salvarClassificacao() {
     setTimeout(async () => {
-      this.corridaParaClassificar.avaliacaoPassageiro = this.starsCount;
-    
-      await this.corridaService.ApiV1CorridaByIdGet(this.corridaParaClassificar.id).toPromise().then(x =>{
-        if(x.success){
-          this.corridaParaClassificar = x.data;
-        }
-      });
+
   
-      this.corridaService.ApiV1CorridaPut(this.corridaParaClassificar)
+      this.corridaService.ApiV1CorridaClassificarPassageiroByIdGet({id: this.serviceProvider.IdCorridaParaClassificacao, classificacao: this.starsCount})
       .toPromise().then(x => console.log(JSON.stringify(x)));
   
       this.serviceProvider.IdCorridaParaClassificacao = undefined;

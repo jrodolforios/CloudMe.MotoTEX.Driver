@@ -167,7 +167,7 @@ export class CallbackPage implements OnInit {
       } else {
         setTimeout(() => {
           this.ficarDisponivel(tentativas);
-        }, 15000);
+        }, 5000);
       }
     }
   }

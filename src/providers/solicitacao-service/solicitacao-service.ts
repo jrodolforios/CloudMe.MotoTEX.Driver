@@ -17,7 +17,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 @Injectable()
 export class SolicitacaoServiceProvider {
   private hubConnection: signalR.HubConnection
-  private _reconnection_timeout = 15000;
+  private _reconnection_timeout = 5000;
   private intentionalTrackingStop = false;
   private idTaxista: string = ''
   private serviceProvider: AppServiceProvider;
@@ -37,7 +37,7 @@ export class SolicitacaoServiceProvider {
       this.hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("https://api.mototex.cloudme.com.br/notifications", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
         .build();
-      Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+      // Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
       this.hubConnection.onclose(() => {
         try {
           if (!this.intentionalTrackingStop) {

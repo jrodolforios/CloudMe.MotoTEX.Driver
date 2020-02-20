@@ -18,7 +18,7 @@ import { EmergenciaSummary } from '../../core/api/to_de_taxi/models';
 @Injectable()
 export class SignalRserviceServiceProvider {
   private hubConnection: signalR.HubConnection
-  private _reconnection_timeout = 15000;
+  private _reconnection_timeout = 5000;
   private intentionalTrackingStop = false;
   private idTaxista: string = ''
   private serviceProvider: AppServiceProvider
@@ -41,7 +41,7 @@ export class SignalRserviceServiceProvider {
         .withUrl("https://api.mototex.cloudme.com.br/notifications/localizacao_taxista", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
         .build();
 
-      Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+      // Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
 
       this.hubConnection.onclose(() => {
         try {
@@ -103,7 +103,6 @@ export class SignalRserviceServiceProvider {
               angulo: this.serviceProvider.TaxistAngl
             }
           }).toPromise().then(x => {
-            console.log(x.success)
           });
         } catch (err) {
           console.log(JSON.stringify(err));

@@ -14,6 +14,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AgmDirectionModule } from 'agm-direction';
 import { AppServiceProvider } from '../providers/app-service/app-service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { ApiModule } from '../core/api/to_de_taxi/api.module';
 import { Vibration } from '@ionic-native/vibration/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
@@ -21,6 +22,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SignalRserviceServiceProvider } from '../providers/signal-rservice-service/signal-rservice-service';
 import { CatalogosService } from '../providers/Catalogos/catalogos.service';
@@ -88,6 +90,8 @@ var config = {
     NgxImageCompressService,
     NativeAudio,
     global,
+    AndroidPermissions,
+    LocationAccuracy,
     CatalogoCorrida,
     CatalogoSolicitacaoCorrida,
     CallNumber,

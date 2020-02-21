@@ -15,6 +15,7 @@ import { MessageServiceProvider } from '../message-service/message-service';
 import { global } from '../../providers/global';
 import { SolicitacaoServiceProvider } from '../solicitacao-service/solicitacao-service';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { PowerManagement } from '@ionic-native/power-management/ngx';
 /*
   Generated class for the AppServiceProvider provider.
 
@@ -66,6 +67,7 @@ export class AppServiceProvider {
     private localNotifications: LocalNotifications,
     private signalRService: SignalRserviceServiceProvider,
     public global: global,
+    private powerManagement: PowerManagement,
     private CatalogosService: CatalogosService,
     private tts: TextToSpeech,
     private app: App,
@@ -273,6 +275,7 @@ export class AppServiceProvider {
   }
 
   enableBackground() {
+    this.powerManagement.dim()
     this.signalRService.startConnection();
     this.signalRService.getCurrentLocation(this.taxistaLogado.id, this);
 
@@ -361,6 +364,7 @@ export class AppServiceProvider {
   }
 
   disableBackground() {
+    this.powerManagement.release();
     this.CatalogosService.solicitacaoCorrida.stopTrackingChanges();
     this.signalRService.disconnect();
     this.messageService.disconnect();

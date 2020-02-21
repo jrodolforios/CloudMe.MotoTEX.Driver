@@ -15,6 +15,7 @@ import { Firebase } from '@ionic-native/firebase/ngx';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { PowerManagement } from '@ionic-native/power-management/ngx';
 @Component({
   templateUrl: 'app.html'
 })
@@ -39,6 +40,7 @@ export class MyApp {
     private serviceProvider: AppServiceProvider,
     private nativeAudio: NativeAudio,
     private fotoService: FotoService,
+    private powerManagement: PowerManagement,
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
     private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
     public alertCtrl: AlertController,

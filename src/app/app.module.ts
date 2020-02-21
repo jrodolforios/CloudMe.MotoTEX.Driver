@@ -17,6 +17,7 @@ import { AppServiceProvider } from '../providers/app-service/app-service';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { ApiModule } from '../core/api/to_de_taxi/api.module';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { PowerManagement } from '@ionic-native/power-management/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
@@ -90,6 +91,7 @@ var config = {
     NgxImageCompressService,
     NativeAudio,
     global,
+    PowerManagement,
     AndroidPermissions,
     LocationAccuracy,
     CatalogoCorrida,

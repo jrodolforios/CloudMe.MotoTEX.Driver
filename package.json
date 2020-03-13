@@ -143,8 +143,8 @@
       "at.gofg.sportscomputer.powermanagement": {}
     },
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

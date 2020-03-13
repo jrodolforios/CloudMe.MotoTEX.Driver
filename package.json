@@ -109,7 +109,7 @@
       "cordova-plugin-vibration": {},
       "cordova-plugin-nativeaudio": {},
       "uk.co.workingedge.phonegap.plugin.launchnavigator": {
-        "GOOGLE_API_KEY_FOR_ANDROID": "AIzaSyBAxWevOn8lrnahHzeddjF69VMosISdTvE",
+        "GOOGLE_API_KEY_FOR_ANDROID": "AIzaSyCk_Lj8w2juw2elKMV8HgeF28klzu4CgIg",
         "OKHTTP_VERSION": "3.12.0",
         "LOCATION_USAGE_DESCRIPTION": "Necessário para aprimoramento da busca por corridas."
       },

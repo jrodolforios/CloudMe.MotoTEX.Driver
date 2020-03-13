@@ -7,7 +7,7 @@ export class HubWrapper {
 
 	private _url = '';
 	private _accessTokenFactory?(): string | Promise<string>;
-	private _reconnection_timeout = 15000;
+	private _reconnection_timeout = 5000;
 
 	constructor(url: string, accessTokenFactory?: () => string | Promise<string>, reconnection_timeout = 5000) {
 		try {

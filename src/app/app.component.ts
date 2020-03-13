@@ -13,7 +13,9 @@ import { Subscription } from 'rxjs';
 import { Network } from '@ionic-native/network/ngx';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { NgxImageCompressService } from 'ngx-image-compress';
-
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { PowerManagement } from '@ionic-native/power-management/ngx';
 @Component({
   templateUrl: 'app.html'
 })
@@ -34,15 +36,18 @@ export class MyApp {
     public splashScreen: SplashScreen,
     private oauthService: OAuthService,
     private taxistaService: TaxistaService,
+    private androidPermissions: AndroidPermissions,
     private serviceProvider: AppServiceProvider,
     private nativeAudio: NativeAudio,
     private fotoService: FotoService,
+    private powerManagement: PowerManagement,
     public formaPagamentoTaxistaService: FormaPagamentoTaxistaService,
     private faixaDescontoTaxistaService: FaixaDescontoTaxistaService,
     public alertCtrl: AlertController,
     private appVersion: AppVersion,
     private network: Network,
     public toastCtrl: ToastController,
+    private locationAccuracy: LocationAccuracy,
     private firebase: Firebase,
     public imageCompress: NgxImageCompressService) {
     this.initializeApp();
@@ -86,7 +91,7 @@ export class MyApp {
 
               this.fotoService.ApiV1FotoByIdGet(taxista.data.idFoto).toPromise().then(foto => {
                 if (foto.success) {
-                  this.imageCompress.compressFile(atob(foto.data.dados), 1, 20,10 ).then(compressed =>{
+                  this.imageCompress.compressFile(atob(foto.data.dados), 1, 20, 10).then(compressed => {
                     this.serviceProvider.fotoTaxista = compressed;
                   });
                 }
@@ -125,27 +130,28 @@ export class MyApp {
   }
 
   initializeApp() {
-    const localS = localStorage;
-    // this.firebase.onNotificationOpen()
-    // .subscribe(data => {
-    //   this.serviceProvider.notificacaoFirebase = JSON.stringify(data);
-    // });
 
     this.platform.ready().then(() => {
       this.showedAlert = false;
 
+      const localS = localStorage;
+      this.firebase.onNotificationOpen()
+        .subscribe(async data => {
+
+        });
+
       this.platform.registerBackButtonAction(() => {
         if (!this.nav.canGoBack()) {
-            if (!this.showedAlert) {
-                this.confirmExitApp();
-            } else {
-                this.showedAlert = false;
-                this.confirmAlert.dismiss();
-            }
+          if (!this.showedAlert) {
+            this.confirmExitApp();
+          } else {
+            this.showedAlert = false;
+            this.confirmAlert.dismiss();
+          }
         }
 
         this.nav.pop();
-    });
+      });
 
       this.disconnectSubscription = this.network.onDisconnect().subscribe(async () => {
         if (this.ToatNetwork) {
@@ -174,6 +180,10 @@ export class MyApp {
       this.statusBar.backgroundColorByHexString('#0E4B67');
       this.statusBar.styleLightContent();
 
+      if (this.platform.is("android")) {
+        this.checkGPSPermission();
+      }
+
       this.splashScreen.hide();
     });
 
@@ -182,30 +192,105 @@ export class MyApp {
   confirmExitApp() {
     this.showedAlert = true;
     this.confirmAlert = this.alertCtrl.create({
-        title: "Sair",
-        message: "Tem certeza que deseja sair do APP?",
-        buttons: [
-            {
-                text: 'Cancelar',
-                handler: () => {
-                    this.showedAlert = false;
-                    return;
-                }
-            },
-            {
-                text: 'Aceitar',
-                handler: () => {
-                    this.platform.exitApp();
-                }
-            }
-        ]
+      title: "Sair",
+      message: "Tem certeza que deseja sair do APP?",
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            this.showedAlert = false;
+            return;
+          }
+        },
+        {
+          text: 'Aceitar',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
     });
     this.confirmAlert.present();
-}
+  }
 
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  checkGPSPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+      result => {
+        if (result.hasPermission) {
+
+          //If having permission show 'Turn On GPS' dialogue
+          this.askToTurnOnGPS();
+        } else {
+
+          //If not having permission ask for permission
+          this.requestGPSPermission();
+        }
+      },
+      err => {
+        alert(err);
+      }
+    );
+  }
+
+  requestBatteryPermission() {
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+        console.log("4");
+      } else {
+        //Show 'GPS Permission Request' dialogue
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+          .then(
+            () => {
+              // // call method to turn on GPS
+              // this.askToTurnOnGPS();
+            },
+            error => {
+              //Show alert if user click on 'No Thanks'
+              alert('requestPermission Error requesting battery permissions ' + error)
+            }
+          );
+      }
+    });
+  }
+
+
+  requestGPSPermission() {
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+        console.log("4");
+      } else {
+        //Show 'GPS Permission Request' dialogue
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(
+            () => {
+              // call method to turn on GPS
+              this.askToTurnOnGPS();
+            },
+            error => {
+              //Show alert if user click on 'No Thanks'
+              alert('requestPermission Error requesting location permissions ' + error)
+            }
+          );
+      }
+    });
+  }
+
+  askToTurnOnGPS() {
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+      () => {
+        // When GPS Turned ON call method to get Accurate location coordinates
+        this.getLocationCoordinates()
+      },
+      error => alert('Error requesting location permissions ' + JSON.stringify(error))
+    );
+  }
+
+  getLocationCoordinates() {
   }
 }

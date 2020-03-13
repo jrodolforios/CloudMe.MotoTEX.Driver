@@ -16,7 +16,7 @@ import { AlertController } from 'ionic-angular';
 export class MessageServiceProvider {
   private hubConnection: signalR.HubConnection;
   private serviceProvider: AppServiceProvider;
-  private _reconnection_timeout = 15000;
+  private _reconnection_timeout = 5000;
   private intentionalTrackingStop = false;
   constructor(public http: HttpClient,
     private oAuthService: OAuthService,
@@ -36,7 +36,7 @@ export class MessageServiceProvider {
         .withUrl("https://api.mototex.cloudme.com.br/notifications/mensagens", { accessTokenFactory: () => this.oAuthService.getAccessToken() })
         .build();
 
-      Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+      // Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
 
       this.hubConnection.onclose(() => {
         try {

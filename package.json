@@ -67,7 +67,6 @@
     "cordova-plugin-local-notification": "^0.9.0-beta.2",
     "cordova-plugin-nativeaudio": "^3.0.9",
     "cordova-plugin-network-information": "^2.0.2",
-    "cordova-plugin-powermanagement-orig": "^1.1.2",
     "cordova-plugin-request-location-accuracy": "^2.3.0",
     "cordova-plugin-tts": "^0.2.3",
     "cordova-plugin-vibration": "^3.1.1",
@@ -139,8 +138,7 @@
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-request-location-accuracy": {
         "PLAY_SERVICES_LOCATION_VERSION": "16.+"
-      },
-      "at.gofg.sportscomputer.powermanagement": {}
+      }
     },
     "platforms": [
       "android",

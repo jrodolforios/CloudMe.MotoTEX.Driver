@@ -64,7 +64,7 @@ var config = {
 			}
 		}),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAP_Xy-1QSclKYAvxSmAZO2BuFAWWAlOZQ',
+      apiKey: 'AIzaSyBAxWevOn8lrnahHzeddjF69VMosISdTvE',
       libraries: ['places', 'geometry']
     }),
     AgmDirectionModule,
